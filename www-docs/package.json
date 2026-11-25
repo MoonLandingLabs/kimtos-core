@@ -23,7 +23,7 @@
   "devDependencies": {
     "esbuild": "^0.28.2",
     "jsdom": "^31.0.1",
-    "mermaid": "^11.17.2",
+    "mermaid": "^12.3.0",
     "vitepress": "^1.6.3",
     "vitepress-plugin-mermaid": "^2.0.17",
     "vue-tsc": "^3.3.14"
