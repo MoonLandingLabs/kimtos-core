@@ -1,0 +1,9 @@
+# Documentation manifest for the Voice Studio (voicestudio) app.
+# Chapters live in content/ as numbered Markdown files (one H1 each), discovered
+# alphabetically. Build the docs site with `make docs` (dev) or `make docs-build`.
+
+title    = "Voice Studio"
+subtitle = "Turn text into natural speech with a palette of on-device voices"
+accent   = "#c026d3"
+order    = 8
+formats  = ["html"]

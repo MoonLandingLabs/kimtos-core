@@ -1,0 +1,5 @@
+# Prompt Markdown is literal model input — never reformat it. Prettier rewrites
+# `>>>` (a delimiter) into `> > >` (a blockquote), which breaks the prompts.
+prompts/
+dist/
+src/generated.ts

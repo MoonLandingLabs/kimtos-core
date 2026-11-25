@@ -1,0 +1,63 @@
+name: Dev servers
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+    # A draft PR runs nothing (#1188): the self-hosted pool is the only one we have, and the
+    # issue-workflow opens every PR as a draft and pushes review commits to it. `ready_for_review`
+    # is listed because it is NOT in the default set — without it a PR opened as a draft would
+    # never get any checks at all, which is worse than running them too early.
+    types: [opened, synchronize, reopened, ready_for_review]
+
+# No `paths` filter, for the same reason the Makefile job has none: this job boots
+# EVERY surface, so almost any change can break it — and a dev server that only
+# breaks on the change we forgot to list is exactly the failure this job exists to
+# catch.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  # Cancel a superseded run on a BRANCH — only the latest push there needs verifying — but
+  # never on `main`. A burst of merges used to destroy the verification of everything it
+  # landed on top of: two commits 17 seconds apart both had their run cancelled, and a
+  # cancelled run reports as a red X with no failing step and no log, which is
+  # indistinguishable from a real failure (#1196). The original reasoning was that finishing
+  # stale runs wastes scarce self-hosted slots; that is weaker since the pool moved to
+  # dedicated hardware (#1185) and drafts stopped consuming it (#1188). Knowing whether
+  # `main` is green is worth the slots.
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    name: every dev server starts
+    if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    # Same reason as the Makefile job: onnxruntime-node tries to download CUDA EP
+    # binaries on linux/x64 and times out. We never use the Node binding.
+    env:
+      ONNXRUNTIME_NODE_INSTALL: skip
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: package-lock.json
+      # `make` shells out to `npm install`, and the lockfile's content depends on the
+      # npm major (#143). Honour the pin, as the Makefile job does.
+      - run: npm i -g npm@$(node -p "require('./package.json').packageManager.split('@')[1]")
+
+      - uses: ./.github/actions/npm-ci
+
+      # THE POINT OF THIS JOB. Every other workflow BUILDS (`nuxt generate`, `vite
+      # build`, `vitepress build`) — and a dev server can be completely broken while
+      # every build stays green. #111 (`make www` died on a missing @kimtos/config
+      # dist) and #149 (Nuxt's dev server dies inside Node's module loader, while
+      # `nuxt generate` is unaffected) both shipped through a fully green CI.
+      #
+      # `make smoke`, not `node scripts/smoke-dev.mjs`, so this also exercises the
+      # make path a contributor actually types.
+      - run: make smoke

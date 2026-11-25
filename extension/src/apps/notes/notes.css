@@ -1,0 +1,582 @@
+/* Notes (notes) — colocated app styles (loaded by ./index.ts). */
+/* All toolbar icon buttons share one size for a consistent row. */
+.doc-toolbar .icon-button {
+  flex: 0 0 auto;
+  width: 32px;
+  height: 32px;
+}
+.doc-page-item.is-selected,
+.doc-collection-row.is-selected {
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+}
+.doc-page-select {
+  cursor: pointer;
+}
+.doc-page-select {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+}
+.doc-page-check,
+.doc-collection-check {
+  flex: 0 0 auto;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+/* Collection checkbox sits before the folder/name in select mode. */
+.doc-collection-check {
+  margin: 0 4px 0 8px;
+}
+/* notes — Notion-style markdown notes. The layout fills the window body exactly
+   (never the viewport) so the dialog never grows with content and the
+   source/preview/sidebar scroll internally.
+
+   `100%` — not a `vh` expression. An app window is a FIXED 620px tall
+   (`.dialog-app`) whatever the screen is, so a viewport-derived height overflows
+   it on any tall screen: at a 985px viewport `calc(82vh - 110px)` is 698px inside
+   a 565px body, which pushed the bottom of the editor ~133px below the window and
+   made the whole window scroll instead of the panes (#912). `.dialog-body` has a
+   definite height, so `100%` resolves against the window and tracks it. The
+   maximized / manually-sized / fullscreen cases override this with
+   `flex: 1; height: auto` in `styles/shell.css`. */
+.doc-layout {
+  position: relative;
+  display: flex;
+  height: 100%;
+}
+/* Sidebar hidden by the hamburger toggle, or while reading a book. */
+.doc-layout.collapsed .doc-sidebar,
+.doc-layout.is-reading .doc-sidebar,
+.doc-layout.is-reading .pane-resizer {
+  display: none;
+}
+/* Narrow window: the sidebar floats over the editor as an overlay panel and
+   the split-view toggle is hidden (edit-only — no room for two panes). */
+.doc-layout.is-narrow .doc-sidebar {
+  position: absolute;
+  inset: 0 auto 0 0;
+  z-index: 6;
+  width: 234px;
+  margin: 0;
+  padding: 12px;
+  background: var(--panel);
+  border-right: 1px solid var(--hairline);
+  box-shadow: 0 12px 50px rgba(0, 0, 0, 0.5);
+}
+/* Narrow: the three-tab group has no room, so the compact Edit/Preview switch beside
+   the search button takes over. Exactly one of the two is ever visible (#622). */
+.doc-layout.is-narrow .doc-view-toggle {
+  display: none;
+}
+.doc-preview-toggle {
+  display: none;
+}
+.doc-layout.is-narrow .doc-preview-toggle {
+  display: grid;
+}
+.doc-sidebar {
+  flex: 0 0 auto;
+  width: 300px; /* overridden inline; drag-resizable */
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+  padding-right: 12px;
+  border-right: 1px solid var(--hairline);
+  overflow: hidden;
+}
+/* In the narrow overlay mode the sidebar floats; no resizing. (Base divider
+   styles are shared in .pane-resizer.) */
+.doc-layout.is-narrow .pane-resizer,
+.doc-layout.collapsed .pane-resizer {
+  display: none;
+}
+.doc-sidebar-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 4px 10px;
+}
+.doc-sidebar-title {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+.doc-new {
+  width: 28px;
+  height: 28px;
+}
+.doc-collection-list {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow-y: auto;
+}
+.doc-collection {
+  display: flex;
+  flex-direction: column;
+}
+.doc-collection-row {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  border-radius: var(--radius-sm);
+}
+.doc-collection-open {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 12px;
+  text-align: left;
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  background: none;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+.doc-collection-open:hover {
+  color: var(--text);
+  background: var(--surface);
+}
+.doc-collection-icon {
+  flex: 0 0 auto;
+  display: inline-flex;
+  color: color-mix(in srgb, var(--accent) var(--accent-ink-ui-mix), var(--text));
+}
+.doc-collection-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.doc-collection-count {
+  flex: 0 0 auto;
+  font-size: 11px;
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+/* Expanded collection row: its name still toggles collapse; actions on the right. */
+.doc-collection.is-expanded > .doc-collection-row {
+  background: var(--surface);
+}
+/* The collection that holds the currently-open page. */
+.doc-collection.is-active > .doc-collection-row {
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+}
+/* Collection actions live in a right-click context menu (see contextMenu.js). */
+
+.doc-page-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  margin: 6px 6px 6px;
+  padding-left: 10px;
+}
+.doc-page-item {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  color: var(--text-secondary);
+  border-radius: var(--radius-sm);
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+.doc-page-item:hover {
+  color: var(--text);
+  background: var(--surface);
+}
+.doc-page-item.is-active {
+  color: var(--text);
+  background: color-mix(in srgb, var(--accent) 22%, transparent);
+}
+/* The page being dragged to another collection. */
+.doc-page-item.is-dragging {
+  opacity: 0.45;
+}
+/* A collection highlighted as a drop target while a page hovers over it. */
+.doc-collection.is-drop-target {
+  outline: 1.5px dashed color-mix(in srgb, var(--accent) 70%, transparent);
+  outline-offset: -1.5px;
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+}
+.doc-page-open {
+  flex: 1;
+  min-width: 0;
+  padding: 7px 10px;
+  text-align: left;
+  font-family: inherit;
+  font-size: 13px;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.doc-page-title {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.doc-add-page {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 1px;
+  padding: 6px 10px;
+  font-family: inherit;
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  background: none;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+.doc-add-page:hover {
+  color: var(--text);
+  background: var(--surface);
+}
+.doc-main {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding-left: 6px;
+}
+.doc-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.doc-view-toggle {
+  margin: 0;
+  flex: 0 0 auto;
+}
+.doc-view-toggle .tab {
+  flex: 0 0 auto;
+  padding: 6px 14px;
+}
+.doc-status {
+  flex: 1;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+.doc-count {
+  font-size: 11.5px;
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+.doc-count.is-over {
+  color: var(--danger);
+}
+.doc-find-toggle.is-active {
+  color: color-mix(in srgb, var(--accent) var(--accent-ink-mix), var(--text));
+}
+/* Find & replace bar (sits under the toolbar). */
+.doc-find {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px 10px;
+  margin-bottom: 8px;
+  background: var(--field);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+}
+.doc-find-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.doc-find-input {
+  flex: 1;
+  min-width: 0;
+  padding: 5px 9px;
+  font-size: 13px;
+}
+.doc-find-count {
+  flex: 0 0 auto;
+  min-width: 40px;
+  text-align: right;
+  font-size: 11.5px;
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+.doc-find-btn {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 28px;
+  padding: 0 8px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  background: transparent;
+  border: 1px solid var(--hairline);
+  border-radius: 7px;
+  cursor: pointer;
+  transition:
+    color 0.15s ease,
+    border-color 0.15s ease,
+    background 0.15s ease;
+}
+.doc-find-btn:hover:not(:disabled) {
+  color: var(--text);
+  border-color: color-mix(in srgb, var(--accent) 50%, var(--hairline));
+}
+.doc-find-btn.is-active {
+  color: color-mix(in srgb, var(--accent) var(--accent-ink-mix), var(--text));
+  border-color: var(--accent);
+}
+.doc-find-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+.doc-find-text {
+  font-size: 12px;
+}
+/* Spinner shown on the "All" button while a Replace All is running. */
+.doc-find-btn .btn-spinner {
+  width: 12px;
+  height: 12px;
+  margin: 0;
+  vertical-align: -1px;
+  border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+  border-top-color: var(--accent);
+}
+.doc-find-close {
+  margin-left: 2px;
+}
+.doc-book-export {
+  margin-left: auto;
+}
+/* Page title — display only (rename/delete live in the page's right-click menu). */
+.doc-title-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 2px 10px;
+  border-bottom: 1px solid var(--hairline);
+}
+.doc-title-text {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+/* The editor wrapper must be a flex column that fills doc-main, otherwise the
+   panes below size to content and overflow (the dialog then just clips them,
+   with no internal scroll). This is the link that keeps the whole chain bounded
+   — adaptively, without a hardcoded pixel height. */
+.doc-editor {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+.doc-editor-area {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  padding-top: 10px;
+}
+/* The editor/preview divider only applies in Split view. */
+.doc-editor:not([data-view='split']) .doc-split-resizer {
+  display: none;
+}
+/* The wrapper is the single scroll container: the textarea auto-grows to its
+   full height and the highlight backdrop (absolutely positioned inside) scrolls
+   natively with it — so highlights can never lag/drift behind the text. */
+.doc-source-wrap {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  /* Default: the textarea scrolls itself (native fast path). Only in Find mode
+     does the wrapper become the scroller so the highlight backdrop scrolls with
+     the text. Containment keeps scroll repaints scoped to this pane. */
+  overflow: hidden;
+  contain: layout paint;
+}
+.doc-source-wrap.is-finding {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+/* Textarea and its mirrors must share identical box + type metrics + wrapping
+   so highlight rects and caret measurements line up exactly with the text. */
+.doc-source,
+.doc-highlights,
+.doc-caret-mirror {
+  margin: 0;
+  font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, monospace;
+  font-size: 13.5px;
+  line-height: 1.6;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+.doc-source {
+  display: block;
+  width: 100%;
+  height: 100%; /* fill the pane and scroll itself (native fast path) */
+  position: relative;
+  z-index: 1;
+  overflow: auto;
+  resize: none;
+  color: var(--text);
+  background: var(--field); /* panel fill (backdrop is hidden unless finding) */
+  border-color: var(--hairline);
+  outline: none;
+}
+/* Find mode: hand scrolling to the wrapper so the backdrop stays aligned. */
+.doc-source-wrap.is-finding .doc-source {
+  height: auto;
+  min-height: 100%;
+  overflow: hidden;
+  background: transparent; /* the backdrop behind now provides the panel fill */
+}
+.doc-source:focus {
+  border-color: var(--accent);
+}
+/* Backdrop / caret mirrors: full content height (top-anchored), transparent
+   text — only the <mark> backgrounds show, behind the real text. Painted only
+   while Find is open. */
+.doc-highlights,
+.doc-caret-mirror {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  min-height: 100%;
+  color: transparent;
+  pointer-events: none;
+}
+.doc-highlights {
+  display: none;
+  background: var(--field);
+  z-index: 0;
+}
+.doc-source-wrap.is-finding .doc-highlights {
+  display: block;
+}
+.doc-caret-mirror {
+  visibility: hidden;
+  z-index: -1;
+}
+.doc-hl {
+  border-radius: 2px;
+  color: transparent;
+  background: rgba(250, 204, 21, 0.3); /* yellow */
+}
+.doc-hl.is-current {
+  background: rgba(250, 204, 21, 0.62);
+  box-shadow: 0 0 0 1px rgba(250, 204, 21, 0.9);
+}
+.doc-preview {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 4px 6px 4px 0;
+}
+/* Edit-only mode hides the preview, source goes full width. */
+.doc-editor[data-view='edit'] .doc-preview {
+  display: none;
+}
+/* Preview-only mode hides the source; the rendered markdown fills the width. */
+.doc-editor[data-view='preview'] .doc-source-wrap {
+  display: none;
+}
+.doc-editor[data-view='preview'] .doc-preview {
+  max-width: none;
+  margin: 0;
+  padding: 4px 8px;
+}
+/* Internal page link (this:page / collection:page). */
+.doc-link {
+  color: color-mix(in srgb, var(--accent) var(--accent-ink-mix), var(--text));
+  text-decoration: none;
+  border-bottom: 1px dotted color-mix(in srgb, var(--accent) 60%, transparent);
+  cursor: pointer;
+}
+.doc-link:hover {
+  border-bottom-style: solid;
+}
+/* "Export as Book" reading view */
+.doc-book {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+.doc-book-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: 12px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid var(--hairline);
+}
+.doc-book-title {
+  font-size: 15px;
+  font-weight: 600;
+}
+.doc-book-content {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  width: 100%;
+  padding: 8px 4px 40px;
+}
+/* A book has a MEASURE. The scroll container stays full width (so the scrollbar
+   sits at the window edge), and each page is capped and centred inside it. Without
+   this, a maximized window renders ~250 characters per line — one undifferentiated
+   slab that reads as broken formatting even though the markup is correct (#1166). */
+.doc-book-page {
+  max-width: 72ch;
+  margin-left: auto;
+  margin-right: auto;
+}
+/* `.md-preview > :first-child` only reaches the section wrapper, so the heading
+   INSIDE each section kept its 1.2em top margin — a stray gap above every page. */
+.doc-book-page > :first-child {
+  margin-top: 0;
+}
+.doc-book-page + .doc-book-page {
+  margin-top: 36px;
+  padding-top: 28px;
+  border-top: 1px solid var(--hairline);
+}
+.doc-empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+}

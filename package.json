@@ -1,0 +1,52 @@
+{
+  "name": "kimtos",
+  "version": "0.0.0",
+  "private": true,
+  "description": "KimtOS \u2014 free and open source (MIT). A Chrome new-tab extension that runs entirely in your browser, plus a static marketing site and docs. No accounts, no backend, no servers.",
+  "license": "MIT",
+  "workspaces": [
+    "shared-modules/*",
+    "extension",
+    "www",
+    "www-docs"
+  ],
+  "scripts": {
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "check": "node scripts/check-all.mjs",
+    "test": "node --test scripts/*.test.mjs"
+  },
+  "packageManager": "npm@11.16.0",
+  "engines": {
+    "node": "^22",
+    "npm": ">=11"
+  },
+  "devDependencies": {
+    "puppeteer-core": "^25.6.0",
+    "stylelint": "^18.0.0",
+    "tsx": "^4.23.15",
+    "typescript": "~5.9.3"
+  },
+  "overrides": {
+    "vitepress": {
+      "vite": "^6.4.3"
+    },
+    "adm-zip": "^0.6.0",
+    "sharp": "^0.35.3",
+    "vue": "^3.5.40",
+    "glob": "^14.0.6",
+    "readdir-glob": "^3.0.0",
+    "js-beautify": "^2.0.3",
+    "editorconfig": "^3.0.2",
+    "brace-expansion": "^5.0.9",
+    "minimatch": "^11.0.9"
+  },
+  "keywords": [
+    "chrome-extension",
+    "new-tab",
+    "local-first",
+    "on-device-ai",
+    "open-source",
+    "mit"
+  ]
+}

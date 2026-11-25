@@ -1,0 +1,104 @@
+/* Calculator — colocated app styles (loaded by ./index.ts). */
+.calc {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  outline: none;
+}
+
+.calc-expr {
+  min-height: 20px;
+  padding: 0 6px;
+  font-size: 14px;
+  line-height: 20px;
+  text-align: right;
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.calc-display {
+  padding: 4px 6px 8px;
+  font-size: 44px;
+  font-weight: 300;
+  line-height: 1.1;
+  text-align: right;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.calc-pad {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.calc-key {
+  height: 60px;
+  font-family: inherit;
+  font-size: 21px;
+  font-weight: 500;
+  color: var(--text);
+  background: var(--material);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition:
+    background 0.12s ease,
+    filter 0.12s ease,
+    border-color 0.12s ease;
+  -webkit-backdrop-filter: blur(var(--blur));
+  backdrop-filter: blur(var(--blur));
+}
+
+.calc-key:hover {
+  background: var(--material-hover);
+  border-color: var(--hairline-strong);
+}
+
+.calc-key:active {
+  filter: brightness(1.2);
+}
+
+.calc-key.is-wide {
+  grid-column: span 2;
+}
+
+/* Top-row functions (AC, ±, %) sit a touch brighter than digits. */
+.calc-key.is-fn {
+  color: color-mix(in srgb, var(--accent) var(--accent-ink-mix), var(--text));
+  font-weight: 600;
+}
+
+.calc-key.is-op {
+  color: color-mix(in srgb, var(--accent) var(--accent-ink-mix), var(--text));
+  font-size: 24px;
+  font-weight: 600;
+  border-color: color-mix(in srgb, var(--accent) 40%, transparent);
+  background: color-mix(in srgb, var(--accent) 12%, var(--material));
+}
+
+.calc-key.is-op:hover {
+  background: color-mix(in srgb, var(--accent) 20%, var(--material));
+}
+
+.calc-key.is-equals {
+  /* This used to be a hardcoded near-black, with a stylelint-disable to allow it, because
+     white "would be low-contrast" on the bright mint accent. True of the raw accent (1.86:1)
+     and the same mistake as --on-accent's: the ink is not the variable, the ground is (#151).
+     --accent-solid is the mint darkened just enough to carry white text. */
+  color: var(--on-accent);
+  font-weight: 700;
+  background: var(--accent-solid);
+  border-color: transparent;
+}
+
+.calc-key.is-equals:hover {
+  background: var(--accent);
+  filter: brightness(1.08);
+}

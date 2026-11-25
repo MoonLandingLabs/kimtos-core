@@ -1,0 +1,22 @@
+node_modules/
+dist/
+.DS_Store
+*.log
+
+# Nuxt (www) build artifacts
+www/.nuxt/
+www/.output/
+www/.data/
+www/.nitro/
+www/dist
+
+# editor / tooling
+.ropeproject/
+.vscode/
+.idea/
+
+# built shared packages
+shared-modules/*/dist/
+
+# make stamp files (shared-package build markers)
+.make/

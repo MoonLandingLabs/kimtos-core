@@ -1,0 +1,293 @@
+# The repo's first test job.
+#
+# Before this, nothing in kimtos-core had tests, and nothing ran any. Tests that exist but
+# never run are worse than no tests: they rot, and they lend false confidence.
+#
+# The release pipeline is what earned them. It has been rebuilt three times in a week and
+# it is the one thing that, when it breaks, breaks on launch day — after the tag is pushed.
+name: Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+    # A draft PR runs nothing (#1188): the self-hosted pool is the only one we have, and the
+    # issue-workflow opens every PR as a draft and pushes review commits to it. `ready_for_review`
+    # is listed because it is NOT in the default set — without it a PR opened as a draft would
+    # never get any checks at all, which is worse than running them too early.
+    types: [opened, synchronize, reopened, ready_for_review]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  # Cancel a superseded run on a BRANCH — only the latest push there needs verifying — but
+  # never on `main`. A burst of merges used to destroy the verification of everything it
+  # landed on top of: two commits 17 seconds apart both had their run cancelled, and a
+  # cancelled run reports as a red X with no failing step and no log, which is
+  # indistinguishable from a real failure (#1196). The original reasoning was that finishing
+  # stale runs wastes scarce self-hosted slots; that is weaker since the pool moved to
+  # dedicated hardware (#1185) and drafts stopped consuming it (#1188). Knowing whether
+  # `main` is green is worth the slots.
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+permissions:
+  contents: read
+
+jobs:
+  # The no-emoji rule (CLAUDE.md) lived only in prose, so the tree quietly accumulated
+  # fifteen of them (#48). It lives HERE, and not in an ESLint config, for two reasons:
+  # ESLint sees JS/TS only -- but the violations were just as often in a README, a Vue
+  # template and a docs booklet -- and this workflow is the one with no path filters, so a
+  # PR cannot dodge the check by touching a single workspace.
+  conventions:
+    name: Conventions
+    if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+      # No `npm ci`: the checkers read `git ls-files` and need no dependencies.
+      - run: node scripts/check-emoji.mjs
+      # The agent is dormant (CLAUDE.md convention 5), but eight booklets shipped copy
+      # saying it could delete your files "on your behalf" (#170). Prose was not enough.
+      - run: node scripts/check-agent-claims.mjs
+
+      # The README and docs point at canonical files instead of inlining them (a code example,
+      # a checklist). A link is only as good as its target, and nothing opened one: a moved doc
+      # left a dead pointer that was invisible until a reader clicked it. This resolves every
+      # relative link in the README and docs to a real repo path.
+      - name: Every relative link in the README and docs resolves
+        run: node scripts/check-doc-links.mjs
+
+      # "and disclosed" was only the step's NAME until #886: an entry could say `told: 'NOT TOLD'`
+      # and this passed with a note, which is how a chat-derived query to a third party sat
+      # undisclosed while the store listing promised the opposite (#885). The declaration now
+      # carries the whole contract — what it sends, the words on the privacy page, the
+      # off-by-default opt-in, the subprocessor — and each claim is checked against the real file.
+      - name: Every external host is declared and disclosed
+        run: node scripts/check-network-hosts.mjs
+
+      # The same shape, for the Appearance setting. The user picks Light/Dark on the new tab, so
+      # every OTHER surface of ours that is on screen has to retint. The side panel and the toolbar
+      # popup applied the palette once at startup and never again (#1174), and a side panel stays
+      # open for days.
+      - name: Every surface that reads the theme re-applies it
+        run: node scripts/check-theme-subscribers.mjs
+
+      # Our own flow opens every PR as a draft and pushes review commits to it, so the full suite
+      # ran three times per issue on a self-hosted pool with no fallback. Eleven jobs across nine
+      # files now skip drafts, and a new job that forgets to is a red check rather than a queue
+      # nobody can explain (#1188).
+      - name: No CI workflow runs on a draft PR
+        run: node scripts/check-draft-guard.mjs
+
+      # render() may legally return nothing, so an app that starts a player, a recorder or a
+      # microphone and forgets its teardown compiles and ships — and goes on running after its
+      # window closes (#1172).
+      - name: Every app that holds a device or a timer returns a teardown
+        run: node scripts/check-app-teardown.mjs
+
+      # Work started on the side is invisible: it cannot be seen, cannot be stopped, and cannot be
+      # told apart from the app having hung. Convention 11 says it goes through the orchestrator,
+      # and four apps missed it while that was prose — the last one hid a gigabyte download from
+      # KimtManager, from Stop all and from the takeover notice (#1275).
+      - name: Long-running work goes through KimtManager, not a private registry
+        run: node scripts/check-orchestrated-jobs.mjs
+
+      # Every app window can go full screen (#1251), and a full-screen element sits in the browser's
+      # TOP LAYER over an opaque backdrop. Anything mounted on `document.body` is then invisible and
+      # unreachable at ANY z-index — a confirm asking for 1000000 still vanished. The call site looks
+      # correct and fails only in the one state nobody routinely tests.
+      - name: Overlays mount through overlayHost(), not document.body
+        run: node scripts/check-overlay-host.mjs
+
+      # Every model weight / OCR language pack we ship carries an Apache/MIT NOTICE obligation.
+      # The attribution list was hand-maintained with nothing asserting it stayed complete, and it
+      # shipped omitting five shipped models (#669). This fails when a model in a CDN manifest is
+      # not attributed in THIRD-PARTY-NOTICES.md, or the generator's list and the file disagree.
+      - name: Every shipped model weight is attributed
+        run: node scripts/check-model-notices.mjs
+
+      # The npm half of the same file had no guard at all — nothing ran the generator, nothing
+      # diffed it, and the freshness of half a licence-compliance document rested on a line in
+      # CONTRIBUTING.md. `phonemizer` reached the bundle with no notice (#1090) and then stayed
+      # in the notices after it was removed (#1098); neither went red (#1101). This half needs no
+      # install: it reconciles the committed list against package-lock.json and the packages the
+      # extension source imports. The exact regeneration diff is `--bundle`, in the test job below.
+      - name: Every bundled npm package is attributed
+        run: node scripts/check-npm-notices.mjs
+
+      # A var(--x) with no definition and no fallback is invalid at computed-value time:
+      # the whole declaration is silently dropped (#521 — admin used extension-only
+      # tokens; six border/colour lines vanished). The extension has stylelint; www has no CSS
+      # linting, so this resolves every var() in it.
+      - name: Every CSS custom property resolves in its workspace
+        run: node scripts/check-css-vars.mjs
+
+      # A test runner told to force-exit kills the process before asynchronously-registered
+      # suites have registered, and drops them without counting or failing them: ten runs of the
+      # www suite on one unchanged tree reported 168, 153 and 143 tests, all with fail 0 (#1011).
+      # A green gate over tests that never ran is the failure mode every guard here exists to stop.
+      - name: No test command force-exits the runner
+        run: node scripts/check-test-force-exit.mjs
+
+      # The caps the apps enforce (PDF size, wallpaper size, note length) were private consts
+      # re-typed into the guides and handbooks, so raising one left the docs confidently wrong
+      # with nothing failing (#1043). They are declared once now and substituted into the docs
+      # as tokens; this fails the build if a page types the number by hand again.
+      - name: No doc states a limit the extension declares
+        run: node scripts/check-doc-limits.mjs
+
+      # The same class again, one file over: how many agent tools we ship was typed by hand in
+      # four places and no two agreed, while the descriptors held a fifth number (#1099). Every
+      # new app moved the truth and none of the four sentences, and one of them is published to
+      # the docs site. The count is derived now; this fails the build on a figure that is wrong.
+      - name: No file states a stale agent-tool count
+        run: node scripts/check-agent-tool-count.mjs
+
+      # The manifest description IS the store listing's summary, and the Chrome Web Store
+      # hard-caps it at 132 characters — a longer one is rejected at submission, after the
+      # tag is already pushed. A 140-character description sat on main; nothing else reads
+      # the field, so nothing else can catch it.
+      - name: The manifest description fits the store's summary cap
+        run: node scripts/check-manifest-summary.mjs
+
+      # Nothing else reads a manifest permission name — no bundler, no linter, no type.
+      # The first thing that checks one is Chrome, at load time, which is how two Chrome
+      # APPS permissions (audioCapture, videoCapture) shipped to main and warned on every
+      # load while CI stayed green (#1335).
+      - name: Every declared permission is one Chrome grants an extension
+        run: node scripts/check-manifest-permissions.mjs
+
+      # The dry run is the only thing that keeps a tag from being the first test of the
+      # release workflow, and it could never pass: it verified a changelog section that a
+      # different step of the release writes (#1201).
+      - name: The Release dry run does not depend on release-only output
+        run: node scripts/check-release-dry-run.mjs
+
+  # "Keep files prettier-clean" was a documented convention with nothing behind it, and 8 of
+  # the 11 workspaces had no prettier config at all — so the rule could not be followed even
+  # deliberately, and format-on-save quietly rewrote files to prettier's own defaults (#721).
+  #
+  # ONE root-level check rather than a step per workspace, for the same reason the emoji check
+  # lives in this workflow: `test.yml` has no path filters, so a PR cannot dodge it by touching
+  # a single workspace — and three workspaces (icons, types, prompts) have no CI job of their
+  # own to add a step to.
+  #
+  # Root-level is also the only place it can be CORRECT. Prettier resolves the config per file
+  # (walking up) but reads `.prettierignore` relative to the working directory — so a
+  # workspace-scoped `prettier --check .` silently ignores the root ignore file and flags files
+  # the gate excludes. A per-workspace script would therefore disagree with this check, which is
+  # worse than not having one. `npm run format` / `format:check` at the repo root are the
+  # commands that match what CI runs.
+  #
+  # Its own job because `conventions` above deliberately installs nothing, and prettier needs
+  # node_modules.
+  formatting:
+    name: Formatting
+    if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    env:
+      ONNXRUNTIME_NODE_INSTALL: skip
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: package-lock.json
+      - uses: ./.github/actions/npm-ci
+      # `npm run`, not `npx prettier`: npx silently downloads a package that is missing from
+      # node_modules, so a broken install would fetch some other prettier version and check
+      # against it. This runs the same command a developer runs locally.
+      - run: npm run format:check
+
+  test:
+    name: Unit tests
+    if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    env:
+      # The workspace root install also pulls the extension's onnxruntime-node.
+      ONNXRUNTIME_NODE_INSTALL: skip
+    steps:
+      # The releaser tests build real git repositories in a temp dir and read their history.
+      # They set their own `user.name` / `user.email` per fixture repo, so no global git
+      # identity is needed here.
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: package-lock.json
+      - uses: ./.github/actions/npm-ci
+      # The tests import the built `dist/`, which is what consumers actually load.
+      - run: npm run build -w @kimtos/releaser
+      - run: npm run test -w @kimtos/releaser
+
+        # The CORS allowlist decides which websites may call the API with credentials. It had no
+        # tests, and it shipped with a hole: an empty CORS_ORIGINS allowed EVERY origin on the
+        # internet (#264). A security decision with no test is a security decision nobody is
+        # checking.
+      - run: npm run build -w @kimtos/config
+      - run: npm run test -w @kimtos/config
+
+      # The extension is the largest workspace in the repo and had NO behavioural tests —
+      # lint/typecheck/build prove shapes line up, not that logic is right (#145). Same
+      # runner as the releaser (node:test), so there is no second framework to learn.
+      - run: npm run test -w @kimtos/extension
+
+      # The repo's own guards (scripts/) were themselves untested — and one of them shipped a
+      # rule that flagged the word "drive" in any sentence, so an author reworded honest prose
+      # to get past CI (#213). A guard nobody tests is a guard that rots. Same runner again.
+      - run: npm test
+
+      # The docs mermaid validator (www-docs/scripts/check-mermaid.mjs) gates the Docs build,
+      # but the guard itself needs a test or it rots into a no-op that passes anything — it must
+      # still REJECT a broken diagram and ACCEPT a valid one via mermaid's real parser (#896).
+      - run: npm run test -w @kimtos/www-docs
+
+      # Every app and deployable must have a CHANGELOG.md — its newest entry IS its
+      # version. Without this assert a new app ships version-less and we are back to the
+      # number nobody maintained (#132).
+      - run: node scripts/release.mjs check
+
+      # gen-third-party-notices.mjs reads each package's own `license` field, which describes
+      # what its AUTHOR wrote and not what it BUNDLES. `phonemizer` declared Apache-2.0 while
+      # shipping a 1.3 MB Emscripten build of GPL-3.0 eSpeak-NG inside it, so our notices would
+      # have reported a copyleft engine as permissive and never named it (#1092). The GPL text
+      # does not survive the compile, so this looks for the ARTIFACT — a wasm blob, an Emscripten
+      # packaged filesystem, a native binary — and fails until a human records what is inside it.
+      #
+      # It is in THIS job, not `conventions`, for the same reason as the guard below: it reads
+      # node_modules, and `conventions` deliberately installs nothing.
+      - name: No shipped package hides a copyleft engine behind a permissive licence field
+        run: node scripts/check-embedded-licenses.mjs
+
+      # extension/src/data/{changelog,appChangelogs}.ts are GENERATED from the
+      # changelogs and the app metas, and committed (the extension is a browser bundle and
+      # cannot read the sources at runtime). A source edit that skips the generator leaves
+      # a stale copy, and nothing was red: it shipped on main when the v0.5.1 prettier
+      # fixup reformatted CHANGELOG.md without recompiling (#905).
+      #
+      # It lives in THIS job for two reasons. It is not in the Extension job because that
+      # workflow is path-filtered on `extension/**`, so an edit to the root CHANGELOG.md
+      # never triggered its inline asserts at all — the exact miss. And it is not in
+      # `conventions` above because that job deliberately installs nothing, while this
+      # guard runs the real generators (esbuild, prettier, @kimtos/releaser's dist). Moving
+      # it there would break `npm run check` (#963), which executes this job's commands on
+      # a plain checkout. `node scripts/release.mjs check` below is its nearest sibling for
+      # the same reason.
+      - name: Every committed generated data file matches its source
+        run: node scripts/check-generated.mjs
+
+      # The exact half of the npm-notices guard (#1101). The `conventions` copy above reconciles
+      # the committed list against the lockfile and our imports with no install; only re-running
+      # the generator can see a package that reaches the bundle TRANSITIVELY — four of the twelve
+      # components are pulled in by a dependency and imported nowhere in our source. It needs the
+      # full node_modules and a vite build, so it lives here for the same reason check-generated
+      # and check-embedded-licenses do. Deterministic (three consecutive runs, identical output)
+      # and about five seconds on top of an install this job has already paid for.
+      - name: THIRD-PARTY-NOTICES.md matches the bundle the generator sees
+        run: node scripts/check-npm-notices.mjs --bundle

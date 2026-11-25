@@ -1,0 +1,30 @@
+{
+  "name": "@kimtos/releaser",
+  "version": "0.1.0",
+  "private": true,
+  "description": "The release pipeline as a testable library: read the merged PRs from git, generate the notes, maintain CHANGELOG.md, compile it into the extension, and report what a release actually touched.",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "prepare": "tsc -p tsconfig.json",
+    "test": "node --test test/*.test.js"
+  },
+  "dependencies": {
+    "prettier": "^3.10.1"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6"
+  },
+  "license": "MIT"
+}

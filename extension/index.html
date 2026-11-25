@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KimtOS - New Tab</title>
+    <link rel="icon" type="image/png" sizes="48x48" href="/icons/icon48.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/icons/icon16.png" />
+  </head>
+  <body>
+    <div id="bg-layer" class="bg-layer"></div>
+    <div class="bg-overlay"></div>
+
+    <main class="stage">
+      <section class="center">
+        <div id="clock" class="clock"></div>
+        <p id="subtitle" class="subtitle"></p>
+        <div id="search" class="search"></div>
+      </section>
+    </main>
+
+    <div class="dock-cluster">
+      <nav id="app-dock" class="app-dock" aria-label="Apps"></nav>
+      <p id="dock-tip" class="dock-tip" aria-live="polite"></p>
+    </div>
+
+    <aside class="home-rail">
+      <div id="home-readit"></div>
+      <div id="home-weather"></div>
+      <div id="home-focus"></div>
+      <div id="home-widgets" class="home-widgets"></div>
+    </aside>
+
+    <div class="dock dock-left">
+      <span id="bg-credit" class="credit"></span>
+    </div>
+    <div id="bg-bar" class="dock dock-right"></div>
+
+    <div class="dock dock-top-right">
+      <button id="release-btn" class="pill-button" title="Release notes">v0.0.0</button>
+      <button id="rate-btn" class="icon-button" aria-label="Rate KimtOS on the Chrome Web Store" title="Rate KimtOS">
+        <svg
+          viewBox="0 0 24 24"
+          width="20"
+          height="20"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.7"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path
+            d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8A8.5 8.5 0 0 1 12.5 3 8.5 8.5 0 0 1 21 11.5z"
+          ></path>
+          <path d="M12 7.6l1.15 2.35 2.6.35-1.9 1.8.47 2.55L12 13.8l-2.32 1.25.47-2.55-1.9-1.8 2.6-.35z"></path>
+        </svg>
+      </button>
+      <button id="store-btn" class="icon-button" aria-label="App Store" title="App Store">
+        <svg
+          viewBox="0 0 24 24"
+          width="20"
+          height="20"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.7"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <rect x="3" y="3" width="7" height="7" rx="1.5"></rect>
+          <rect x="14" y="3" width="7" height="7" rx="1.5"></rect>
+          <rect x="3" y="14" width="7" height="7" rx="1.5"></rect>
+          <path d="M17.5 14v7M14 17.5h7"></path>
+        </svg>
+      </button>
+      <button id="switcher-btn" class="icon-button" aria-label="Running apps" title="Running apps (⌘⇧K)" hidden>
+        <svg
+          viewBox="0 0 24 24"
+          width="20"
+          height="20"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.7"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <rect x="3" y="4" width="8" height="7" rx="1.5"></rect>
+          <rect x="13" y="4" width="8" height="11" rx="1.5"></rect>
+          <rect x="3" y="13" width="8" height="7" rx="1.5"></rect>
+        </svg>
+        <span id="switcher-count" class="switcher-count" hidden></span>
+      </button>
+      <button id="settings-btn" class="icon-button" aria-label="Settings" title="Settings">
+        <svg
+          viewBox="0 0 24 24"
+          width="20"
+          height="20"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.6"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <circle cx="12" cy="12" r="3"></circle>
+          <path
+            d="M19.4 13a1.6 1.6 0 0 0 .3 1.8 2 2 0 1 1-2.8 2.8 1.6 1.6 0 0 0-2.7 1.1V21a2 2 0 0 1-4 0 1.6 1.6 0 0 0-2.7-1.1 2 2 0 1 1-2.8-2.8A1.6 1.6 0 0 0 4.6 13a2 2 0 0 1 0-4 1.6 1.6 0 0 0 1.1-2.7 2 2 0 1 1 2.8-2.8A1.6 1.6 0 0 0 11 4.6a2 2 0 0 1 4 0 1.6 1.6 0 0 0 2.7 1.1 2 2 0 1 1 2.8 2.8A1.6 1.6 0 0 0 19.4 11a2 2 0 0 1 0 2z"
+          ></path>
+        </svg>
+      </button>
+    </div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

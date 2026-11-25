@@ -1,0 +1,115 @@
+/* ---------------------------------------------------------------------------
+   FakeForm (fakeform) — colocated app styles, loaded by ./index.ts.
+   Every colour is a token, so the window follows System / Light / Dark.
+   --------------------------------------------------------------------------- */
+.fakeform {
+  font-size: 13px;
+  color: var(--text);
+  /* The root now flex-fills the window in every state (#1089); this is plain
+     flowing content (no inner scroll region), so it scrolls itself when the
+     panels are taller than the mounted window rather than clipping below the fold. */
+  overflow-y: auto;
+}
+
+.ff-panel {
+  padding: 14px 16px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+
+.ff-panel-title {
+  margin: 0 0 6px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.ff-panel-note {
+  margin: 0 0 10px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+.ff-state {
+  margin: 0 0 10px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+.ff-state.is-on {
+  color: var(--success);
+}
+
+.ff-shortcuts {
+  margin: 0 0 10px;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 6px;
+}
+
+.ff-shortcuts li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.ff-hint {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+/* The demo form. Two columns on a wide window, one when the app is narrow or
+   popped out — no media query needed, the grid does it. */
+.ff-demo {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px 14px;
+  margin-top: 12px;
+}
+
+.ff-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.ff-row-check {
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  grid-column: 1 / -1;
+}
+
+.ff-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--text-secondary);
+}
+
+.ff-field {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 7px 10px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-sm);
+  background: var(--field);
+  color: var(--text);
+  font: inherit;
+  font-size: 12.5px;
+}
+
+.ff-field:focus {
+  outline: none;
+  border-color: var(--accent-solid-ui);
+}
+
+textarea.ff-field {
+  min-height: 68px;
+  resize: vertical;
+}

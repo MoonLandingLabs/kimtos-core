@@ -1,0 +1,9 @@
+# Documentation manifest for the Clipboard (clipboard) app.
+# Chapters live in content/ as numbered Markdown files (one H1 each), discovered
+# alphabetically. Build the whole app suite with `npm run docs` (from extension/).
+
+title    = "Clipboard"
+subtitle = "On-device clipboard history — search, favorite and paste back"
+accent   = "#0ea5e9"
+order    = 45
+formats  = ["html"]

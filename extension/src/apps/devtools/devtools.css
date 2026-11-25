@@ -1,0 +1,305 @@
+/* DevKit — colocated app styles (loaded by ./index.ts). The diff add/del tints are
+   semantic (green = added, red = removed), but they still come from the palette:
+   --success / --danger, so both follow the theme like everything else. */
+/* ---------------------------------------------------------------------------
+   DevTools (devtools)
+   --------------------------------------------------------------------------- */
+.devtools {
+  display: flex;
+  height: 100%; /* shell flex-fills the app root in every window state (#1089) */
+  font-size: 13px;
+  color: var(--text);
+}
+.dk-sidebar {
+  flex: 0 0 176px;
+  overflow-y: auto;
+  padding-right: 12px;
+  margin-right: 14px;
+  border-right: 1px solid var(--hairline);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+/* The search box stays put while the results scroll under it. */
+.dk-search {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 4px;
+  padding: 7px 10px;
+  border: 1px solid var(--hairline);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  font-size: 12.5px;
+}
+.dk-search:focus {
+  outline: none;
+  border-color: var(--accent, currentColor);
+}
+.dk-search::-webkit-search-cancel-button {
+  cursor: pointer;
+}
+.dk-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.dk-empty {
+  margin: 10px 6px;
+  color: var(--text-secondary);
+  font-size: 12px;
+  line-height: 1.4;
+}
+.dk-cat {
+  margin: 12px 6px 4px;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+.dk-cat:first-child {
+  margin-top: 2px;
+}
+.dk-tool-btn {
+  padding: 7px 10px;
+  font: inherit;
+  font-size: 13px;
+  text-align: left;
+  color: var(--text-secondary);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+.dk-tool-btn:hover {
+  background: var(--material);
+  color: var(--text);
+}
+.dk-tool-btn.is-active {
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+  color: var(--text);
+  font-weight: 600;
+}
+.dk-host {
+  flex: 1;
+  min-width: 0;
+  overflow-y: auto;
+}
+.dk-tool {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.dk-intro {
+  margin: 0;
+  font-size: 12.5px;
+  color: var(--text-secondary);
+}
+.dk-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 8px;
+}
+.dk-btn {
+  padding: 8px 14px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--on-accent);
+  background: var(--accent-solid);
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+.dk-btn:hover {
+  /* stylelint-disable-next-line color-no-hex -- shade endpoint: #000/#fff only darkens/lightens the token, the colour itself is still var() */
+  background: color-mix(in srgb, var(--accent) 88%, #000);
+}
+.dk-btn-sm {
+  padding: 6px 11px;
+  font-size: 12px;
+}
+.dk-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.dk-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+.dk-fieldhead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 24px;
+}
+.dk-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+.dk-textarea,
+.dk-text,
+.dk-num,
+.dk-flags,
+.dk-row-value {
+  width: 100%;
+  padding: 9px 11px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12.5px;
+  color: var(--text);
+  background: var(--material);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-sm);
+  outline: none;
+}
+.dk-text,
+.dk-num,
+.dk-flags {
+  font-family: inherit;
+}
+.dk-mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+.dk-textarea {
+  min-height: 280px;
+  resize: vertical;
+  line-height: 1.5;
+}
+.dk-textarea:focus,
+.dk-text:focus,
+.dk-num:focus,
+.dk-flags:focus,
+.dk-row-value:focus {
+  border-color: color-mix(in srgb, var(--accent) 60%, var(--hairline));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 14%, transparent);
+}
+.dk-num {
+  width: 84px;
+}
+.dk-flags {
+  width: 90px;
+}
+.dk-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.dk-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.dk-row-label {
+  flex: 0 0 116px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+.dk-row-value {
+  flex: 1;
+}
+.dk-copy {
+  flex: 0 0 auto;
+  display: inline-grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  color: var(--text-secondary);
+  background: var(--material);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+.dk-copy:hover {
+  color: var(--text);
+  background: var(--material-hover);
+}
+.dk-copy.is-done {
+  color: color-mix(in srgb, var(--accent) var(--accent-ink-mix), var(--text));
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--hairline));
+}
+.dk-copy svg {
+  width: 15px;
+  height: 15px;
+}
+.dk-color-head,
+.dk-regex-head {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.dk-color-head .dk-text,
+.dk-regex-head .dk-text {
+  flex: 1;
+}
+.dk-swatch {
+  flex: 0 0 auto;
+  width: 40px;
+  height: 34px;
+  padding: 2px;
+  background: var(--material);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+.dk-preview {
+  min-height: 200px;
+  padding: 10px 12px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12.5px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
+  background: var(--material);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-sm);
+}
+.dk-hl {
+  background: color-mix(in srgb, var(--accent) 32%, transparent);
+  border-radius: 3px;
+  padding: 0 1px;
+  color: var(--text);
+}
+.dk-muted {
+  color: var(--text-secondary);
+}
+.dk-status {
+  font-size: 11.5px;
+  color: var(--text-secondary);
+}
+.dk-status.is-error {
+  color: var(--danger);
+}
+.dk-diff {
+  padding: 8px 0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12.5px;
+  line-height: 1.55;
+  background: var(--material);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-sm);
+  overflow-x: auto;
+}
+.dk-diff-line {
+  padding: 0 12px;
+  white-space: pre;
+}
+.dk-diff-line.is-add {
+  background: color-mix(in srgb, var(--success) 16%, transparent);
+}
+.dk-diff-line.is-del {
+  background: color-mix(in srgb, var(--danger) 15%, transparent);
+}

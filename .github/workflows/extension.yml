@@ -1,0 +1,75 @@
+name: Extension
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'extension/**'
+      - 'shared-modules/**'
+      - 'README.md'
+      - '.github/workflows/extension.yml'
+      - 'package.json'
+      - 'package-lock.json'
+  pull_request:
+    branches: [main]
+    # A draft PR runs nothing (#1188): the self-hosted pool is the only one we have, and the
+    # issue-workflow opens every PR as a draft and pushes review commits to it. `ready_for_review`
+    # is listed because it is NOT in the default set — without it a PR opened as a draft would
+    # never get any checks at all, which is worse than running them too early.
+    types: [opened, synchronize, reopened, ready_for_review]
+    paths:
+      - 'extension/**'
+      - 'shared-modules/**'
+      - 'README.md'
+      - '.github/workflows/extension.yml'
+      - 'package.json'
+      - 'package-lock.json'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  # Cancel a superseded run on a BRANCH — only the latest push there needs verifying — but
+  # never on `main`. A burst of merges used to destroy the verification of everything it
+  # landed on top of: two commits 17 seconds apart both had their run cancelled, and a
+  # cancelled run reports as a red X with no failing step and no log, which is
+  # indistinguishable from a real failure (#1196). The original reasoning was that finishing
+  # stale runs wastes scarce self-hosted slots; that is weaker since the pool moved to
+  # dedicated hardware (#1185) and drafts stopped consuming it (#1188). Knowing whether
+  # `main` is green is worth the slots.
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Lint, format + build
+    if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    # onnxruntime-node (pulled in transitively by @huggingface/transformers) tries to
+    # download CUDA EP binaries from a CDN during install on linux/x64, which times out
+    # in CI. We never use the Node binding — the extension runs onnxruntime-web in the
+    # browser — so skip that download. Needed because the workspace root install pulls
+    # every package's deps.
+    env:
+      ONNXRUNTIME_NODE_INSTALL: skip
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: package-lock.json
+      - uses: ./.github/actions/npm-ci
+      # src/data/{appChangelogs,changelog}.ts are GENERATED from apps/*/meta.ts and
+      # the changelogs, and committed. A stale copy ships the wrong release notes, and a hand-maintained copy drifting from a generated one
+      # is this repo's recurring failure mode. This used to be two inline `git diff --exit-code`
+      # snippets here; it is one tested guard now (#905), so the files are asserted by one
+      # implementation rather than a shell copy per file. The same guard also runs in the Unit
+      # tests job, which — unlike this workflow — has no path filters, so an edit to the ROOT
+      # CHANGELOG.md is covered too.
+      - name: Every committed generated data file matches its source
+        run: node scripts/check-generated.mjs
+      - run: npm run lint -w @kimtos/extension
+      - run: npm run typecheck -w @kimtos/extension
+      - run: npm run format:check -w @kimtos/extension
+      - run: npm run build -w @kimtos/extension

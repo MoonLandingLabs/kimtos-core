@@ -1,0 +1,10 @@
+/* kimtos styles. Split for clarity:
+   - base.css        reset, design tokens, wallpaper, clock, search
+   - shell.css       dock, corner controls, dialog, settings
+   - components.css  shared, reusable component styles
+   Per-app styles are colocated at apps/<id>/<id>.css (imported by each app's
+   index.ts, which loads AFTER this file so shared CSS cascades first).
+   Imports are concatenated in order, so the cascade is unchanged. */
+@import './base.css';
+@import './shell.css';
+@import './components.css';

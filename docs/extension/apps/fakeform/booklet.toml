@@ -1,0 +1,9 @@
+# Documentation manifest for the FakeForm (fakeform) app.
+# Chapters live in content/ as numbered Markdown files (one H1 each), discovered
+# alphabetically. Build the whole app suite with `npm run docs` (from extension/).
+
+title    = "FakeForm"
+subtitle = "Fill any form with believable fake data — in one keypress, and undo it"
+accent   = "#e879f9"
+order    = 47
+formats  = ["html"]

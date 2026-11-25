@@ -1,0 +1,25 @@
+/* Denoise — colocated app styles (loaded by ./index.ts). */
+
+.denoise-result {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.denoise-track {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.denoise-track-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.denoise-result .button-primary {
+  align-self: flex-start;
+  margin-top: 2px;
+  text-decoration: none;
+}

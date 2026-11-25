@@ -1,0 +1,9 @@
+# Documentation manifest for the Retouch app.
+# Chapters live in content/ as numbered Markdown files (one H1 each), discovered
+# alphabetically. Build the whole app suite with `npm run docs` (from extension/).
+
+title    = "Retouch"
+subtitle = "An on-device image editor — crop, rotate, adjust and export"
+accent   = "#f43f5e"
+order    = 46
+formats  = ["html"]

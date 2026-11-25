@@ -1,0 +1,365 @@
+/* kimtos brand for VitePress. The site inherits the default theme; we only
+   repaint the brand tokens (blue #3b82f6 accent + the #3b82f6→#7c5cff hero
+   gradient, matching www) and add the Apps grid/tagline. All colours go through
+   VitePress tokens or the per-app --app-accent, so light/dark just work. */
+
+:root {
+  --vp-c-brand-1: #2563eb; /* links / inline accents — darkened for contrast on light */
+  --vp-c-brand-2: #3b82f6; /* the brand blue */
+  --vp-c-brand-3: #3b82f6; /* solid button ground */
+  --vp-c-brand-soft: rgba(59, 130, 246, 0.14);
+  --kt-new: #1d4ed8; /* "New" badge (blue) — a freshly published app, 30 days (#1114) */
+
+  /* Home hero: the kimtos gradient wordmark. */
+  --vp-home-hero-name-color: transparent;
+  --vp-home-hero-name-background: linear-gradient(120deg, #3b82f6 20%, #7c5cff);
+  --vp-home-hero-image-background-image: linear-gradient(120deg, rgba(59, 130, 246, 0.3), rgba(124, 92, 255, 0.3));
+  --vp-home-hero-image-filter: blur(44px);
+}
+
+.dark {
+  --vp-c-brand-1: #74a6ff; /* lighter link on dark ground */
+  --vp-c-brand-2: #3b82f6;
+  --vp-c-brand-3: #3b82f6;
+  --vp-c-brand-soft: rgba(59, 130, 246, 0.18);
+  --kt-new: #7cc0ff;
+}
+
+/* App subtitle under the H1 on each app page — a quiet accent-bordered lede. */
+.app-tagline {
+  margin: -4px 0 4px;
+  padding: 8px 0 8px 14px;
+  border-left: 3px solid var(--app-accent, var(--vp-c-brand-2));
+  color: var(--vp-c-text-2);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+/* Apps overview grid — the shared app-icon tile on the LEFT, then the title +
+   tier badge, with the description beneath (matches the extension + www). */
+.app-grid {
+  display: grid;
+  /* min(300px, 100%): below a ~330px content width a fixed 300px track is wider
+     than its column and pushes the page into horizontal scroll (#851). Clamping
+     the track floor to the container width keeps the single column fitting on a
+     phone; on desktop min() resolves to 300px, so the multi-column layout is
+     unchanged. */
+  grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
+  gap: 14px;
+  margin: 24px 0;
+}
+.app-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 16px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 14px;
+  background: var(--vp-c-bg-soft);
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s,
+    transform 0.2s;
+  text-decoration: none !important;
+  font-weight: initial;
+}
+.app-card:hover {
+  border-color: var(--app-accent, var(--vp-c-brand-2));
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+.app-card-body {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.app-card-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.app-name {
+  font-size: 16px;
+  font-weight: 650;
+  color: var(--vp-c-text-1);
+}
+.app-sub {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--vp-c-text-2);
+}
+
+/* The shared @kimtos/icons app tile: white glyph on the app's accent gradient —
+   identical to the extension dock + the www app grid. */
+.app-tile {
+  position: relative;
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 23%;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 6px 16px rgba(15, 23, 42, 0.16);
+}
+.app-tile::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.22), transparent 46%);
+  pointer-events: none;
+}
+.app-tile .app-glyph {
+  position: relative;
+  z-index: 1;
+  width: 58%;
+  height: 58%;
+  display: block;
+}
+/* Fallback tile for an app with no glyph. */
+.app-dot {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 23%;
+  background: linear-gradient(
+    165deg,
+    color-mix(in srgb, var(--app-accent, #3b82f6) 58%, #fff),
+    var(--app-accent, #3b82f6) 52%,
+    color-mix(in srgb, var(--app-accent, #3b82f6) 86%, #000)
+  );
+}
+
+/* "New" badge — a freshly published app, for 30 days (#1114). The theme's client sweep
+   removes it once its data-new-until date has passed. */
+.new-badge {
+  flex-shrink: 0;
+  padding: 2px 9px;
+  border-radius: 999px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  line-height: 1.5;
+  color: var(--kt-new);
+  background: color-mix(in srgb, var(--kt-new) 14%, transparent);
+  border: 1px solid color-mix(in srgb, var(--kt-new) 32%, transparent);
+}
+
+/* App page header: the tile + H1 + New badge, inline. */
+.app-page-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+}
+.app-page-head h1 {
+  margin: 0;
+  border: 0;
+  padding: 0;
+}
+.app-page-head .app-tile {
+  width: 40px;
+  height: 40px;
+}
+
+/* The site footer (theme/DocsFooter.vue), rendered from `layout-bottom` so it appears on
+   every page — VitePress's own footer only renders on sidebar-less pages, which is almost
+   none of a docs site. That is also what makes the "Cookie settings" entry point reachable
+   from EVERY docs page (#1045). Every colour is a VitePress brand token, so light/dark
+   follow the site's toggle with no JS and no second palette to keep in step. */
+.kimtos-docs-footer {
+  border-top: 1px solid var(--vp-c-divider);
+  background: var(--vp-c-bg-alt);
+  padding: 40px 24px 28px;
+  margin-top: 64px;
+}
+
+/* …and it is FULL-BLEED, which is what makes this rule necessary (#1164). VitePress keeps
+   its OWN content clear of the two window-fixed rails — the sidebar and the "On this page"
+   aside — by padding the content column (`.VPContent` gets `padding-left:
+   var(--vp-sidebar-width)`); the footer opts out of that column so the band reads edge to
+   edge. Nothing then decides who paints on top, and a fixed element always beats a static
+   one whatever the document order, so both rails were drawn OVER the footer and swallowed
+   its clicks: the aside's container is an invisible 224px-wide full-height box, so the Theme
+   switch and the Help links sat under a hit target that showed nothing, and the opaque
+   sidebar hid the whole first column outright. Lifting the (opaque) footer one band makes
+   the rails scroll BEHIND it, ending at its top border, and hands the clicks back.
+   The band is narrow and every neighbour is accounted for: above the sidebar (25), the aside
+   container (auto) and its curtain (10); below the fixed nav (30), the sidebar backdrop (50)
+   (70). Derived from VitePress's own token, not restating it.
+   Scoped to >=960px because that is where VitePress turns the sidebar from an off-canvas
+   drawer into a static rail: below it the drawer is z-index 60 over a backdrop at 50 and
+   MUST stay on top, and the aside is `display: none` under 1280px — so there is nothing to
+   fix down there and something to break. */
+@media (min-width: 960px) {
+  .kimtos-docs-footer {
+    position: relative;
+    z-index: calc(var(--vp-z-index-sidebar) + 1);
+  }
+}
+.kdf-grid {
+  max-width: 1152px;
+  margin: 0 auto;
+  display: grid;
+  /* auto-fit, so the four columns collapse to two and then one on narrow screens
+     without a media query per breakpoint. */
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 28px 32px;
+}
+.kdf-grid nav {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+.kdf-grid h2 {
+  margin: 0 0 2px;
+  padding: 0;
+  border: 0;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--vp-c-text-3);
+  line-height: 1.2;
+}
+.kdf-grid a,
+.kdf-link-btn {
+  font-size: 13.5px;
+  line-height: 1.4;
+  color: var(--vp-c-text-2);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+.kdf-grid a:hover,
+.kdf-link-btn:hover {
+  color: var(--vp-c-brand-1);
+}
+/* The cookie entry point is a BUTTON (it opens a dialog, it does not navigate), so it is
+   reset to sit flush with the links around it rather than looking like a form control. */
+.kdf-link-btn {
+  background: none;
+  border: 0;
+  padding: 0;
+  font-family: inherit;
+  cursor: pointer;
+  text-align: left;
+}
+.kdf-base {
+  max-width: 1152px;
+  margin: 28px auto 0;
+  padding-top: 20px;
+  /* Same collision as www's .footer-base: the launcher is fixed bottom-right and this row ends
+     with the theme switcher, so on a narrow viewport the bubble covered it. The reserve comes
+     from the widget (`--kimtos-widget-safe`), not from a copy of its dimensions here. */
+  padding-bottom: var(--kimtos-widget-safe, 0px);
+  border-top: 1px solid var(--vp-c-divider);
+  font-size: 12.5px;
+  color: var(--vp-c-text-3);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  align-items: center;
+  justify-content: space-between;
+}
+.kdf-theme {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.kdf-theme-label {
+  color: var(--vp-c-text-3);
+}
+
+/* The light/dark switch — the SAME control as www's footer (see www ThemeToggle.vue /
+   main.css `.ts-switch`), restated here in VitePress tokens so docs and www read as one
+   product. Knob travel is (54 − 22 − 2×3) = 26px; keep the three numbers in step. */
+.ts-switch {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: 54px;
+  height: 28px;
+  padding: 0;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 999px;
+  background: var(--vp-c-bg-alt);
+  cursor: pointer;
+  isolation: isolate;
+}
+.ts-ico {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 26px;
+  display: grid;
+  place-items: center;
+  color: var(--vp-c-text-3);
+  transition: color 0.18s ease;
+  z-index: 1;
+}
+.ts-sun {
+  left: 1px;
+}
+.ts-moon {
+  right: 1px;
+}
+.ts-switch.is-ready:not(.is-dark) .ts-sun {
+  color: var(--vp-c-brand-1);
+}
+.ts-switch.is-dark .ts-moon {
+  color: var(--vp-c-brand-1);
+}
+.ts-knob {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--vp-c-bg);
+  box-shadow:
+    0 1px 2px rgba(10, 12, 24, 0.18),
+    0 0 0 1px var(--vp-c-divider) inset;
+  border-bottom: 1.5px solid color-mix(in srgb, var(--vp-c-brand-1) 55%, transparent);
+  transition: transform 0.22s cubic-bezier(0.34, 1.28, 0.5, 1);
+  z-index: 2;
+}
+.ts-switch.is-dark .ts-knob {
+  transform: translateX(26px);
+}
+.ts-switch:focus-visible {
+  outline: 2px solid var(--vp-c-brand-1);
+  outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ts-knob {
+    transition: none;
+  }
+}
+
+/* One theme control, in the footer, on both sites: hide VitePress's own nav appearance
+   switch (appearance stays enabled so `isDark` still works — the footer drives it). */
+.VPNavBarAppearance,
+.VPNavScreenAppearance {
+  display: none !important;
+}
+
+/* The nav bar is SOLID across its whole width, on every page (#nav-contrast).
+   VitePress's default is subtler than it looks: at >=960px `.VPNavBar:not(.home)` is
+   transparent, the background is put on `.content-body` alone, and the `.title` strip over the
+   sidebar is left see-through. Restoring one opaque surface across the whole width is the
+   plain answer, and it matches what the same change does on www. */
+@media (min-width: 960px) {
+  .VPNavBar:not(.home),
+  .VPNavBar:not(.home) .content-body,
+  .VPNavBar.has-sidebar .title {
+    background-color: var(--vp-nav-bg-color);
+  }
+}

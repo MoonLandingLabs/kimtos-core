@@ -1,0 +1,462 @@
+/* Tabs — colocated app styles (loaded by ./index.ts). The shared compact
+   .tabs tab-bar component stays in the shared stylesheet; only the Tabs APP
+   root (.tabs:not(.doc-view-toggle):not(.pdf-filter)) + .tabs-* live here. */
+/* Tabs app ROOT only. `.tabs` is also the shared compact tab-bar component
+   (see the base `.tabs` rule far above) reused by notes's Edit/Split/Preview
+   switcher and pdflib's filter bar. This full-window column layout must NOT
+   override the component for those nested toggles, or they stack vertically at
+   full width — so exclude them here. (The Tabs app root is a bare `.tabs`.) */
+.tabs:not(.doc-view-toggle):not(.pdf-filter) {
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* shell flex-fills the app root in every window state (#1089) */
+  font-size: 13px;
+  color: var(--text);
+  padding: 15px;
+  position: relative;
+}
+.tabs-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--hairline);
+}
+.tabs-searchwrap {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+.tabs-searchwrap svg {
+  position: absolute;
+  left: 13px;
+  color: var(--text-secondary);
+  pointer-events: none;
+}
+.tabs-search {
+  width: 100%;
+  padding: 11px 14px 11px 38px;
+  font: inherit;
+  font-size: 14px;
+  color: var(--text);
+  background: var(--material);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+  outline: none;
+  transition:
+    border-color 0.12s ease,
+    box-shadow 0.12s ease;
+}
+.tabs-search::placeholder {
+  color: var(--text-secondary);
+}
+.tabs-search:focus {
+  border-color: color-mix(in srgb, var(--accent) 60%, var(--hairline));
+  background: var(--material-hover);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 16%, transparent);
+}
+.tabs-count {
+  flex: 0 0 auto;
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+.tabs-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 13px;
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 550;
+  color: var(--text);
+  background: var(--material);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.tabs-btn:hover {
+  background: var(--material-hover);
+}
+.tabs-listhost {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.tabs-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.tabs-sessions {
+  border-top: 1px solid var(--hairline);
+  padding-top: 16px;
+}
+.tabs-sec-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 28px;
+}
+.tabs-sec-title {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+.tabs-win-head {
+  margin-top: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+.tabs-win-count {
+  font-weight: 400;
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+.tabs-rows {
+  display: flex;
+  flex-direction: column;
+}
+.tabs-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background 0.12s ease;
+}
+.tabs-row:hover {
+  background: var(--material);
+}
+.tabs-row.is-highlight {
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+  outline: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
+}
+.tabs-row.is-active {
+  background: color-mix(in srgb, var(--accent) 9%, transparent);
+}
+.tabs-row.is-active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 6px;
+  bottom: 6px;
+  width: 2.5px;
+  border-radius: 0 2px 2px 0;
+  background: var(--accent);
+}
+.tabs-row.is-active .tabs-title {
+  color: color-mix(in srgb, var(--accent) var(--accent-ink-mix), var(--text));
+  font-weight: 600;
+}
+.tabs-row.is-asleep {
+  opacity: 0.62;
+}
+.tabs-row.is-selected {
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+}
+.tabs-favicon {
+  width: 17px;
+  height: 17px;
+  flex: 0 0 auto;
+  border-radius: 3px;
+  object-fit: contain;
+}
+.tabs-favicon-mono {
+  display: inline-grid;
+  place-items: center;
+  border-radius: 5px;
+  color: var(--on-accent);
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  box-shadow: inset 0 0 0 1px var(--hairline);
+}
+.tabs-meta {
+  min-width: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.tabs-title {
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tabs-url {
+  font-size: 11px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tabs-badge {
+  flex: 0 0 auto;
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+/* Pinned/Asleep are words now, not pictographs (#48), so they need a tag's shape to read
+   as a badge rather than as part of the title. The audible badge stays a bare glyph. */
+.tabs-pinned,
+.tabs-asleep {
+  padding: 1px 6px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+.tabs-actions {
+  display: flex;
+  gap: 2px;
+  flex: 0 0 auto;
+  opacity: 0;
+  transition: opacity 0.12s;
+}
+.tabs-row:hover .tabs-actions,
+.tabs-row:focus-within .tabs-actions {
+  opacity: 1;
+}
+.tabs-icon-btn {
+  display: inline-grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  color: var(--text-secondary);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+.tabs-icon-btn:hover {
+  background: var(--material-hover);
+  color: var(--text);
+}
+.tabs-check {
+  flex: 0 0 auto;
+  width: 15px;
+  height: 15px;
+  accent-color: var(--accent);
+}
+.tabs-group {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 6px 0 2px 4px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+.tabs-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+}
+.tabs-session-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  flex: 0 0 auto;
+  font-size: 11px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--on-accent);
+  border-radius: 7px;
+  /* stylelint-disable-next-line color-no-hex -- shade endpoint: #000/#fff only darkens/lightens the token, the colour itself is still var() */
+  background: linear-gradient(160deg, color-mix(in srgb, var(--accent) 80%, #fff), var(--accent));
+}
+.tabs-empty {
+  padding: 14px 10px;
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+.tabs-info {
+  margin: auto;
+  max-width: 40ch;
+  padding: 32px 24px;
+  text-align: center;
+}
+.tabs-info-title {
+  font-size: 16px;
+  font-weight: 650;
+  margin-bottom: 8px;
+}
+.tabs-info-msg {
+  margin: 0 0 16px;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+.tabs-info-msg b {
+  color: var(--text);
+}
+.tabs-grant {
+  color: var(--on-accent);
+  background: var(--accent-solid);
+  border-color: transparent;
+  font-weight: 600;
+}
+.tabs-grant:hover {
+  /* stylelint-disable-next-line color-no-hex -- shade endpoint: #000/#fff only darkens/lightens the token, the colour itself is still var() */
+  background: color-mix(in srgb, var(--accent) 88%, #000);
+}
+/* ---- Tabs: groups, action menus, drag-and-drop, recently closed ---- */
+.tabs-sec-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.tabs-btn-sm {
+  padding: 5px 10px;
+  font-size: 12px;
+}
+.tabs-pinned {
+  font-size: 11px;
+}
+/* group chip is an interactive button (opens the group editor) */
+.tabs-group {
+  align-self: flex-start;
+  padding: 3px 10px 3px 7px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: transparent;
+  cursor: pointer;
+}
+.tabs-group:hover {
+  background: var(--material);
+  border-color: var(--hairline);
+}
+.tabs-group-name {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+/* drag-and-drop reorder / move */
+.tabs-row[draggable='true'] {
+  cursor: grab;
+}
+.tabs-row.is-dragging {
+  opacity: 0.4;
+}
+.tabs-row.is-drop-before {
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  box-shadow: inset 0 0 0 2px var(--accent);
+}
+.tabs-win-head.is-drop-into {
+  color: color-mix(in srgb, var(--accent) var(--accent-ink-mix), var(--text));
+  border-radius: var(--radius-sm);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 45%, transparent);
+}
+/* action menu / group editor (popover) */
+.tabs-menu {
+  position: absolute;
+  z-index: 30;
+  min-width: 202px;
+  max-width: 260px;
+  padding: 6px;
+  background: var(--material);
+  border: 1px solid var(--hairline-strong);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(var(--blur));
+  -webkit-backdrop-filter: blur(var(--blur));
+}
+.tabs-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  padding: 7px 9px;
+  font: inherit;
+  font-size: 12.5px;
+  color: var(--text);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  text-align: left;
+}
+.tabs-menu-item:hover {
+  background: var(--material-hover);
+}
+.tabs-menu-ic {
+  display: inline-grid;
+  place-items: center;
+  color: var(--text-secondary);
+}
+.tabs-menu-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.tabs-menu-divider {
+  height: 1px;
+  margin: 5px 4px;
+  background: var(--hairline);
+}
+.tabs-menu-label {
+  padding: 6px 9px 3px;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+.tabs-menu-input {
+  width: calc(100% - 8px);
+  margin: 0 4px 4px;
+  padding: 7px 9px;
+  font: inherit;
+  font-size: 12.5px;
+  color: var(--text);
+  background: var(--material-hover);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-sm);
+  outline: none;
+}
+.tabs-menu-input:focus {
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--hairline));
+}
+.tabs-swatches {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  gap: 5px;
+  padding: 2px 5px 6px;
+}
+.tabs-swatch {
+  width: 100%;
+  aspect-ratio: 1;
+  padding: 0;
+  border: 1px solid var(--hairline-strong);
+  border-radius: 50%;
+  cursor: pointer;
+}
+.tabs-swatch.is-on {
+  outline: 2px solid var(--text);
+  outline-offset: 1px;
+}
+/* recently closed */
+.tabs-closed {
+  border-top: 1px solid var(--hairline);
+  padding-top: 16px;
+}

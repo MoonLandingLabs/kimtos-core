@@ -1,0 +1,607 @@
+/* KimtFS — a single-pane file explorer: path bar, listing (columns or grid), editor and
+   viewer. The folder-tree sidebar it used to sit beside was removed in #271, and its rules
+   went with it — dead CSS is the next reader's false map. All colours are tokens (see
+   .claude/skills/theming); the app accent is set inline on .kimtfs. */
+
+/* Fills the window body, whatever size the window is. It used to be `calc(80vh - 96px)` —
+   a guess at the viewport that has nothing to do with the window it is in: in the standard
+   720x620 app window on a tall screen that is ~1050px of explorer inside a ~540px body, so
+   the status bar sat below the fold and the whole app scrolled inside its own window.
+   Maximized it is the other way round, and the shared `.app-root` rule (styles/shell.css)
+   stretches it there (#651). */
+.kimtfs {
+  position: relative;
+  display: flex;
+  height: 100%;
+  min-height: 420px;
+}
+.kimtfs-empty {
+  margin: 16px 12px;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+.kimtfs-ic {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  color: color-mix(in srgb, var(--accent) var(--accent-ink-mix), var(--text));
+}
+.kimtfs-ic svg {
+  width: 17px;
+  height: 17px;
+}
+.kimtfs-name {
+  flex: 1;
+  min-width: 0;
+  font-size: 13px;
+  color: var(--text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ── main (toolbar + editor/preview) ──────────────────────────────────── */
+.kimtfs-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.kimtfs-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--hairline);
+}
+.kimtfs-tb-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+.kimtfs-tb-spacer {
+  flex: 1;
+}
+.kimtfs-crumbs {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: 12.5px;
+  color: var(--text-secondary);
+}
+.kimtfs-crumb:last-child {
+  color: var(--text);
+  font-weight: 500;
+}
+.kimtfs-sep {
+  opacity: 0.5;
+}
+
+/* Plain, app-local icon buttons (override the shell's translucent chrome). */
+.kimtfs .icon-button {
+  width: 30px;
+  height: 30px;
+  background: transparent;
+  border-color: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  color: var(--text-secondary);
+}
+.kimtfs .icon-button:hover {
+  background: var(--surface-hover);
+  border-color: var(--hairline);
+  color: var(--text);
+}
+.kimtfs .icon-button svg {
+  width: 17px;
+  height: 17px;
+}
+.kimtfs .icon-button.kimtfs-danger:hover {
+  color: var(--danger);
+  border-color: var(--danger);
+}
+
+.kimtfs-title {
+  margin: 14px 18px 8px;
+  padding: 6px 10px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 17px;
+  font-weight: 650;
+  outline: none;
+}
+.kimtfs-title:hover {
+  background: var(--surface-hover);
+}
+.kimtfs-title:focus {
+  background: var(--field);
+  border-color: var(--hairline-strong);
+}
+
+.kimtfs-textarea {
+  flex: 1;
+  min-height: 0;
+  margin: 0 18px;
+  resize: none;
+  padding: 14px 16px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+  background: var(--field);
+  color: var(--text);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 13.5px;
+  line-height: 1.6;
+  outline: none;
+}
+.kimtfs-textarea:focus {
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--hairline));
+}
+.kimtfs-status {
+  margin: 6px 18px 14px;
+  min-height: 14px;
+  font-size: 11.5px;
+  color: var(--text-secondary);
+}
+
+.kimtfs-preview {
+  flex: 1;
+  min-height: 0;
+  margin: 0 18px 18px;
+  display: grid;
+  /* `safe` centring: centre content that fits (an image / PDF page / big-file icon),
+     but fall back to start when it overflows — otherwise a wide or tall text/JSON file
+     is centred into unreachable negative-scroll space and only a sliver shows (#628,
+     #272). The text view below then stretches and scrolls instead. */
+  align-items: safe center;
+  justify-items: safe center;
+  padding: 16px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+  background: var(--field);
+  overflow: auto;
+}
+/* Textual content fills the pane rather than sitting centred: it is the readable body,
+   not a media object to frame. Its <pre> (below) is the single scroller. */
+.kimtfs-preview > .kimtfs-textview,
+.kimtfs-preview > .kimtfs-hex {
+  justify-self: stretch;
+  align-self: stretch;
+  min-height: 0;
+  width: 100%;
+}
+.kimtfs-img {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: var(--radius-sm);
+}
+.kimtfs-filemeta {
+  margin: 12px 0 0;
+  font-size: 12.5px;
+  color: var(--text-secondary);
+}
+
+/* ── path bar ──────────────────────────────────────────────────────────────
+   Root > Documents > Music. It tracks the SELECTION, not the open file, because
+   its job is to answer "where will my next file land?" (#188). */
+.kimtfs-path {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-wrap: wrap;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--hairline);
+  background: var(--surface);
+}
+.kimtfs-crumb {
+  padding: 3px 7px;
+  font-family: inherit;
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  background: none;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+.kimtfs-crumb:hover {
+  background: var(--surface-hover);
+  color: var(--text);
+}
+.kimtfs-crumb.is-current {
+  color: var(--text);
+  font-weight: 600;
+}
+.kimtfs-crumb-sep {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+.kimtfs-path-hint {
+  margin-left: auto;
+  font-size: 11.5px;
+  color: var(--text-secondary);
+}
+.kimtfs-main-body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.kimtfs-crumb.is-drop {
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+.kimtfs-cb {
+  margin-right: 2px;
+  accent-color: var(--accent);
+  flex: 0 0 auto;
+}
+
+/* ── the viewer ────────────────────────────────────────────────────────────
+   Everything renders from the bytes already in IndexedDB — nothing is fetched. */
+/* Audio and video both preview through the shared themed players (.audio-player /
+   .video-player), which carry their own frame — the raw <audio>/<video controls> ignored
+   the theme. Each centres vertically but spans the pane width so it has room to breathe. */
+.kimtfs-preview > .audio-player,
+.kimtfs-preview > .video-player {
+  justify-self: stretch;
+  align-self: center;
+  width: 100%;
+}
+.kimtfs-pdf {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  overflow: auto;
+}
+.kimtfs-pdf-page {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow);
+}
+.kimtfs-code,
+.kimtfs-plain,
+.kimtfs-hex {
+  margin: 0;
+  padding: 12px;
+  overflow: auto;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--text);
+  background: var(--field);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-sm);
+  white-space: pre;
+}
+.kimtfs-plain {
+  white-space: pre-wrap;
+  font-family: inherit;
+}
+.kimtfs-code,
+.kimtfs-hex {
+  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+}
+/* Syntax-coloured code. The highlighter's palette (github-dark, shared with Markdown code
+   fences) is built for a dark ground, so this pane keeps one in BOTH themes — via the
+   tokens, and stated here rather than left to which stylesheet the bundler emitted last. */
+.kimtfs-code {
+  color: var(--code-ink);
+  background: var(--code-surface);
+}
+.kimtfs-json-err {
+  margin: 0 0 8px;
+  padding: 8px 10px;
+  font-size: 12.5px;
+  color: var(--danger);
+  background: color-mix(in srgb, var(--danger) 12%, transparent);
+  border-radius: var(--radius-sm);
+}
+/* The text view fills its container (a grid track in the viewer, a flex column in the
+   editor's Preview toggle) and hands scrolling to its <pre>, so all content — down AND
+   across — is reachable in one scroller instead of overflowing or clipping (#272, #628). */
+.kimtfs-textview,
+.kimtfs-textpreview {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.kimtfs-textview > pre,
+.kimtfs-textview > .md-preview {
+  flex: 1;
+  min-height: 0;
+}
+/* Rendered Markdown scrolls within the text view (the <pre> path handles its own). */
+.kimtfs-textview > .md-preview {
+  overflow: auto;
+}
+.kimtfs-toggle {
+  padding: 4px 10px;
+  font-family: inherit;
+  font-size: 12px;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+.kimtfs-toggle:hover {
+  background: var(--surface-hover);
+}
+
+/* ── the column list (Name / Size / Kind / Modified) ────────────────────── */
+.kimtfs-search {
+  flex: 0 1 220px;
+  min-width: 120px;
+  padding: 5px 9px;
+  font: inherit;
+  font-size: 12px;
+  color: var(--text);
+  background: var(--surface-2);
+  border: 1px solid var(--hairline);
+  border-radius: 7px;
+}
+.kimtfs-search:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.kimtfs-list {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+}
+.kimtfs-list:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+.kimtfs-lrow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 90px 130px 130px;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px;
+  height: 30px;
+  /* A row acts on a click (select; double-click opens), so it says so. The sidebar's rows
+     have always been a pointer — the explorer list was the one place that disagreed with the
+     app's own idiom (#218). */
+  cursor: pointer;
+  border-bottom: 1px solid var(--hairline);
+}
+.kimtfs-lhead {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  /* The header wears the .kimtfs-lrow class, so it would inherit the pointer above — but the
+     header BAND is not a click target. Its cells are (they sort), and they set their own
+     pointer below. */
+  cursor: default;
+  height: 28px;
+  padding: 0;
+  background: var(--surface-2);
+}
+.kimtfs-lhead .kimtfs-lcell {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 100%;
+  padding: 0 6px;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.kimtfs-lhead .kimtfs-lcell:first-child {
+  padding-left: 12px;
+}
+.kimtfs-lhead .kimtfs-lcell:hover,
+.kimtfs-lhead .is-sorted {
+  color: var(--text);
+}
+.kimtfs-sortmark {
+  font-size: 8px;
+}
+.kimtfs-l-name {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+  font-size: 13px;
+  color: var(--text);
+}
+.kimtfs-l-name .kimtfs-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.kimtfs-lwhere {
+  flex: 0 0 auto;
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+.kimtfs-l-size,
+.kimtfs-l-kind,
+.kimtfs-l-modified {
+  font-size: 12px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.kimtfs-l-size {
+  font-variant-numeric: tabular-nums;
+}
+.kimtfs-list .kimtfs-lrow:not(.kimtfs-lhead):hover {
+  background: var(--surface-2);
+}
+.kimtfs-list .kimtfs-lrow.is-cursor {
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+.kimtfs-list .kimtfs-lrow.is-selected {
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+}
+.kimtfs-list .kimtfs-lrow.is-drop {
+  background: color-mix(in srgb, var(--accent) 24%, transparent);
+}
+.kimtfs-list .kimtfs-lrow.is-dragging {
+  opacity: 0.45;
+}
+
+/* ── Grid view (#219) ──────────────────────────────────────────────────
+   The same items as the list, drawn as tiles: the per-type glyph (#220) at a size where it
+   is actually readable, and the name under it. The state colours are LIFTED FROM THE ROW
+   above on purpose — a selection that reads differently in the two views is a bug people
+   feel but never report. */
+.kimtfs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
+  gap: 6px;
+  padding: 12px;
+}
+.kimtfs-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 6px 10px;
+  border-radius: 10px;
+  /* Exactly as clickable as a row, so exactly the same cursor (#218). */
+  cursor: pointer;
+  text-align: center;
+}
+.kimtfs-tile-ic {
+  display: grid;
+  place-items: center;
+  color: color-mix(in srgb, var(--accent) var(--accent-ink-mix), var(--text));
+}
+.kimtfs-tile-ic svg {
+  width: 38px;
+  height: 38px;
+}
+.kimtfs-tile-name {
+  width: 100%;
+  /* Two lines, then ellipsis: a long filename must not push the tiles out of line. */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: 12px;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+.kimtfs-grid .kimtfs-tile:hover {
+  background: var(--surface-2);
+}
+.kimtfs-grid .kimtfs-tile.is-cursor {
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+.kimtfs-grid .kimtfs-tile.is-selected {
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+}
+.kimtfs-grid .kimtfs-tile.is-drop {
+  background: color-mix(in srgb, var(--accent) 24%, transparent);
+}
+.kimtfs-grid .kimtfs-tile.is-dragging {
+  opacity: 0.45;
+}
+
+/* ── status bar ─────────────────────────────────────────────────────────── */
+.kimtfs-statusbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 5px 12px;
+  font-size: 11px;
+  color: var(--text-secondary);
+  border-top: 1px solid var(--hairline);
+}
+/* The device-storage figure is a button: it opens AnubisDB, where the same total is
+   broken down per app. Styled as the quiet status text it replaced, not as a control. */
+.kimtfs-status-space {
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-underline-offset: 2px;
+}
+.kimtfs-status-space:hover {
+  color: var(--text);
+}
+
+/* ── Get Info ───────────────────────────────────────────────────────────── */
+.kimtfs-props {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 6px 16px;
+  margin: 0;
+  font-size: 13px;
+}
+.kimtfs-props dt {
+  color: var(--text-secondary);
+}
+.kimtfs-props dd {
+  margin: 0;
+  color: var(--text);
+  word-break: break-word;
+}
+
+/* ── archives ───────────────────────────────────────────────────────────── */
+.kimtfs-ziphead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 0 10px;
+}
+.kimtfs-extract {
+  flex: 0 0 auto;
+}
+.kimtfs-ziplist {
+  border: 1px solid var(--hairline);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.kimtfs-ziprow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 6px 10px;
+  font-size: 12px;
+  color: var(--text);
+  border-bottom: 1px solid var(--hairline);
+}
+.kimtfs-ziprow:last-child {
+  border-bottom: none;
+}
+.kimtfs-zipname {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--font-mono, ui-monospace, monospace);
+}
+.kimtfs-zipsize {
+  flex: 0 0 auto;
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+}

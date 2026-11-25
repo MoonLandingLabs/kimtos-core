@@ -1,0 +1,9 @@
+# Documentation manifest for the Voice to Text (televoica) app.
+# Chapters live in content/ as numbered Markdown files (one H1 each), discovered
+# alphabetically. Build the whole app suite with `npm run docs` (from extension/).
+
+title    = "Voice to Text"
+subtitle = "Turn voice notes and recordings into text, fully on-device"
+accent   = "#6c8cff"
+order    = 1
+formats  = ["html"]

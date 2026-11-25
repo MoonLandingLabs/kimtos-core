@@ -1,0 +1,672 @@
+/* AnubisDB — colocated app styles (loaded by ./index.ts). */
+/* ---------------------------------------------------------------------------
+   AnubisDB — the on-device data console. A two-pane explorer (app list ▸ that
+   app's stored partitions ▸ records / files / settings) over the single
+   IndexedDB. Styled entirely from the shared tokens so it tracks the theme.
+   --------------------------------------------------------------------------- */
+.anubis {
+  --anubis-mono: ui-monospace, 'SF Mono', 'SFMono-Regular', Menlo, monospace;
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* shell flex-fills the app root in every window state (#1089) */
+  font-size: 13px;
+  color: var(--text);
+}
+.anubis-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--hairline);
+}
+.anubis-total {
+  font-size: 12.5px;
+  color: var(--text-secondary);
+}
+.anubis-total strong {
+  color: var(--text);
+  font-size: 15px;
+  font-weight: 650;
+}
+.anubis-bar-actions {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
+  flex-wrap: wrap;
+}
+.anubis-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 12px;
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 550;
+  color: var(--text);
+  background: var(--material);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+.anubis-btn:hover {
+  background: var(--material-hover);
+}
+.anubis-btn:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+.anubis-btn svg {
+  width: 15px;
+  height: 15px;
+}
+.anubis-btn.is-danger {
+  color: var(--danger);
+  border-color: color-mix(in srgb, var(--danger) 35%, transparent);
+}
+.anubis-btn.is-danger:hover {
+  background: color-mix(in srgb, var(--danger) 14%, transparent);
+}
+.anubis-body {
+  display: flex;
+  gap: 14px;
+  flex: 1;
+  min-height: 0;
+  padding-top: 12px;
+}
+.anubis-apps {
+  flex: 0 0 208px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-right: 4px;
+}
+.anubis-app {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px;
+  text-align: left;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+}
+.anubis-app:hover {
+  background: var(--material);
+}
+.anubis-app.is-active {
+  background: var(--material-hover);
+  border-color: var(--hairline);
+}
+.anubis-app-meta {
+  min-width: 0;
+}
+.anubis-app-name {
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.anubis-app-sub {
+  font-size: 11.5px;
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+.anubis-tile {
+  position: relative;
+  display: grid;
+  place-items: center;
+  border-radius: 23%;
+  color: var(--on-accent);
+  flex: 0 0 auto;
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px var(--surface-hover);
+}
+.anubis-tile svg {
+  width: 60%;
+  height: 60%;
+}
+.anubis-mono {
+  font-weight: 700;
+  font-size: 55%;
+}
+.anubis-detail {
+  flex: 1;
+  min-width: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.anubis-empty {
+  margin: auto;
+  padding: 40px;
+  text-align: center;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+.anubis-detail-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--hairline);
+}
+.anubis-detail-title {
+  min-width: 0;
+  margin-right: auto;
+}
+.anubis-detail-name {
+  font-size: 15px;
+  font-weight: 650;
+}
+.anubis-detail-sub {
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+.anubis-detail-actions {
+  display: flex;
+  gap: 8px;
+  flex: 0 0 auto;
+}
+.anubis-parts {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.anubis-part {
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+.anubis-part-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 9px 12px;
+  background: var(--material);
+  border: none;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+}
+.anubis-part-head:hover {
+  background: var(--material-hover);
+}
+.anubis-caret {
+  width: 12px;
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+.anubis-kind {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 2px 7px;
+  border-radius: 999px;
+}
+/* The wash comes from the same token as the text, so both follow the theme. The raw
+   pastels these replaced were fixed in both palettes and measured 3.1-3.4:1 in Light,
+   i.e. below WCAG AA — the same failure as the `true` pill in #72. */
+.anubis-kind.is-records {
+  color: color-mix(in srgb, var(--kind-records) 60%, var(--text));
+  background: color-mix(in srgb, var(--kind-records) 14%, transparent);
+}
+.anubis-kind.is-blobs {
+  color: color-mix(in srgb, var(--kind-blobs) 60%, var(--text));
+  background: color-mix(in srgb, var(--kind-blobs) 14%, transparent);
+}
+.anubis-kind.is-kv {
+  color: color-mix(in srgb, var(--kind-kv) 60%, var(--text));
+  background: color-mix(in srgb, var(--kind-kv) 14%, transparent);
+}
+.anubis-part-label {
+  font-family: var(--anubis-mono);
+  font-size: 12px;
+}
+.anubis-part-meta {
+  margin-left: auto;
+  font-size: 11.5px;
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+.anubis-items {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--hairline);
+  /* No inner cap — expanded items flow to full height; the detail pane
+     (`.anubis-detail`, overflow-y:auto) is the single scroll region, so
+     inspecting uses all the available height instead of a cramped 320px box. */
+}
+.anubis-loading {
+  padding: 10px 14px;
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+.anubis-row {
+  border-bottom: 1px solid var(--hairline);
+}
+.anubis-row:last-child {
+  border-bottom: none;
+}
+.anubis-row-head {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  padding: 7px 12px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+}
+.anubis-row-head.is-static {
+  cursor: default;
+}
+.anubis-row-head:not(.is-static):hover {
+  background: var(--material);
+}
+.anubis-id {
+  font-family: var(--anubis-mono);
+  font-size: 11.5px;
+  color: var(--text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.anubis-row.is-blob {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 12px;
+}
+.anubis-row.is-blob .anubis-id {
+  flex: 1;
+}
+.anubis-type {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+.anubis-row-size {
+  margin-left: auto;
+  font-size: 11px;
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+.anubis-row.is-blob .anubis-row-size {
+  margin-left: 0;
+}
+.anubis-json-box {
+  position: relative;
+}
+.anubis-json {
+  margin: 0;
+  padding: 10px 12px;
+  background: var(--field);
+  font-family: var(--anubis-mono);
+  font-size: 11.5px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-x: auto;
+  color: var(--text);
+}
+.anubis-icon-btn {
+  flex: 0 0 auto;
+  display: inline-grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  background: transparent;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+.anubis-icon-btn:hover {
+  background: var(--material);
+  color: var(--text);
+}
+.anubis-icon-btn.is-copied {
+  color: color-mix(in srgb, var(--accent) var(--accent-ink-ui-mix), var(--text));
+  border-color: var(--accent);
+}
+.anubis-icon-btn svg {
+  width: 14px;
+  height: 14px;
+}
+.anubis-json-box .anubis-icon-btn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+}
+
+/* ── Formatted value view (human-readable record / kv inspector) ────────── */
+.anubis-view-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px;
+  background: var(--field);
+}
+/* the copy button sits in the bar now, not absolutely in the box */
+.anubis-view-bar .anubis-icon-btn {
+  position: static;
+  top: auto;
+  right: auto;
+  width: 24px;
+  height: 24px;
+}
+.anubis-view-toggle {
+  font: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  background: transparent;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-sm);
+  padding: 3px 9px;
+  cursor: pointer;
+}
+.anubis-view-toggle:hover {
+  color: var(--text);
+  border-color: var(--hairline-strong);
+}
+
+.av-obj {
+  background: var(--field);
+}
+.av-field {
+  display: grid;
+  grid-template-columns: minmax(84px, 26%) 1fr;
+  gap: 10px;
+  padding: 6px 12px;
+  border-top: 1px solid var(--hairline);
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+.av-key {
+  color: var(--text-secondary);
+  font-weight: 600;
+  word-break: break-word;
+}
+.av-v {
+  min-width: 0;
+  color: var(--text);
+  word-break: break-word;
+}
+.av-str {
+  white-space: pre-wrap;
+}
+.av-empty,
+.av-null {
+  color: var(--text-secondary);
+  font-style: italic;
+  opacity: 0.7;
+}
+.av-num {
+  font-family: var(--anubis-mono);
+}
+/* The type label on a top-level scalar row (#417) — reads as a lowercase
+   monospace tag so it is clearly metadata, not part of the value. */
+.av-scalar-type {
+  font-family: var(--anubis-mono);
+  font-weight: 600;
+  text-transform: lowercase;
+  color: var(--text-secondary);
+}
+.av-rel {
+  color: var(--text-secondary);
+}
+.av-bool {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 1px 8px;
+  border-radius: 999px;
+}
+.av-bool.is-true {
+  color: var(--success);
+  background: color-mix(in srgb, var(--success) 22%, transparent);
+}
+.av-bool.is-false {
+  color: var(--text-secondary);
+  background: var(--surface-hover);
+}
+.av-link {
+  color: color-mix(in srgb, var(--accent) var(--accent-ink-mix), var(--text));
+  text-decoration: underline;
+  word-break: break-all;
+}
+.av-img {
+  display: block;
+  max-height: 120px;
+  max-width: 100%;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--hairline);
+}
+.av-binary {
+  font-family: var(--anubis-mono);
+  font-size: 11.5px;
+  color: var(--text-secondary);
+}
+.av-more {
+  font: inherit;
+  font-size: 11.5px;
+  color: color-mix(in srgb, var(--accent) var(--accent-ink-mix), var(--text));
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: underline;
+}
+.av-raw {
+  font-family: var(--anubis-mono);
+  font-size: 11.5px;
+  color: var(--text-secondary);
+  word-break: break-all;
+}
+
+/* nested collapsible object / array */
+.av-node-head {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font: inherit;
+  font-size: 11.5px;
+  color: var(--text-secondary);
+  background: none;
+  border: none;
+  padding: 2px 0;
+  cursor: pointer;
+}
+.av-caret::before {
+  content: '▾';
+  display: inline-block;
+  font-size: 9px;
+  transition: transform 0.15s ease;
+}
+.av-node.is-collapsed .av-caret::before {
+  transform: rotate(-90deg);
+}
+.av-node-count {
+  font-family: var(--anubis-mono);
+  font-size: 10.5px;
+  color: var(--text-secondary);
+  background: var(--surface-hover);
+  padding: 0 6px;
+  border-radius: 999px;
+}
+.av-node > .av-obj,
+.av-node > .av-list,
+.av-node > .av-inline {
+  margin: 4px 0 4px 12px;
+  padding-left: 10px;
+  border-left: 1px solid var(--hairline);
+  background: transparent;
+}
+.av-node.is-collapsed > .av-obj,
+.av-node.is-collapsed > .av-list,
+.av-node.is-collapsed > .av-inline {
+  display: none;
+}
+
+.av-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.av-item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 8px;
+  padding: 3px 0;
+  align-items: start;
+}
+.av-idx {
+  font-family: var(--anubis-mono);
+  font-size: 10px;
+  color: var(--text-secondary);
+  background: var(--surface-hover);
+  padding: 0 5px;
+  border-radius: 4px;
+}
+.av-item-v {
+  min-width: 0;
+}
+.av-sep {
+  color: var(--text-secondary);
+}
+
+/* ---------------------------------------------------------------------------
+   Model storage — AI model weights live in Cache Storage / Tesseract's own DB
+   (not the shared IndexedDB), so they get their own read-only panel at the foot
+   of the console: per-app size + a "Free" action. Same tokens, same tile system.
+   --------------------------------------------------------------------------- */
+.anubis-models {
+  flex: 0 0 auto;
+  margin-top: 12px;
+  border-top: 1px solid var(--hairline);
+}
+.anubis-models-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 12px 2px 0;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+}
+.anubis-models-title {
+  font-size: 13px;
+  font-weight: 650;
+}
+.anubis-models-sub {
+  margin-left: auto;
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+.anubis-models-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-top: 8px;
+  max-height: 210px;
+  overflow-y: auto;
+}
+.anubis-model {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 8px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+}
+.anubis-model:hover {
+  background: var(--material);
+  border-color: var(--hairline);
+}
+.anubis-model-meta {
+  min-width: 0;
+}
+.anubis-model-name {
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.anubis-model-sub {
+  font-size: 11.5px;
+  color: var(--text-secondary);
+}
+.anubis-model-size {
+  margin-left: auto;
+  font-size: 12.5px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+}
+.anubis-models-note {
+  padding: 6px 4px 2px;
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+/* Workspace switcher (#473) — one chip per workspace on the device. */
+.anubis-workspaces {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 8px 16px;
+  border-bottom: 1px solid var(--hairline);
+}
+.anubis-ws-title {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-secondary);
+}
+.anubis-ws {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 4px 10px;
+  font-size: 12px;
+  color: var(--text);
+  background: var(--material);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+.anubis-ws:hover {
+  background: var(--material-hover);
+}
+.anubis-ws.is-viewed {
+  border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+}
+.anubis-ws-size {
+  font-size: 11px;
+  color: var(--text-secondary);
+}

@@ -1,0 +1,13 @@
+{
+  "rules": {
+    "color-no-hex": [
+      true,
+      {
+        "message": "Use a var(--token) from styles/base.css — a hex literal is wrong in one of the two themes. A genuinely theme-independent colour (a media stage, paper, an accent shade) needs an inline `/* stylelint-disable-next-line color-no-hex -- <why> */` saying so. See #95."
+      }
+    ]
+  },
+  "reportDescriptionlessDisables": true,
+  "reportNeedlessDisables": true,
+  "ignoreFiles": ["src/styles/base.css"]
+}

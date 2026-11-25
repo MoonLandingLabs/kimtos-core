@@ -1,0 +1,348 @@
+/* Clipboard app. Colours come only from base.css tokens so it follows the theme. */
+
+.clip-root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  position: relative;
+  font: var(--font);
+  color: var(--text);
+}
+
+/* toolbar */
+.clip-toolbar {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 4px 2px 8px;
+}
+.clip-search {
+  flex: 1;
+  min-width: 0;
+  height: 34px;
+  padding: 0 12px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+  background: var(--field);
+  color: var(--text);
+  font-size: 14px;
+}
+.clip-search:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.clip-btn {
+  height: 34px;
+  padding: 0 12px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.clip-btn:hover {
+  background: var(--surface-hover);
+}
+.clip-btn.ghost {
+  background: transparent;
+}
+.clip-monitor {
+  color: color-mix(in srgb, var(--accent) var(--accent-ink-mix), var(--text));
+}
+.clip-monitor.is-off {
+  color: var(--text-secondary);
+}
+
+/* settings drawer */
+.clip-settings {
+  display: none;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  padding: 10px;
+  margin-bottom: 8px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+  background: var(--panel);
+}
+.clip-settings.open {
+  display: flex;
+}
+.clip-set-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+.clip-num,
+.clip-excl {
+  height: 32px;
+  padding: 0 10px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-sm);
+  background: var(--field);
+  color: var(--text);
+  font-size: 13px;
+}
+.clip-num {
+  width: 80px;
+}
+.clip-excl {
+  flex: 1;
+  min-width: 160px;
+}
+.clip-set-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  font-size: 13px;
+  color: var(--text);
+  cursor: pointer;
+}
+
+/* add box */
+.clip-add {
+  display: flex;
+  gap: 8px;
+  padding-bottom: 8px;
+}
+.clip-add-input {
+  flex: 1;
+  height: 34px;
+  padding: 0 12px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+  background: var(--field);
+  color: var(--text);
+  font-size: 14px;
+}
+.clip-add-input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+/* chips */
+.clip-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding-bottom: 8px;
+}
+.clip-chip {
+  --chip: var(--accent);
+  height: 26px;
+  padding: 0 10px;
+  border: 1px solid var(--hairline);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.clip-chip.is-active {
+  border-color: var(--chip);
+  color: var(--chip);
+}
+
+/* bulk header */
+.clip-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 4px;
+}
+
+/* list */
+.clip-list {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 6px 2px;
+}
+.clip-empty {
+  padding: 40px 12px;
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+.clip-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px 12px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+.clip-row:hover {
+  background: var(--surface-hover);
+}
+.clip-row.is-selected {
+  border-color: var(--accent);
+}
+.clip-star {
+  border: none;
+  background: none;
+  color: var(--text-secondary);
+  font-size: 16px;
+  line-height: 1.2;
+  cursor: pointer;
+  padding: 0;
+}
+.clip-star.on {
+  color: var(--warning);
+}
+/* The same star shown while multi-selecting, where it marks a favorite rather than toggling one. */
+.clip-star.is-mark {
+  cursor: default;
+}
+.clip-main {
+  flex: 1;
+  min-width: 0;
+}
+.clip-text {
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--text);
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.clip-type-link .clip-text {
+  color: color-mix(in srgb, var(--accent) var(--accent-ink-mix), var(--text));
+}
+.clip-thumb {
+  max-width: 160px;
+  max-height: 90px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--hairline);
+  cursor: pointer;
+  display: block;
+  object-fit: contain;
+}
+.clip-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+.clip-src {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 220px;
+}
+.clip-tag {
+  border: none;
+  background: none;
+  padding: 0;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  color: color-mix(in srgb, var(--accent) var(--accent-ink-mix), var(--text));
+  cursor: pointer;
+}
+.clip-tag:hover {
+  color: var(--danger);
+}
+.clip-actions {
+  display: flex;
+  gap: 2px;
+  opacity: 0;
+  transition: opacity 0.12s;
+}
+.clip-row:hover .clip-actions {
+  opacity: 1;
+}
+.clip-act {
+  color: var(--text-secondary);
+}
+.clip-act:hover {
+  color: var(--text);
+}
+/* edit mode */
+.clip-edit {
+  width: 100%;
+  min-height: 72px;
+  padding: 8px;
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-sm);
+  background: var(--field);
+  color: var(--text);
+  font: inherit;
+  font-size: 14px;
+  resize: vertical;
+}
+.clip-edit-actions {
+  display: flex;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+/* checkbox in select mode */
+.clip-check {
+  margin-top: 2px;
+}
+
+/* footer */
+.clip-foot {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 2px 2px;
+  border-top: 1px solid var(--hairline);
+}
+.clip-stats {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+.clip-foot-spacer {
+  flex: 1;
+}
+.clip-foot-act {
+  color: var(--text-secondary);
+}
+.clip-foot-act:hover {
+  color: var(--text);
+}
+.clip-foot-act.ghost {
+  border: none;
+  background: none;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* transient toast */
+.clip-flash {
+  position: absolute;
+  bottom: 46px;
+  left: 50%;
+  transform: translateX(-50%) translateY(8px);
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: var(--surface-strong);
+  color: var(--text);
+  box-shadow: var(--shadow);
+  font-size: 13px;
+  font-weight: 600;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 0.16s,
+    transform 0.16s;
+}
+.clip-flash.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}

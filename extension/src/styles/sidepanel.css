@@ -1,0 +1,38 @@
+/* Side-panel host overrides — a plain themed surface holding the clipboard app
+   full-height (the new-tab shell's wallpaper/stage styles don't apply here). */
+.clip-panel-body {
+  margin: 0;
+  background: var(--surface);
+  color: var(--text);
+  font: var(--font);
+}
+.clip-panel {
+  height: 100vh;
+  padding: 10px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* Shown in place of the app when it is not in the user's installed set. */
+.panel-notice {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 36px 20px;
+  text-align: center;
+}
+.panel-notice-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text);
+}
+.panel-notice-body {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}

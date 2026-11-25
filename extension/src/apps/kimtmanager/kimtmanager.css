@@ -1,0 +1,149 @@
+/* KimtManager — the task manager (#1172). One row per thing the extension is doing. */
+
+.km {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.km-list {
+  flex: 1;
+  min-height: 0;
+  padding: 16px;
+  overflow-y: auto;
+}
+
+/* A row now, because "Stop all" sits opposite the count (#1213). */
+.km-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.km-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.km-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 8px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+}
+
+.km-row:hover {
+  background: var(--surface-hover);
+}
+
+/* A failed download is the one state that will not resolve itself. */
+.km-row.is-error {
+  border-color: var(--danger);
+}
+
+.km-open {
+  display: flex;
+  flex: 1;
+  gap: 12px;
+  align-items: center;
+  min-width: 0;
+  padding: 4px;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  background: none;
+  border: 0;
+}
+
+/* The glyph colour comes from `.has-app-icon`, which paintAppTile adds — the same rule the dock
+   uses, so a tile cannot be the right shape in the wrong colour. */
+.km-tile {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  overflow: hidden;
+  background: var(--surface-hover);
+  border-radius: 11px;
+}
+
+.km-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 3px;
+}
+
+.km-name {
+  overflow: hidden;
+  font-size: 14px;
+  font-weight: 550;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.km-state {
+  overflow: hidden;
+  font-size: 12px;
+  color: var(--text-secondary);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Background work is the state with no other visible sign, so it gets the accent — mixed toward
+   --text via --accent-ink-mix, because the raw accent on a panel fails contrast in dark. */
+.km-state.is-working {
+  font-weight: 550;
+  color: color-mix(in srgb, var(--accent) var(--accent-ink-mix), var(--text));
+}
+
+.km-row.is-error .km-state {
+  color: var(--danger);
+}
+
+.km-bar {
+  display: block;
+  width: 180px;
+  max-width: 100%;
+  height: 4px;
+  margin-top: 2px;
+  overflow: hidden;
+  background: var(--surface-hover);
+  border-radius: 999px;
+}
+
+.km-bar-fill {
+  display: block;
+  height: 100%;
+  background: var(--accent-solid);
+  border-radius: inherit;
+  transition: width 0.25s ease;
+}
+
+.km-stop {
+  flex: none;
+  padding: 6px 12px;
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  background: none;
+  border: 1px solid var(--hairline-strong);
+  border-radius: var(--radius-sm);
+}
+
+.km-stop:hover {
+  color: var(--danger);
+  border-color: var(--danger);
+}

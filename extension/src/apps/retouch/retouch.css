@@ -1,0 +1,365 @@
+/* Retouch image editor. Colours come only from base.css tokens (theme-aware). */
+
+.rt-root {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  color: var(--text);
+  font: var(--font);
+  outline: none;
+}
+
+/* The shared history-sidebar shell fills the app window rather than the
+   media-app default height, so the canvas gets every pixel available. */
+.rt-root > .mt-layout {
+  flex: 1;
+  min-height: 0;
+  height: auto;
+}
+.rt-root .mt-main {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+  gap: 0;
+}
+
+/* empty / dropzone */
+.rt-empty {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+.rt-drop {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: min(460px, 100%);
+  padding: 40px 24px;
+  border: 2px dashed var(--hairline-strong);
+  border-radius: var(--radius-lg);
+  background: var(--panel);
+  color: var(--text);
+  cursor: pointer;
+}
+.rt-drop:hover,
+.rt-drop.is-over {
+  border-color: var(--accent);
+  background: var(--surface-hover);
+}
+.rt-drop svg {
+  width: 30px;
+  height: 30px;
+  color: color-mix(in srgb, var(--accent) var(--accent-ink-ui-mix), var(--text));
+}
+.rt-drop-title {
+  font-size: 15px;
+  font-weight: 600;
+}
+.rt-drop-hint {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+/* editor */
+.rt-editor {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.rt-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 12px;
+  padding: 6px 2px 10px;
+  border-bottom: 1px solid var(--hairline);
+}
+.rt-group {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+.rt-group-end {
+  margin-left: auto;
+  gap: 6px;
+}
+.rt-btn {
+  color: var(--text-secondary);
+}
+.rt-btn:hover {
+  color: var(--text);
+}
+.rt-btn.is-on {
+  color: color-mix(in srgb, var(--accent) var(--accent-ink-mix), var(--text));
+}
+.rt-btn:disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}
+.rt-btn.rt-text {
+  height: 30px;
+  padding: 0 12px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.rt-btn.rt-text:hover {
+  background: var(--surface-hover);
+}
+.rt-btn.rt-text.ghost {
+  background: transparent;
+}
+.rt-dims {
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+  margin-right: 4px;
+}
+.rt-crop-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+.rt-crop-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.rt-btn.rt-chip {
+  height: 26px;
+  padding: 0 8px;
+  font-size: 12px;
+}
+.rt-crop-fields {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.rt-crop-field {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.rt-crop-field-label {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+.rt-crop-input {
+  width: 58px;
+  height: 26px;
+  padding: 0 6px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* canvas */
+.rt-canvas-wrap {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  /* Fit mode centres the contained image here. Zoom/pan is a CSS transform on the
+     canvas (see .is-zoomed), not scrolling, so the wrap is a fixed viewport that
+     clips the magnified image — overflow: hidden, no scrollbars (#1124). */
+  align-items: safe center;
+  justify-items: safe center;
+  overflow: hidden;
+  padding: 14px;
+  background: repeating-conic-gradient(var(--surface-strong) 0% 25%, transparent 0% 50%) 50% / 20px 20px;
+}
+.rt-canvas-wrap.is-cropping {
+  cursor: crosshair;
+  touch-action: none; /* our pointer gestures own the surface while cropping */
+}
+/* Space held over a zoomed image primes the pan gesture; a drag is in progress. */
+.rt-canvas-wrap.can-pan {
+  cursor: grab;
+}
+.rt-canvas-wrap.is-panning {
+  cursor: grabbing;
+}
+.rt-canvas {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  box-shadow: var(--shadow);
+  border-radius: 2px;
+}
+/* Zoomed: the canvas leaves the centring grid and is drawn at its intrinsic pixel
+   size scaled by an inline `transform: translate(pan) scale(zoom)` (origin top-left),
+   so the fit constraints must go — otherwise the browser would shrink it straight back
+   into the pane. Positioning it absolutely at 0,0 makes the pan translate read directly
+   as viewport-space pixels, which is what the anchor maths in zoom.ts assumes (#1124). */
+.rt-canvas.is-zoomed {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: 0 0;
+  max-width: none;
+  max-height: none;
+  object-fit: none;
+}
+
+/* zoom controls */
+.rt-zoom {
+  gap: 2px;
+}
+.rt-btn.rt-zoom-label {
+  min-width: 56px;
+  height: 26px;
+  padding: 0 6px;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+
+/* crop editor overlay (#617) */
+.rt-crop {
+  position: absolute;
+  border: 1px solid var(--on-accent);
+  outline: 1.5px solid var(--accent);
+  /* the huge shadow dims everything OUTSIDE the selection (the removed area); the wrap's
+     overflow clips it to the canvas area. --scrim is dark in both themes. */
+  box-shadow: 0 0 0 9999px var(--scrim);
+  pointer-events: auto;
+  touch-action: none;
+  cursor: move;
+  box-sizing: border-box;
+}
+.rt-crop-grid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(
+      to right,
+      transparent calc(33.333% - 0.5px),
+      color-mix(in srgb, var(--on-accent) 45%, transparent) calc(33.333% - 0.5px) calc(33.333% + 0.5px),
+      transparent calc(33.333% + 0.5px) calc(66.666% - 0.5px),
+      color-mix(in srgb, var(--on-accent) 45%, transparent) calc(66.666% - 0.5px) calc(66.666% + 0.5px),
+      transparent calc(66.666% + 0.5px)
+    ),
+    linear-gradient(
+      to bottom,
+      transparent calc(33.333% - 0.5px),
+      color-mix(in srgb, var(--on-accent) 45%, transparent) calc(33.333% - 0.5px) calc(33.333% + 0.5px),
+      transparent calc(33.333% + 0.5px) calc(66.666% - 0.5px),
+      color-mix(in srgb, var(--on-accent) 45%, transparent) calc(66.666% - 0.5px) calc(66.666% + 0.5px),
+      transparent calc(66.666% + 0.5px)
+    );
+}
+.rt-crop-badge {
+  position: absolute;
+  left: 0;
+  bottom: 100%;
+  margin-bottom: 6px;
+  padding: 2px 7px;
+  border-radius: 6px;
+  border: 1px solid var(--hairline);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  pointer-events: none;
+}
+.rt-h {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: var(--accent);
+  border: 1.5px solid var(--on-accent);
+  border-radius: 2px;
+  transform: translate(-50%, -50%);
+  pointer-events: auto;
+  box-sizing: border-box;
+}
+.rt-h-nw {
+  left: 0;
+  top: 0;
+  cursor: nwse-resize;
+}
+.rt-h-n {
+  left: 50%;
+  top: 0;
+  cursor: ns-resize;
+}
+.rt-h-ne {
+  left: 100%;
+  top: 0;
+  cursor: nesw-resize;
+}
+.rt-h-e {
+  left: 100%;
+  top: 50%;
+  cursor: ew-resize;
+}
+.rt-h-se {
+  left: 100%;
+  top: 100%;
+  cursor: nwse-resize;
+}
+.rt-h-s {
+  left: 50%;
+  top: 100%;
+  cursor: ns-resize;
+}
+.rt-h-sw {
+  left: 0;
+  top: 100%;
+  cursor: nesw-resize;
+}
+.rt-h-w {
+  left: 0;
+  top: 50%;
+  cursor: ew-resize;
+}
+/* A locked aspect ratio hides the 4 edge grips — only corners can keep the ratio. */
+.rt-canvas-wrap.rt-ratio-locked .rt-h-n,
+.rt-canvas-wrap.rt-ratio-locked .rt-h-e,
+.rt-canvas-wrap.rt-ratio-locked .rt-h-s,
+.rt-canvas-wrap.rt-ratio-locked .rt-h-w {
+  display: none;
+}
+
+/* adjustments panel */
+.rt-adjust {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 8px 18px;
+  padding: 12px 4px 4px;
+  border-top: 1px solid var(--hairline);
+}
+.rt-slider-row {
+  display: grid;
+  grid-template-columns: 84px 1fr;
+  align-items: center;
+  gap: 10px;
+}
+.rt-slider-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+.rt-slider {
+  width: 100%;
+  accent-color: var(--accent);
+}
+.rt-adjust-actions {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}

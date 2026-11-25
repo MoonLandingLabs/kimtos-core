@@ -1,0 +1,9 @@
+# Documentation manifest for the Thoth (thoth) app.
+# Chapters live in content/ as numbered Markdown files (one H1 each), discovered
+# alphabetically. Build the whole app suite with `npm run docs` (from extension/).
+
+title    = "Thoth"
+subtitle = "A private, offline AI index over your notes, PDFs and boards"
+accent   = "#4f46e5"
+order    = 7
+formats  = ["html"]

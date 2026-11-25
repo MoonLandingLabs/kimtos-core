@@ -1,0 +1,2401 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+    <!-- Approved Kimtos design-language concept (2026-09-29). Reference only: see ../SKILL.md. -->
+    <style>
+      body {
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <title>Kimtos Material Concept</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,400..800&family=Google+Sans:wght@400;500;700&family=Google+Sans+Code:wght@400;500&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,500,1,0&display=block"
+    />
+    <style>
+      /* Layout: Kimtos in Google's product-marketing language (Material 3 Expressive). White page, Google-blue tonal system,
+   pill buttons, 28px containers, expressive shapes (cookie, clover, burst) behind every tool icon, a product-UI hero,
+   a chip-driven feature showcase, and the light footer Google product pages use. Light-only by design. */
+      :root {
+        color-scheme: light;
+        --primary: #0b57d0;
+        --on-primary: #ffffff;
+        --primary-hover: #0842a0;
+        --primary-container: #d3e3fd;
+        --on-primary-container: #041e49;
+        --secondary-container: #c2e7ff;
+        --on-secondary-container: #001d35;
+        --tertiary-container: #c4eed0;
+        --on-tertiary-container: #072711;
+        --yellow-container: #ffe082;
+        --on-yellow-container: #3d2e00;
+        --pink-container: #ffd8e4;
+        --on-pink-container: #3e001d;
+        --surface: #ffffff;
+        --surface-low: #f8fafd;
+        --surface-c: #f0f4f9;
+        --surface-high: #e9eef6;
+        --on-surface: #1f1f1f;
+        --on-surface-variant: #444746;
+        --outline: #747775;
+        --outline-variant: #c4c7c5;
+        --blue: #4285f4;
+        --red: #ea4335;
+        --amber: #fbbc04;
+        --green: #34a853;
+        --display: 'Google Sans Flex', 'Google Sans', Roboto, Arial, sans-serif;
+        --text: 'Google Sans', 'Google Sans Flex', Roboto, Arial, sans-serif;
+        --code: 'Google Sans Code', ui-monospace, Menlo, monospace;
+        --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        background: var(--surface);
+        color: var(--on-surface);
+      }
+      body {
+        font-family: var(--text);
+        font-size: 16px;
+        line-height: 1.5;
+        -webkit-font-smoothing: antialiased;
+        overflow-x: hidden;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      button {
+        font: inherit;
+        color: inherit;
+        cursor: pointer;
+        background: none;
+        border: 0;
+      }
+      :focus-visible {
+        outline: 3px solid var(--primary);
+        outline-offset: 3px;
+        border-radius: 12px;
+      }
+      .ms {
+        font-family: 'Material Symbols Rounded';
+        font-weight: normal;
+        font-style: normal;
+        font-size: 24px;
+        line-height: 1;
+        letter-spacing: normal;
+        text-transform: none;
+        display: inline-block;
+        white-space: nowrap;
+        direction: ltr;
+        -webkit-font-smoothing: antialiased;
+        font-variation-settings:
+          'FILL' 1,
+          'wght' 500,
+          'GRAD' 0,
+          'opsz' 24;
+        user-select: none;
+        flex: none;
+      }
+      .wrap {
+        max-width: 1240px;
+        margin: 0 auto;
+        padding-inline: 24px;
+      }
+      .sec {
+        padding-block: clamp(88px, 11vw, 140px) 0;
+      }
+      h1,
+      h2,
+      h3 {
+        margin: 0;
+        font-family: var(--display);
+        font-weight: 500;
+        text-wrap: balance;
+      }
+      .h2 {
+        font-size: clamp(34px, 4.6vw, 56px);
+        line-height: 1.12;
+        letter-spacing: -0.02em;
+      }
+      .lead {
+        font-size: clamp(18px, 1.8vw, 22px);
+        line-height: 1.5;
+        color: var(--on-surface-variant);
+        margin: 20px 0 0;
+      }
+      .center {
+        text-align: center;
+      }
+      .center .lead {
+        margin-inline: auto;
+        max-width: 46ch;
+      }
+
+      /* buttons (M3: pill, filled / tonal / text) */
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        height: 48px;
+        padding: 0 24px;
+        border-radius: 100px;
+        font-family: var(--text);
+        font-weight: 500;
+        font-size: 16px;
+        white-space: nowrap;
+        transition:
+          background 0.2s,
+          box-shadow 0.2s,
+          transform 0.35s var(--spring);
+      }
+      .btn:active {
+        transform: scale(0.96);
+      }
+      .btn .ms {
+        font-size: 20px;
+      }
+      .btn-filled {
+        background: var(--primary);
+        color: var(--on-primary);
+      }
+      .btn-filled:hover {
+        background: var(--primary-hover);
+        box-shadow:
+          0 1px 3px rgba(0, 0, 0, 0.2),
+          0 4px 8px 3px rgba(0, 0, 0, 0.1);
+      }
+      .btn-tonal {
+        background: var(--primary-container);
+        color: var(--on-primary-container);
+      }
+      .btn-tonal:hover {
+        background: #c2d7f9;
+      }
+      .btn-text {
+        color: var(--primary);
+        padding: 0 14px;
+      }
+      .btn-text:hover {
+        background: rgba(11, 87, 208, 0.08);
+      }
+      .btn-sm {
+        height: 40px;
+        padding: 0 20px;
+        font-size: 14px;
+      }
+
+      /* top app bar */
+      .bar {
+        position: sticky;
+        top: env(safe-area-inset-top, 0px);
+        z-index: 40;
+        background: rgba(255, 255, 255, 0.94);
+        -webkit-backdrop-filter: blur(12px);
+        backdrop-filter: blur(12px);
+        transition: box-shadow 0.2s;
+      }
+      .bar.scrolled {
+        box-shadow:
+          0 1px 2px rgba(60, 64, 67, 0.3),
+          0 1px 3px 1px rgba(60, 64, 67, 0.15);
+      }
+      .bar .wrap {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        height: 64px;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-family: var(--display);
+        font-weight: 500;
+        font-size: 22px;
+        letter-spacing: -0.01em;
+        margin-inline-end: 20px;
+        color: var(--on-surface-variant);
+      }
+      .brand svg {
+        width: 32px;
+        height: 32px;
+      }
+      .brand b {
+        font-weight: 500;
+        color: var(--on-surface);
+      }
+      .tabs-nav {
+        display: flex;
+        gap: 2px;
+      }
+      .tabs-nav a {
+        height: 40px;
+        display: inline-flex;
+        align-items: center;
+        padding: 0 16px;
+        border-radius: 100px;
+        font-size: 15px;
+        font-weight: 500;
+        color: var(--on-surface-variant);
+      }
+      .tabs-nav a:hover {
+        background: var(--surface-c);
+        color: var(--on-surface);
+      }
+      .bar-r {
+        margin-inline-start: auto;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .icon-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: none;
+        place-items: center;
+        color: var(--on-surface-variant);
+      }
+      .icon-btn:hover {
+        background: var(--surface-c);
+      }
+      .mnav {
+        display: none;
+      }
+      @media (max-width: 960px) {
+        .tabs-nav,
+        .bar-r .btn-text {
+          display: none;
+        }
+        .icon-btn {
+          display: grid;
+        }
+        .mnav:not([hidden]) {
+          display: flex;
+          flex-direction: column;
+          padding: 8px 16px 16px;
+        }
+        .mnav a {
+          padding: 14px 12px;
+          border-radius: 100px;
+          font-weight: 500;
+        }
+        .mnav a:hover {
+          background: var(--surface-c);
+        }
+      }
+
+      /* hero */
+      .hero {
+        padding-block: clamp(48px, 7vw, 88px) 0;
+        text-align: center;
+      }
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        height: 36px;
+        padding: 0 16px 0 6px;
+        border-radius: 100px;
+        background: var(--surface-c);
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--on-surface-variant);
+        margin-bottom: 28px;
+      }
+      .eyebrow b {
+        height: 24px;
+        display: inline-flex;
+        align-items: center;
+        padding: 0 10px;
+        border-radius: 100px;
+        background: var(--primary);
+        color: #fff;
+        font-size: 12px;
+        font-weight: 500;
+      }
+      .hero h1 {
+        font-size: clamp(46px, 7vw, 88px);
+        line-height: 1.04;
+        letter-spacing: -0.035em;
+        font-weight: 500;
+        font-variation-settings: 'opsz' 144;
+      }
+      .hero h1 em {
+        font-style: normal;
+        color: var(--primary);
+      }
+      .hero .lead {
+        max-width: 40ch;
+        margin-inline: auto;
+      }
+      .cta {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-top: 36px;
+      }
+      .avail {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        margin-top: 22px;
+        font-size: 14px;
+        color: var(--on-surface-variant);
+      }
+      .avail span.chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        height: 32px;
+        padding: 0 12px 0 8px;
+        border-radius: 8px;
+        border: 1px solid var(--outline-variant);
+        font-weight: 500;
+        color: var(--on-surface);
+      }
+      .avail svg {
+        width: 18px;
+        height: 18px;
+      }
+      .avail em {
+        font-style: normal;
+        font-size: 11px;
+        color: var(--primary);
+        font-weight: 500;
+      }
+
+      /* hero product UI */
+      .stage {
+        position: relative;
+        margin: 64px auto 0;
+        max-width: 1100px;
+        border-radius: 32px;
+        background: var(--surface-c);
+        padding: clamp(14px, 3vw, 36px) clamp(14px, 3vw, 36px) 0;
+        overflow: hidden;
+      }
+      .stage .shape-deco {
+        position: absolute;
+        opacity: 0.9;
+        pointer-events: none;
+      }
+      .app {
+        position: relative;
+        background: var(--surface);
+        border-radius: 24px 24px 0 0;
+        box-shadow:
+          0 1px 3px rgba(60, 64, 67, 0.15),
+          0 8px 24px rgba(60, 64, 67, 0.12);
+        display: grid;
+        grid-template-columns: 88px minmax(0, 1fr);
+        min-height: 460px;
+        text-align: start;
+        overflow: hidden;
+      }
+      @media (max-width: 640px) {
+        .app {
+          grid-template-columns: minmax(0, 1fr);
+        }
+        .rail {
+          display: none;
+        }
+      }
+      .rail {
+        background: var(--surface-low);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        padding: 16px 0;
+      }
+      .fab {
+        width: 56px;
+        height: 56px;
+        border-radius: 16px;
+        background: var(--primary-container);
+        color: var(--on-primary-container);
+        display: grid;
+        place-items: center;
+        margin-bottom: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+      }
+      .rail-i {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--on-surface-variant);
+      }
+      .rail-i .pill {
+        width: 56px;
+        height: 32px;
+        border-radius: 100px;
+        display: grid;
+        place-items: center;
+      }
+      .rail-i.on .pill {
+        background: var(--secondary-container);
+        color: var(--on-secondary-container);
+      }
+      .rail-i.on {
+        color: var(--on-surface);
+      }
+      .main {
+        padding: 18px 24px 24px;
+        min-width: 0;
+      }
+      .search {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        height: 52px;
+        border-radius: 100px;
+        background: var(--surface-c);
+        padding: 0 18px;
+        color: var(--on-surface-variant);
+        font-size: 15px;
+      }
+      .search .av {
+        margin-inline-start: auto;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #7c4dff, #0b57d0);
+        color: #fff;
+        display: grid;
+        place-items: center;
+        font-size: 13px;
+        font-weight: 500;
+      }
+      .greet {
+        font-family: var(--display);
+        font-size: 28px;
+        margin: 22px 0 16px;
+        letter-spacing: -0.01em;
+      }
+      .shortcuts {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 10px;
+      }
+      @media (max-width: 760px) {
+        .shortcuts {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+      }
+      .sc {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        padding: 14px 6px;
+        border-radius: 20px;
+        background: var(--surface-low);
+        font-size: 13px;
+        font-weight: 500;
+        text-align: center;
+        transition: background 0.2s;
+      }
+      .sc:hover {
+        background: var(--surface-c);
+      }
+      .shp {
+        position: relative;
+        display: grid;
+        place-items: center;
+        width: 56px;
+        height: 56px;
+        flex: none;
+        transition: transform 0.5s var(--spring);
+      }
+      .shp svg.bgs {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        transition: transform 0.6s var(--spring);
+      }
+      .shp .ms {
+        position: relative;
+        font-size: 26px;
+      }
+      .sc:hover .shp svg.bgs,
+      .feat:hover .shp svg.bgs,
+      .who:hover .shp svg.bgs {
+        transform: rotate(30deg) scale(1.06);
+      }
+      .recent {
+        margin-top: 22px;
+        margin-bottom: 62px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .recent h4 {
+        margin: 0 0 4px;
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--on-surface-variant);
+      }
+      .row {
+        display: grid;
+        grid-template-columns: 40px minmax(0, 1fr) auto;
+        gap: 14px;
+        align-items: center;
+        padding: 10px 12px;
+        border-radius: 16px;
+        background: var(--surface-low);
+      }
+      .row .ft {
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+        display: grid;
+        place-items: center;
+        color: #fff;
+        font-size: 11px;
+        font-weight: 700;
+      }
+      .row b {
+        display: block;
+        font-size: 14.5px;
+        font-weight: 500;
+      }
+      .row small {
+        display: block;
+        color: var(--on-surface-variant);
+        font-size: 13px;
+      }
+      .row > div {
+        min-width: 0;
+      }
+      .row b,
+      .row small {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .assist {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        height: 32px;
+        padding: 0 12px;
+        border-radius: 8px;
+        border: 1px solid var(--outline-variant);
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--on-surface-variant);
+        white-space: nowrap;
+      }
+      .assist .ms {
+        font-size: 18px;
+        color: var(--primary);
+      }
+      .snack {
+        position: absolute;
+        right: 24px;
+        bottom: 22px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        background: #313033;
+        color: #f4eff4;
+        border-radius: 8px;
+        padding: 12px 8px 12px 16px;
+        font-size: 14px;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
+        animation: up 0.6s var(--spring) 0.6s backwards;
+      }
+      .snack b {
+        color: #a8c7fa;
+        font-weight: 500;
+        padding: 0 8px;
+      }
+      @keyframes up {
+        from {
+          transform: translateY(24px);
+        }
+      }
+      @media (max-width: 640px) {
+        .snack {
+          position: static;
+          margin-top: 16px;
+        }
+        .recent {
+          margin-bottom: 0;
+        }
+      }
+
+      /* feature showcase with M3 filter chips */
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 36px;
+      }
+      .fchip {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        height: 40px;
+        padding: 0 18px 0 14px;
+        border-radius: 12px;
+        border: 1px solid var(--outline-variant);
+        font-size: 15px;
+        font-weight: 500;
+        color: var(--on-surface-variant);
+        transition:
+          background 0.2s,
+          border-color 0.2s,
+          border-radius 0.35s var(--spring);
+      }
+      .fchip .ms {
+        font-size: 20px;
+      }
+      .fchip:hover {
+        background: var(--surface-c);
+      }
+      .fchip[aria-selected='true'] {
+        background: var(--secondary-container);
+        border-color: transparent;
+        color: var(--on-secondary-container);
+        border-radius: 100px;
+      }
+      .panel {
+        margin-top: 32px;
+        border-radius: 32px;
+        background: var(--surface-low);
+        padding: clamp(22px, 4vw, 56px);
+        display: grid;
+        grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+        gap: clamp(24px, 5vw, 64px);
+        align-items: center;
+        text-align: start;
+        min-height: 500px;
+      }
+      @media (max-width: 900px) {
+        .panel {
+          grid-template-columns: minmax(0, 1fr);
+        }
+      }
+      .panel > * {
+        min-width: 0;
+      }
+      .panel h3 {
+        font-size: clamp(30px, 3.4vw, 44px);
+        letter-spacing: -0.02em;
+        line-height: 1.12;
+      }
+      .panel .lead {
+        font-size: 18px;
+      }
+      .ticks {
+        list-style: none;
+        padding: 0;
+        margin: 24px 0 32px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .ticks li {
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+        color: var(--on-surface);
+        font-size: 16px;
+      }
+      .ticks li .ms {
+        font-size: 22px;
+        color: var(--primary);
+      }
+      .card {
+        background: var(--surface);
+        border-radius: 28px;
+        box-shadow:
+          0 1px 2px rgba(60, 64, 67, 0.2),
+          0 2px 6px 2px rgba(60, 64, 67, 0.1);
+        padding: 22px;
+        animation: pop 0.5s var(--spring);
+      }
+      @keyframes pop {
+        from {
+          transform: scale(0.96) translateY(10px);
+        }
+      }
+      .card-h {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 500;
+        font-size: 16px;
+        margin-bottom: 16px;
+      }
+      .card-h .ms {
+        color: var(--primary);
+      }
+      .drop {
+        border: 2px dashed var(--outline-variant);
+        border-radius: 20px;
+        padding: 22px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        text-align: center;
+        color: var(--on-surface-variant);
+        font-size: 14px;
+        cursor: pointer;
+        transition:
+          background 0.2s,
+          border-color 0.2s;
+      }
+      .drop:hover,
+      .drop.over {
+        background: var(--surface-low);
+        border-color: var(--primary);
+      }
+      .drop .ms {
+        font-size: 36px;
+        color: var(--primary);
+      }
+      .drop b {
+        color: var(--on-surface);
+        font-size: 16px;
+        font-weight: 500;
+      }
+      .drop input {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        opacity: 0;
+      }
+      .seg {
+        display: flex;
+        border: 1px solid var(--outline);
+        border-radius: 100px;
+        overflow: hidden;
+        margin-top: 16px;
+      }
+      .seg button {
+        flex: 1;
+        height: 40px;
+        font-size: 14px;
+        font-weight: 500;
+        border-inline-start: 1px solid var(--outline);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+      }
+      .seg button:first-child {
+        border-inline-start: 0;
+      }
+      .seg button[aria-pressed='true'] {
+        background: var(--secondary-container);
+        color: var(--on-secondary-container);
+      }
+      .seg button .ms {
+        font-size: 18px;
+      }
+      .lin {
+        height: 4px;
+        border-radius: 4px;
+        background: var(--primary-container);
+        margin-top: 18px;
+        overflow: hidden;
+      }
+      .lin i {
+        display: block;
+        height: 100%;
+        width: 72%;
+        background: var(--primary);
+        border-radius: 4px;
+        animation: grow 2.4s ease-in-out infinite alternate;
+      }
+      @keyframes grow {
+        from {
+          width: 18%;
+        }
+      }
+      .card-foot {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        margin-top: 16px;
+        font-size: 14px;
+        color: var(--on-surface-variant);
+      }
+      .wave {
+        display: flex;
+        align-items: center;
+        gap: 3px;
+        height: 48px;
+        margin: 6px 0 14px;
+      }
+      .wave i {
+        flex: 1;
+        border-radius: 4px;
+        background: var(--primary-container);
+      }
+      .wave i.on {
+        background: var(--primary);
+      }
+      .tline {
+        display: grid;
+        grid-template-columns: 48px minmax(0, 1fr);
+        gap: 12px;
+        padding: 8px 0;
+        font-size: 15px;
+        border-top: 1px solid var(--surface-high);
+      }
+      .tline time {
+        color: var(--primary);
+        font-weight: 500;
+        font-size: 13px;
+        padding-top: 2px;
+      }
+      .tline.hl p {
+        background: var(--primary-container);
+        color: var(--on-primary-container);
+        border-radius: 8px;
+        padding: 0 6px;
+        margin: 0 -6px;
+      }
+      .tline p {
+        margin: 0;
+      }
+      .bubble-q {
+        margin-inline-start: auto;
+        width: fit-content;
+        max-width: 80%;
+        background: var(--primary);
+        color: #fff;
+        border-radius: 20px 20px 4px 20px;
+        padding: 10px 14px;
+        font-size: 14.5px;
+      }
+      .bubble-a {
+        margin-top: 10px;
+        background: var(--surface-c);
+        border-radius: 20px 20px 20px 4px;
+        padding: 12px 14px;
+        font-size: 14.5px;
+        line-height: 1.5;
+      }
+      .src {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        margin-top: 8px;
+        height: 28px;
+        padding: 0 10px;
+        border-radius: 8px;
+        background: var(--surface);
+        border: 1px solid var(--outline-variant);
+        font-size: 12.5px;
+        font-weight: 500;
+        color: var(--primary);
+      }
+      .src .ms {
+        font-size: 16px;
+      }
+      .sugg {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 14px;
+      }
+      .sugg span {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        height: 32px;
+        padding: 0 12px;
+        border-radius: 8px;
+        border: 1px solid var(--outline-variant);
+        font-size: 13px;
+        font-weight: 500;
+      }
+      .sugg .ms {
+        font-size: 18px;
+        color: var(--primary);
+      }
+      .shelf {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 12px;
+      }
+      .bk {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        min-width: 0;
+      }
+      .bk .cv {
+        aspect-ratio: 3/4;
+        border-radius: 12px;
+        background: var(--c);
+        color: var(--fc);
+        padding: 10px;
+        font-family: var(--display);
+        font-weight: 500;
+        font-size: 13px;
+        line-height: 1.2;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        overflow: hidden;
+      }
+      .bk .cv small {
+        font-family: var(--text);
+        font-size: 10.5px;
+        opacity: 0.8;
+      }
+      .bk b {
+        font-size: 12.5px;
+        font-weight: 500;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .bk .lp {
+        height: 4px;
+        border-radius: 4px;
+        background: var(--surface-high);
+        overflow: hidden;
+      }
+      .bk .lp i {
+        display: block;
+        height: 100%;
+        background: var(--primary);
+      }
+      .board {
+        position: relative;
+        height: 300px;
+        border-radius: 20px;
+        background-color: var(--surface-low);
+        background-image: radial-gradient(var(--outline-variant) 1px, transparent 1.2px);
+        background-size: 20px 20px;
+        overflow: hidden;
+      }
+      .board svg {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+      .bnode {
+        position: absolute;
+        height: 40px;
+        display: inline-flex;
+        align-items: center;
+        padding: 0 16px;
+        border-radius: 100px;
+        font-size: 14px;
+        font-weight: 500;
+        background: var(--c);
+        color: var(--fc);
+      }
+      .bsticky {
+        position: absolute;
+        width: 34%;
+        padding: 12px;
+        border-radius: 16px;
+        font-size: 13.5px;
+        font-weight: 500;
+        background: var(--c);
+        color: var(--fc);
+      }
+      .bsticky small {
+        display: block;
+        font-weight: 400;
+        opacity: 0.75;
+        margin-top: 4px;
+      }
+      .btools {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        padding: 6px;
+        border-radius: 100px;
+        background: var(--surface);
+        box-shadow: 0 1px 3px rgba(60, 64, 67, 0.25);
+      }
+      .btools span {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        color: var(--on-surface-variant);
+      }
+      .btools span.on {
+        background: var(--secondary-container);
+        color: var(--on-secondary-container);
+      }
+      .btools .ms {
+        font-size: 20px;
+      }
+
+      /* tools grid */
+      .tools {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 16px;
+        margin-top: 56px;
+        text-align: start;
+      }
+      @media (max-width: 1000px) {
+        .tools {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+      @media (max-width: 520px) {
+        .tools {
+          grid-template-columns: minmax(0, 1fr);
+        }
+      }
+      .feat {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        padding: 22px;
+        border-radius: 28px;
+        background: var(--surface-low);
+        transition:
+          background 0.2s,
+          border-radius 0.4s var(--spring);
+        min-width: 0;
+      }
+      .feat:hover {
+        background: var(--surface-c);
+        border-radius: 40px;
+      }
+      .feat b {
+        font-size: 17px;
+        font-weight: 500;
+      }
+      .feat span.d {
+        font-size: 14px;
+        color: var(--on-surface-variant);
+        margin-top: -8px;
+      }
+
+      /* audiences */
+      .whos {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 20px;
+        margin-top: 56px;
+        text-align: start;
+      }
+      @media (max-width: 900px) {
+        .whos {
+          grid-template-columns: minmax(0, 1fr);
+        }
+      }
+      .who {
+        border-radius: 32px;
+        padding: 32px 28px;
+        min-height: 380px;
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+        background: var(--c);
+        color: var(--fc);
+        position: relative;
+        overflow: hidden;
+      }
+      .who .big {
+        position: absolute;
+        right: -50px;
+        bottom: -50px;
+        width: 210px;
+        height: 210px;
+        opacity: 0.55;
+        transition: transform 0.8s var(--spring);
+      }
+      .who:hover .big {
+        transform: rotate(40deg) scale(1.08);
+      }
+      .who h3 {
+        font-size: 32px;
+        letter-spacing: -0.02em;
+      }
+      .who p {
+        margin: 0;
+        font-size: 16.5px;
+        opacity: 0.85;
+        max-width: 32ch;
+      }
+      .who ul {
+        list-style: none;
+        padding: 0;
+        margin: auto 0 0;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        position: relative;
+      }
+      .who li {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        height: 32px;
+        padding: 0 12px;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.62);
+        font-size: 13.5px;
+        font-weight: 500;
+      }
+      .who li .ms {
+        font-size: 18px;
+      }
+
+      /* security + everywhere */
+      .duo {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px;
+        margin-top: 0;
+      }
+      @media (max-width: 860px) {
+        .duo {
+          grid-template-columns: minmax(0, 1fr);
+        }
+      }
+      .tile {
+        border-radius: 32px;
+        background: var(--surface-low);
+        padding: clamp(28px, 4vw, 48px);
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        min-width: 0;
+      }
+      .tile h3 {
+        font-size: clamp(28px, 3vw, 38px);
+        letter-spacing: -0.02em;
+        line-height: 1.15;
+      }
+      .tile p {
+        margin: 0;
+        color: var(--on-surface-variant);
+        font-size: 17px;
+      }
+      .list {
+        list-style: none;
+        padding: 0;
+        margin: 10px 0 0;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+      .list li {
+        display: grid;
+        grid-template-columns: 44px minmax(0, 1fr);
+        gap: 14px;
+        align-items: center;
+        font-size: 16px;
+      }
+      .list li .i {
+        width: 44px;
+        height: 44px;
+        border-radius: 14px;
+        display: grid;
+        place-items: center;
+        background: var(--primary-container);
+        color: var(--on-primary-container);
+      }
+      .list li b {
+        display: block;
+        font-weight: 500;
+      }
+      .list li small {
+        color: var(--on-surface-variant);
+        font-size: 14px;
+      }
+      .devices {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+        margin-top: 10px;
+      }
+      .dev {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 14px;
+        border-radius: 20px;
+        background: var(--surface);
+        min-width: 0;
+      }
+      .dev svg {
+        width: 28px;
+        height: 28px;
+        flex: none;
+      }
+      .dev b {
+        display: block;
+        font-weight: 500;
+        font-size: 15px;
+      }
+      .dev small {
+        font-size: 12.5px;
+        color: var(--on-surface-variant);
+      }
+      .dev small.soon {
+        color: var(--primary);
+        font-weight: 500;
+      }
+      .code {
+        margin-top: 8px;
+        border-radius: 16px;
+        background: #1f1f1f;
+        color: #e3e3e3;
+        font-family: var(--code);
+        font-size: 13px;
+        padding: 14px 16px;
+        overflow-x: auto;
+        white-space: pre;
+      }
+      .code span {
+        color: #a8c7fa;
+      }
+
+      /* faq (M3 list) */
+      .faq {
+        max-width: 840px;
+        margin: 48px auto 0;
+        text-align: start;
+        border-radius: 28px;
+        background: var(--surface-low);
+        padding: 8px;
+      }
+      .faq details {
+        border-radius: 20px;
+        transition: background 0.2s;
+      }
+      .faq details[open] {
+        background: var(--surface);
+      }
+      .faq summary {
+        list-style: none;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        padding: 20px 22px;
+        font-size: 18px;
+        font-weight: 500;
+        border-radius: 20px;
+      }
+      .faq summary:hover {
+        background: rgba(31, 31, 31, 0.04);
+      }
+      .faq summary::-webkit-details-marker {
+        display: none;
+      }
+      .faq summary .ms {
+        transition: transform 0.35s var(--spring);
+        color: var(--on-surface-variant);
+      }
+      .faq details[open] summary .ms {
+        transform: rotate(180deg);
+      }
+      .faq p {
+        margin: 0;
+        padding: 0 22px 20px;
+        color: var(--on-surface-variant);
+        font-size: 16px;
+      }
+
+      /* final */
+      .final {
+        position: relative;
+        overflow: hidden;
+        border-radius: 40px;
+        background: var(--primary-container);
+        color: var(--on-primary-container);
+        padding: clamp(56px, 8vw, 104px) 24px;
+        text-align: center;
+        isolation: isolate;
+      }
+      .final h2 {
+        font-size: clamp(36px, 5vw, 60px);
+        letter-spacing: -0.025em;
+      }
+      .final p {
+        font-size: 19px;
+        margin: 16px auto 32px;
+        max-width: 40ch;
+        opacity: 0.85;
+      }
+      .final .deco {
+        position: absolute;
+        z-index: -1;
+        pointer-events: none;
+      }
+
+      /* footer (Google product style) */
+      footer {
+        margin-top: clamp(88px, 11vw, 140px);
+        background: var(--surface-low);
+        padding-block: 56px 28px;
+        color: var(--on-surface-variant);
+      }
+      .fl {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 28px;
+      }
+      @media (max-width: 900px) {
+        .fl {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+      .fl h4 {
+        margin: 0 0 14px;
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--on-surface);
+      }
+      .fl ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .fl a {
+        font-size: 14px;
+      }
+      .fl a:hover {
+        color: var(--on-surface);
+      }
+      .fbot {
+        margin-top: 44px;
+        padding-top: 24px;
+        border-top: 1px solid var(--outline-variant);
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        flex-wrap: wrap;
+        font-size: 13.5px;
+      }
+      .fbot .brand {
+        font-size: 20px;
+        margin: 0;
+      }
+      .fbot .brand svg {
+        width: 26px;
+        height: 26px;
+      }
+      .fbot a:hover {
+        color: var(--on-surface);
+      }
+      .lang {
+        margin-inline-start: auto;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        height: 36px;
+        padding: 0 12px;
+        border-radius: 8px;
+        border: 1px solid var(--outline-variant);
+      }
+      .lang .ms {
+        font-size: 20px;
+      }
+
+      /* ---- polish ---- */
+      html {
+        scroll-behavior: smooth;
+        scroll-padding-top: 80px;
+      }
+      .tabs-nav a {
+        position: relative;
+      }
+      .tabs-nav a.on {
+        color: var(--primary);
+        background: rgba(11, 87, 208, 0.08);
+      }
+      .hero h1 {
+        letter-spacing: -0.04em;
+      }
+      .stage .shape-deco {
+        animation: turn 60s linear infinite;
+      }
+      .final .deco {
+        animation: turn 80s linear infinite;
+      }
+      .final .deco:nth-of-type(2) {
+        animation-direction: reverse;
+      }
+      @keyframes turn {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .sc {
+        cursor: pointer;
+        border: 0;
+        font: inherit;
+        color: inherit;
+        position: relative;
+        overflow: hidden;
+      }
+      .sc::after,
+      .feat::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        background: currentColor;
+        opacity: 0;
+        transition: opacity 0.2s;
+        pointer-events: none;
+      }
+      .sc:hover::after,
+      .feat:hover::after {
+        opacity: 0.04;
+      }
+      .sc:active .shp {
+        transform: scale(0.9);
+      }
+      @media (max-width: 760px) {
+        .shortcuts {
+          display: flex;
+          overflow-x: auto;
+          scroll-snap-type: x mandatory;
+          padding-bottom: 6px;
+          margin-inline: -4px;
+          padding-inline: 4px;
+        }
+        .sc {
+          flex: 0 0 108px;
+          scroll-snap-align: start;
+        }
+      }
+      .snack b {
+        cursor: pointer;
+        border-radius: 4px;
+      }
+      .snack b:hover {
+        background: rgba(168, 199, 250, 0.12);
+      }
+      .panel {
+        min-height: 540px;
+        transition: background 0.3s;
+      }
+      .panel > div:last-child {
+        min-height: 380px;
+        display: flex;
+        align-items: center;
+      }
+      .panel > div:last-child > .card {
+        width: 100%;
+      }
+      .feat {
+        position: relative;
+        overflow: hidden;
+      }
+      .feat .more {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        margin-top: auto;
+        padding-top: 6px;
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--primary);
+      }
+      .feat .more .ms {
+        font-size: 18px;
+        transition: transform 0.35s var(--spring);
+      }
+      .feat:hover .more .ms {
+        transform: translateX(4px);
+      }
+      .who .learn {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        height: 40px;
+        padding: 0 18px;
+        border-radius: 100px;
+        background: rgba(255, 255, 255, 0.72);
+        font-weight: 500;
+        font-size: 14px;
+        width: fit-content;
+        transition: background 0.2s;
+      }
+      .who .learn:hover {
+        background: #fff;
+      }
+      .who .learn .ms {
+        font-size: 18px;
+        transition: transform 0.35s var(--spring);
+      }
+      .who .learn:hover .ms {
+        transform: translateX(4px);
+      }
+      .who ul {
+        margin: auto 0 4px;
+      }
+      .btn .ms.tail {
+        transition: transform 0.35s var(--spring);
+      }
+      .btn:hover .ms.tail {
+        transform: translateX(3px);
+      }
+      .tile {
+        transition: background 0.3s;
+      }
+      .list li .i {
+        transition: transform 0.45s var(--spring);
+      }
+      .list li:hover .i {
+        transform: rotate(-8deg) scale(1.08);
+      }
+      .faq summary {
+        transition: background 0.2s;
+      }
+      .fchip:focus-visible {
+        outline-offset: 2px;
+      }
+      .code {
+        position: relative;
+      }
+      .copy {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        height: 30px;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 0 10px;
+        border-radius: 100px;
+        background: #3c3c3c;
+        color: #e3e3e3;
+        font-family: var(--text);
+        font-size: 12.5px;
+        font-weight: 500;
+      }
+      .copy .ms {
+        font-size: 16px;
+      }
+      .copy:hover {
+        background: #4a4a4a;
+      }
+      footer .brand b {
+        color: var(--on-surface);
+      }
+      .search span.q {
+        flex: 1;
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      @media (max-width: 640px) {
+        .assist .lbl {
+          display: none;
+        }
+        .assist {
+          padding: 0 8px;
+        }
+        .app .rail {
+          display: none;
+        }
+        .app {
+          grid-template-columns: minmax(0, 1fr);
+          min-height: 0;
+        }
+        .main {
+          padding: 16px;
+        }
+        .greet {
+          font-size: 24px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before {
+          animation: none !important;
+          transition: none !important;
+        }
+      }
+    </style>
+
+    <svg width="0" height="0" style="position: absolute" aria-hidden="true">
+      <defs>
+        <symbol id="lg-chrome" viewBox="0 0 48 48">
+          <path fill="#EA4335" d="M24 24 6.68 14A20 20 0 0 1 41.32 14Z" />
+          <path fill="#FBBC04" d="M24 24 41.32 14A20 20 0 0 1 24 44Z" />
+          <path fill="#34A853" d="M24 24 24 44A20 20 0 0 1 6.68 14Z" />
+          <circle cx="24" cy="24" r="9.6" fill="#fff" />
+          <circle cx="24" cy="24" r="7.6" fill="#4285F4" />
+        </symbol>
+        <symbol id="lg-apple" viewBox="0 0 24 24">
+          <path
+            fill="#1F1F1F"
+            d="M16.4 12.6c0-2.4 2-3.6 2.1-3.7-1.2-1.7-3-1.9-3.6-2-1.5-.2-3 .9-3.8.9-.8 0-2-.9-3.3-.9-1.7 0-3.3 1-4.2 2.5-1.8 3.1-.5 7.7 1.3 10.2.9 1.2 1.9 2.6 3.2 2.6 1.3-.1 1.8-.8 3.3-.8s2 .8 3.3.8c1.4 0 2.3-1.3 3.1-2.5 1-1.4 1.4-2.8 1.4-2.9 0 0-2.8-1.1-2.8-4.2zM14 5.1c.7-.8 1.2-2 1-3.1-1 0-2.2.7-2.9 1.5-.6.7-1.2 1.9-1 3 1.1.1 2.2-.6 2.9-1.4z"
+          />
+        </symbol>
+        <symbol id="lg-play" viewBox="0 0 24 24">
+          <path fill="#34A853" d="M3.6 2.3 13.3 12l-9.7 9.7c-.4-.2-.6-.7-.6-1.2V3.5c0-.5.2-1 .6-1.2z" />
+          <path fill="#FBBC04" d="m16.6 15.3-3.3-3.3 3.3-3.3 3.7 2.1c1 .6 1 1.9 0 2.5z" />
+          <path fill="#4285F4" d="M16.6 8.7 13.3 12 3.6 2.3c.3-.2.8-.2 1.2 0z" />
+          <path fill="#EA4335" d="M16.6 15.3 4.8 22c-.4.2-.9.2-1.2 0l9.7-10z" />
+        </symbol>
+        <symbol id="lg-web" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="9" fill="none" stroke="#0B57D0" stroke-width="1.8" />
+          <path
+            d="M3 12h18M12 3c3 3.4 3 14.6 0 18M12 3c-3 3.4-3 14.6 0 18"
+            fill="none"
+            stroke="#0B57D0"
+            stroke-width="1.8"
+            stroke-linecap="round"
+          />
+        </symbol>
+        <symbol id="kmark" viewBox="0 0 100 100">
+          <rect width="100" height="100" rx="28" fill="#0B57D0" />
+          <path
+            d="M20 50 L50 26 L80 50"
+            fill="none"
+            stroke="#fff"
+            stroke-width="9"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <rect x="27" y="59" width="13" height="14" rx="5" fill="#A8C7FA" />
+          <rect x="43.5" y="59" width="13" height="14" rx="5" fill="#fff" />
+          <rect x="60" y="59" width="13" height="14" rx="5" fill="#C4EED0" />
+        </symbol>
+      </defs>
+    </svg>
+
+    <header class="bar" id="bar">
+      <div class="wrap">
+        <a class="brand" href="#top" aria-label="Kimtos home"
+          ><svg><use href="#kmark" /></svg><b>Kimtos</b></a
+        >
+        <nav class="tabs-nav" aria-label="Main">
+          <a href="#features">Features</a><a href="#tools">Tools</a><a href="#for">For you</a
+          ><a href="#security">Security</a><a href="#faq">FAQ</a>
+        </nav>
+        <div class="bar-r">
+          <a class="btn btn-text btn-sm" href="#">Sign in</a>
+          <a class="btn btn-filled btn-sm" href="#">Try Kimtos</a>
+          <button
+            class="icon-btn"
+            id="burger"
+            type="button"
+            aria-label="Menu"
+            aria-expanded="false"
+            aria-controls="mnav"
+          >
+            <span class="ms">menu</span>
+          </button>
+        </div>
+      </div>
+      <nav class="mnav" id="mnav" hidden>
+        <a href="#features">Features</a><a href="#tools">Tools</a><a href="#for">For you</a
+        ><a href="#security">Security</a><a href="#faq">FAQ</a><a href="#">Sign in</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero wrap">
+        <h1>Every tool you need,<br /><em>all in one place</em></h1>
+        <p class="lead">
+          Convert files, turn voice and images into text, study with AI, and sketch your ideas. One account, on every
+          device.
+        </p>
+        <div class="cta">
+          <a class="btn btn-filled" href="#"
+            >Try Kimtos<span class="ms tail" style="font-size: 20px">arrow_forward</span></a
+          >
+          <a
+            class="btn btn-tonal"
+            href="https://chromewebstore.google.com/detail/kimtos/cmjagcogohpnfkladbfhgijofbcmedip"
+            rel="noopener"
+            ><svg width="20" height="20"><use href="#lg-chrome" /></svg>Add to Chrome</a
+          >
+        </div>
+        <div class="avail">
+          <span>Available on</span>
+          <span class="chip"
+            ><svg><use href="#lg-web" /></svg>Web</span
+          >
+          <span class="chip"
+            ><svg><use href="#lg-chrome" /></svg>Chrome</span
+          >
+          <span class="chip"
+            ><svg><use href="#lg-apple" /></svg>iOS <em>Soon</em></span
+          >
+          <span class="chip"
+            ><svg><use href="#lg-play" /></svg>Android <em>Soon</em></span
+          >
+        </div>
+
+        <div class="stage" id="stage">
+          <div
+            class="app"
+            aria-label="The Kimtos app: a navigation rail, a search bar, tool shortcuts and recent files"
+          >
+            <div class="rail" aria-hidden="true">
+              <span class="fab"><span class="ms">add</span></span>
+              <span class="rail-i on"
+                ><span class="pill"><span class="ms">home</span></span
+                >Home</span
+              >
+              <span class="rail-i"
+                ><span class="pill"><span class="ms">swap_horiz</span></span
+                >Convert</span
+              >
+              <span class="rail-i"
+                ><span class="pill"><span class="ms">graphic_eq</span></span
+                >Voice</span
+              >
+              <span class="rail-i"
+                ><span class="pill"><span class="ms">menu_book</span></span
+                >Notebook</span
+              >
+              <span class="rail-i"
+                ><span class="pill"><span class="ms">draw</span></span
+                >Board</span
+              >
+            </div>
+            <div class="main">
+              <div class="search">
+                <span class="ms">search</span><span class="q">Search tools, files and notes</span
+                ><span class="av">S</span>
+              </div>
+              <div class="greet">Good morning, Sara</div>
+              <div class="shortcuts" id="shortcuts"></div>
+              <div class="recent">
+                <h4>Recent</h4>
+                <div class="row">
+                  <span class="ft" style="background: #0b57d0">DOCX</span>
+                  <div><b>Q3-report.docx</b><small>Converted from PDF · 2 min ago</small></div>
+                  <span class="assist" aria-label="Summarize"
+                    ><span class="ms">auto_awesome</span><span class="lbl">Summarize</span></span
+                  >
+                </div>
+                <div class="row">
+                  <span class="ft" style="background: #146c2e"
+                    ><span class="ms" style="font-size: 20px">graphic_eq</span></span
+                  >
+                  <div><b>Lecture 4, Cells</b><small>Transcribed · 12:40</small></div>
+                  <span class="assist" aria-label="Add to Notebook"
+                    ><span class="ms">menu_book</span><span class="lbl">Add to Notebook</span></span
+                  >
+                </div>
+              </div>
+              <div class="snack" role="status">
+                Q3-report.docx is ready <b tabindex="0" role="button" data-go="convert">Open</b>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="wrap sec center" id="features">
+        <h2 class="h2">Get more done with less switching</h2>
+        <p class="lead">
+          Five core tools that work together, so a lecture can become notes, a scan can become text, and a PDF can
+          become the answer you need.
+        </p>
+        <div class="chips" role="tablist" id="chips"></div>
+        <div class="panel" id="panel" role="tabpanel"></div>
+      </section>
+
+      <section class="wrap sec center" id="tools">
+        <h2 class="h2">And plenty more where that came from</h2>
+        <p class="lead">Quick tools for everyday jobs, ready in any browser.</p>
+        <div class="tools" id="toolgrid"></div>
+      </section>
+
+      <section class="wrap sec center" id="for">
+        <h2 class="h2">Made for the way you work</h2>
+        <div class="whos" id="whos"></div>
+      </section>
+
+      <section class="wrap sec" id="security">
+        <div class="duo">
+          <div class="tile">
+            <span class="shp" data-shape="burst" data-c="#C2E7FF" style="width: 64px; height: 64px"
+              ><span class="ms" style="color: #001d35">shield_lock</span></span
+            >
+            <h3>Private and secure by design</h3>
+            <p>
+              Your files and notes belong to you. We protect them with strong security and never use your content to
+              train AI models.
+            </p>
+            <ul class="list">
+              <li>
+                <span class="i"><span class="ms">lock</span></span
+                ><span><b>Encrypted everywhere</b><small>In transit and at rest</small></span>
+              </li>
+              <li>
+                <span class="i"><span class="ms">verified_user</span></span
+                ><span><b>You control access</b><small>Only you, and the apps you allow</small></span>
+              </li>
+              <li>
+                <span class="i"><span class="ms">download</span></span
+                ><span><b>Take it with you</b><small>Export or delete everything anytime</small></span>
+              </li>
+            </ul>
+          </div>
+          <div class="tile">
+            <span class="shp" data-shape="clover" data-c="#C4EED0" style="width: 64px; height: 64px"
+              ><span class="ms" style="color: #072711">devices</span></span
+            >
+            <h3>Works everywhere you do</h3>
+            <p>
+              Start on your laptop and finish on your phone. Your work syncs to one account, and your AI assistant can
+              join in too.
+            </p>
+            <div class="devices">
+              <div class="dev">
+                <svg><use href="#lg-web" /></svg><span><b>Web</b><small>Any browser</small></span>
+              </div>
+              <div class="dev">
+                <svg><use href="#lg-chrome" /></svg><span><b>Chrome</b><small>Every new tab</small></span>
+              </div>
+              <div class="dev">
+                <svg><use href="#lg-apple" /></svg><span><b>iPhone</b><small class="soon">Coming soon</small></span>
+              </div>
+              <div class="dev">
+                <svg><use href="#lg-play" /></svg><span><b>Android</b><small class="soon">Coming soon</small></span>
+              </div>
+            </div>
+            <!-- prettier-ignore -->
+            <div class="code"><button class="copy" type="button" id="copy"><span class="ms">content_copy</span>Copy</button># Connect your AI assistant over MCP
+<span id="cmd">claude mcp add --transport http kimtos <span>https://mcp.example.test</span></span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="wrap sec center" id="faq">
+        <h2 class="h2">Frequently asked questions</h2>
+        <div class="faq" id="faqs"></div>
+      </section>
+
+      <section class="wrap sec">
+        <div class="final" id="final">
+          <h2>Start getting more done today</h2>
+          <p>Every tool you need, one account, ready in seconds.</p>
+          <div class="cta" style="margin-top: 0">
+            <a class="btn btn-filled" href="#">Try Kimtos</a
+            ><a
+              class="btn btn-text"
+              style="background: rgba(255, 255, 255, 0.6)"
+              href="https://chromewebstore.google.com/detail/kimtos/cmjagcogohpnfkladbfhgijofbcmedip"
+              rel="noopener"
+              >Add to Chrome</a
+            >
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="wrap">
+        <div class="fl" id="fl"></div>
+        <div class="fbot">
+          <a class="brand" href="#top"
+            ><svg><use href="#kmark" /></svg><b>Kimtos</b></a
+          >
+          <a href="#">About</a><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Help</a>
+          <span class="lang"
+            ><span class="ms">language</span>English (United States)<span class="ms">arrow_drop_down</span></span
+          >
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      (() => {
+        const $ = (id) => document.getElementById(id);
+        const esc = (s) =>
+          String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+        const ms = (n) => `<span class="ms">${n}</span>`;
+
+        /* Material 3 Expressive shapes: cookie, clover, burst, flower, as polar curves */
+        const SHAPES = {
+          cookie: [9, 0.1],
+          clover: [4, 0.34],
+          burst: [12, 0.08],
+          flower: [6, 0.2],
+          pill: null,
+          gem: [5, 0.14],
+          sun: [8, 0.16],
+        };
+        function shapePath(name) {
+          const s = SHAPES[name];
+          if (!s) return 'M30 6h40a24 24 0 0 1 24 24v40a24 24 0 0 1-24 24H30A24 24 0 0 1 6 70V30A24 24 0 0 1 30 6z';
+          const [n, a] = s,
+            pts = [];
+          for (let i = 0; i <= 240; i++) {
+            const t = (i / 240) * Math.PI * 2;
+            const r = 48 * (1 - a) + (48 * a * (Math.cos(n * t) + 1)) / 2;
+            pts.push(
+              `${(50 + r * Math.cos(t - Math.PI / 2)).toFixed(2)} ${(50 + r * Math.sin(t - Math.PI / 2)).toFixed(2)}`,
+            );
+          }
+          return 'M' + pts.join('L') + 'Z';
+        }
+        const shapeSvg = (name, color) =>
+          `<svg class="bgs" viewBox="0 0 100 100" aria-hidden="true"><path d="${shapePath(name)}" fill="${color}"/></svg>`;
+        const shp = (name, bg, fg, icon, size) =>
+          `<span class="shp" ${size ? `style="width:${size}px;height:${size}px"` : ''}>${shapeSvg(name, bg)}<span class="ms" style="color:${fg}">${icon}</span></span>`;
+        document
+          .querySelectorAll('[data-shape]')
+          .forEach((n) => n.insertAdjacentHTML('afterbegin', shapeSvg(n.dataset.shape, n.dataset.c)));
+
+        /* tonal pairs (container / on-container) */
+        const T = {
+          blue: ['#D3E3FD', '#041E49'],
+          sky: ['#C2E7FF', '#001D35'],
+          green: ['#C4EED0', '#072711'],
+          yellow: ['#FFE082', '#3D2E00'],
+          pink: ['#FFD8E4', '#3E001D'],
+          violet: ['#E8DEF8', '#1D192B'],
+          orange: ['#FFDBC8', '#341100'],
+          teal: ['#B2EBF2', '#002022'],
+        };
+
+        /* hero shortcuts */
+        const SC = [
+          ['Convert', 'swap_horiz', 'cookie', 'blue', 'convert'],
+          ['Transcribe', 'mic', 'clover', 'green', 'voice'],
+          ['Notebook', 'menu_book', 'flower', 'violet', 'notebook'],
+          ['Library', 'auto_stories', 'burst', 'yellow', 'library'],
+          ['Whiteboard', 'draw', 'sun', 'pink', 'board'],
+        ];
+        $('shortcuts').innerHTML = SC.map(
+          ([n, i, s, c, k]) =>
+            `<button type="button" class="sc" data-go="${k}">${shp(s, T[c][0], T[c][1], i)}${n}</button>`,
+        ).join('');
+        /* hero decorations */
+        const deco = (name, color, style) =>
+          `<svg class="shape-deco" viewBox="0 0 100 100" style="${style}" aria-hidden="true"><path d="${shapePath(name)}" fill="${color}"/></svg>`;
+        $('stage').insertAdjacentHTML(
+          'afterbegin',
+          deco('clover', '#C2E7FF', 'width:180px;height:180px;right:-50px;top:-50px') +
+            deco('cookie', '#FFE082', 'width:120px;height:120px;left:-40px;top:40%'),
+        );
+        $('final').insertAdjacentHTML(
+          'afterbegin',
+          `<svg class="deco" viewBox="0 0 100 100" style="width:260px;height:260px;left:-70px;bottom:-90px" aria-hidden="true"><path d="${shapePath('cookie')}" fill="#A8C7FA"/></svg><svg class="deco" viewBox="0 0 100 100" style="width:200px;height:200px;right:-40px;top:-60px" aria-hidden="true"><path d="${shapePath('clover')}" fill="#C4EED0"/></svg><svg class="deco" viewBox="0 0 100 100" style="width:110px;height:110px;right:14%;bottom:-30px" aria-hidden="true"><path d="${shapePath('burst')}" fill="#FFE082"/></svg>`,
+        );
+
+        /* feature showcase */
+        const FEATS = {
+          convert: {
+            chip: ['swap_horiz', 'File Converter'],
+            h: 'Convert any file in seconds',
+            p: 'Switch between PDF, Word, Excel, images, audio, video and ebooks. Drop a file, pick a format, done.',
+            t: ['Documents, images, audio and video', 'Compress and merge PDFs', 'Works in any browser, no install'],
+            cta: 'Convert a file',
+            vis: () => `
+    <div class="card"><div class="card-h">${ms('swap_horiz')}File Converter</div>
+      <label class="drop" id="drop">${ms('upload_file')}<b id="dropName">Drop a file or choose one</b><span id="dropSub">PDF, DOCX, JPG, PNG, MP3, MP4 and more</span><input type="file" id="file"></label>
+      <div class="seg" role="group" aria-label="Convert to" id="seg"></div>
+      <div class="lin"><i></i></div>
+      <div class="card-foot"><span id="convTo">Converting to DOCX</span><a class="btn btn-filled btn-sm" href="#">${ms('download')}Download</a></div></div>`,
+          },
+          voice: {
+            chip: ['graphic_eq', 'Voice & Image to Text'],
+            h: 'Turn talk and photos into text',
+            p: 'Transcribe lectures and meetings, copy text out of any photo, and hear any text read aloud in a natural voice.',
+            t: [
+              'Accurate transcripts with timestamps',
+              'Text from photos, slides and receipts',
+              'Natural voices for any text',
+            ],
+            cta: 'Transcribe now',
+            vis: () => `
+    <div class="card"><div class="card-h">${ms('graphic_eq')}Lecture 4, Cells<span style="margin-inline-start:auto;font-size:13px;color:var(--on-surface-variant)">04:12 / 12:40</span></div>
+      <div class="wave">${Array.from({ length: 44 }, (_, i) => `<i class="${i < 16 ? 'on' : ''}" style="height:${22 + Math.abs(Math.sin(i * 1.25)) * 78}%"></i>`).join('')}</div>
+      <div class="tline"><time>03:48</time><p>Today we look at how cells produce energy.</p></div>
+      <div class="tline hl"><time>04:05</time><p>Most of it comes from the mitochondria, as ATP.</p></div>
+      <div class="tline"><time>04:21</time><p>The process is called cellular respiration.</p></div>
+      <div class="sugg"><span>${ms('content_copy')}Copy</span><span>${ms('auto_awesome')}Summarize</span><span>${ms('volume_up')}Read aloud</span></div></div>`,
+          },
+          notebook: {
+            chip: ['menu_book', 'AI Notebook'],
+            h: 'Your notes, now with answers',
+            p: 'Write notes and add documents, then ask questions and get answers grounded in your own pages, with the source attached.',
+            t: [
+              'Answers with citations to your pages',
+              'Summaries, flashcards and quizzes',
+              'Add lectures by voice, whiteboards by photo',
+            ],
+            cta: 'Start a notebook',
+            vis: () => `
+    <div class="card"><div class="card-h">${ms('menu_book')}Biology 101</div>
+      <div class="bubble-q">Where does ATP come from?</div>
+      <div class="bubble-a">Mostly from the <b>mitochondria</b>, through cellular respiration. It is the cell's main energy source.<br><span class="src">${ms('description')}Lecture 4, Mitochondria</span></div>
+      <div class="sugg"><span>${ms('summarize')}Summarize</span><span>${ms('style')}Flashcards</span><span>${ms('quiz')}Quiz me</span></div></div>`,
+          },
+          library: {
+            chip: ['auto_stories', 'PDF Library'],
+            h: 'All your documents and books, in one library',
+            p: 'Keep PDFs, papers and ebooks together. Highlight, add notes and pick up on the right page on any device.',
+            t: [
+              'Highlights and notes that sync',
+              'Remembers your page everywhere',
+              'Send any document to the Notebook',
+            ],
+            cta: 'Open your library',
+            vis: () => `
+    <div class="card"><div class="card-h">${ms('auto_stories')}Library</div>
+      <div class="shelf">${[
+        ['Atomic Habits', 'James Clear', '#D3E3FD', '#041E49', 64],
+        ['Cell Biology', 'Chapter 4', '#C4EED0', '#072711', 38],
+        ['Q3 Roadmap', 'Work', '#FFE082', '#3D2E00', 100],
+        ['Deep Work', 'Cal Newport', '#FFD8E4', '#3E001D', 81],
+      ]
+        .map(
+          ([t, a, c, fc, p]) =>
+            `<div class="bk"><div class="cv" style="--c:${c};--fc:${fc}">${t}<small>${a}</small></div><b>${t}</b><div class="lp"><i style="width:${p}%"></i></div></div>`,
+        )
+        .join('')}</div></div>`,
+          },
+          board: {
+            chip: ['draw', 'Whiteboard'],
+            h: 'An endless canvas for big ideas',
+            p: 'Sketch, drop in sticky notes and shapes, connect them with arrows and brainstorm with your team. It saves as you draw.',
+            t: ['Pen, shapes, sticky notes and images', 'Connect ideas with arrows', 'Share a board with your team'],
+            cta: 'Start drawing',
+            vis: () => `
+    <div class="card" style="padding:12px"><div class="board" aria-label="A whiteboard plan: Idea, Plan, Launch, with two sticky notes">
+      <svg viewBox="0 0 400 300" preserveAspectRatio="none" aria-hidden="true"><defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 10 5 0 10z" fill="#747775"/></marker></defs>
+        <path d="M152 58 H186" stroke="#747775" stroke-width="2" marker-end="url(#ah)"/><path d="M262 58 H296" stroke="#747775" stroke-width="2" marker-end="url(#ah)"/>
+        <path d="M70 262 C110 236 150 280 190 256 C220 238 244 270 272 252" fill="none" stroke="#0B57D0" stroke-width="3" stroke-linecap="round"/></svg>
+      <span class="bnode" style="--c:#D3E3FD;--fc:#041E49;left:18%;top:10%">Idea</span>
+      <span class="bnode" style="--c:#FFE082;--fc:#3D2E00;left:47%;top:10%">Plan</span>
+      <span class="bnode" style="--c:#C4EED0;--fc:#072711;left:75%;top:10%">Launch</span>
+      <div class="bsticky" style="--c:#FFF8E1;--fc:#3D2E00;left:18%;top:36%;transform:rotate(-2deg)">Mobile beta in November<small>Omar</small></div>
+      <div class="bsticky" style="--c:#FFD8E4;--fc:#3E001D;left:56%;top:40%;transform:rotate(2deg)">Record a demo video<small>Sara</small></div>
+      <div class="btools" aria-hidden="true"><span>${ms('near_me')}</span><span class="on">${ms('edit')}</span><span>${ms('shapes')}</span><span>${ms('sticky_note_2')}</span><span>${ms('title')}</span></div>
+    </div></div>`,
+          },
+        };
+        let cur = 'convert',
+          file = null,
+          target = 'DOCX';
+        const kind = (n) => {
+          const e = (n.split('.').pop() || '').toLowerCase();
+          return ['jpg', 'jpeg', 'png', 'heic', 'webp', 'gif'].includes(e)
+            ? 'img'
+            : ['mp3', 'wav', 'm4a', 'ogg', 'flac'].includes(e)
+              ? 'audio'
+              : ['mp4', 'mov', 'webm', 'mkv'].includes(e)
+                ? 'video'
+                : 'doc';
+        };
+        const FMT = {
+          doc: ['DOCX', 'PDF', 'TXT'],
+          img: ['PDF', 'PNG', 'JPG'],
+          audio: ['MP3', 'WAV', 'TXT'],
+          video: ['MP4', 'MP3', 'GIF'],
+        };
+        function paintSeg() {
+          const k = file ? kind(file.name) : 'doc';
+          if (!FMT[k].includes(target)) target = FMT[k][0];
+          $('seg').innerHTML = FMT[k]
+            .map(
+              (f) =>
+                `<button type="button" data-f="${f}" aria-pressed="${f === target}">${f === target ? ms('check') : ''}${f}</button>`,
+            )
+            .join('');
+          $('convTo').textContent = `Converting to ${target}`;
+        }
+        function wireConvert() {
+          paintSeg();
+          $('seg').onclick = (e) => {
+            const b = e.target.closest('[data-f]');
+            if (b) {
+              target = b.dataset.f;
+              paintSeg();
+            }
+          };
+          const setFile = (f) => {
+            file = f;
+            $('dropName').textContent = f.name;
+            $('dropSub').textContent = 'Ready to convert';
+            paintSeg();
+          };
+          $('file').onchange = (e) => {
+            if (e.target.files[0]) setFile(e.target.files[0]);
+          };
+          const d = $('drop');
+          ['dragenter', 'dragover'].forEach((ev) =>
+            d.addEventListener(ev, (e) => {
+              e.preventDefault();
+              d.classList.add('over');
+            }),
+          );
+          ['dragleave', 'drop'].forEach((ev) =>
+            d.addEventListener(ev, (e) => {
+              e.preventDefault();
+              d.classList.remove('over');
+            }),
+          );
+          d.addEventListener('drop', (e) => {
+            const f = e.dataTransfer?.files?.[0];
+            if (f) setFile(f);
+          });
+        }
+        function paint(k) {
+          cur = k;
+          const f = FEATS[k];
+          $('chips').innerHTML = Object.entries(FEATS)
+            .map(
+              ([key, v]) =>
+                `<button class="fchip" type="button" role="tab" aria-selected="${key === k}" data-k="${key}">${ms(key === k ? 'check' : v.chip[0])}${v.chip[1]}</button>`,
+            )
+            .join('');
+          $('panel').innerHTML =
+            `<div><h3>${f.h}</h3><p class="lead">${f.p}</p><ul class="ticks">${f.t.map((x) => `<li>${ms('check_circle')}${esc(x)}</li>`).join('')}</ul><a class="btn btn-filled" href="#">${f.cta}<span class="ms tail" style="font-size:20px">arrow_forward</span></a></div><div>${f.vis()}</div>`;
+          $('panel').setAttribute('aria-label', f.chip[1]);
+          if (k === 'convert') wireConvert();
+        }
+        $('chips').addEventListener('click', (e) => {
+          const b = e.target.closest('[data-k]');
+          if (b) paint(b.dataset.k);
+        });
+        /* arrow keys move between chips, like M3 tabs */
+        $('chips').addEventListener('keydown', (e) => {
+          if (!['ArrowRight', 'ArrowLeft', 'Home', 'End'].includes(e.key)) return;
+          const keys = Object.keys(FEATS);
+          let i = keys.indexOf(cur);
+          i =
+            e.key === 'Home'
+              ? 0
+              : e.key === 'End'
+                ? keys.length - 1
+                : (i + (e.key === 'ArrowRight' ? 1 : -1) + keys.length) % keys.length;
+          e.preventDefault();
+          paint(keys[i]);
+          $('chips').querySelector(`[data-k="${keys[i]}"]`).focus();
+        });
+        /* hero shortcuts and the snackbar open the matching tool */
+        const openFeature = (k) => {
+          paint(k);
+          $('features').scrollIntoView({
+            behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+          });
+        };
+        document.addEventListener('click', (e) => {
+          const g = e.target.closest('[data-go]');
+          if (g) openFeature(g.dataset.go);
+        });
+        document.addEventListener('keydown', (e) => {
+          const g = e.target.closest && e.target.closest('b[data-go]');
+          if (g && (e.key === 'Enter' || e.key === ' ')) {
+            e.preventDefault();
+            openFeature(g.dataset.go);
+          }
+        });
+        paint('convert');
+
+        /* more tools */
+        const TOOLS = [
+          ['PDF to Word', 'description', 'cookie', 'blue', 'Editable docs from any PDF'],
+          ['Compress PDF', 'compress', 'clover', 'green', 'Smaller files, same quality'],
+          ['Merge PDFs', 'call_merge', 'burst', 'yellow', 'Combine files into one'],
+          ['JPG to PDF', 'image', 'flower', 'pink', 'Photos into a single PDF'],
+          ['Text to Speech', 'record_voice_over', 'sun', 'violet', 'Natural voices for any text'],
+          ['Grammar Checker', 'spellcheck', 'gem', 'teal', 'Clean, confident writing'],
+          ['Screen Recorder', 'screen_record', 'cookie', 'orange', 'Screen and camera together'],
+          ['MP4 to MP3', 'music_note', 'clover', 'sky', 'Pull audio from any video'],
+        ];
+        $('toolgrid').innerHTML = TOOLS.map(
+          ([n, i, s, c, d]) =>
+            `<a class="feat" href="#">${shp(s, T[c][0], T[c][1], i, 52)}<b>${n}</b><span class="d">${d}</span><span class="more">Try it${ms('arrow_forward')}</span></a>`,
+        ).join('');
+
+        /* audiences */
+        const WHO = [
+          [
+            'Professionals',
+            'work',
+            'blue',
+            'cookie',
+            'Convert and compress documents, turn meetings into notes and keep every report in one library.',
+            [
+              ['swap_horiz', 'File Converter'],
+              ['graphic_eq', 'Voice to Text'],
+              ['spellcheck', 'Grammar'],
+              ['auto_stories', 'Library'],
+            ],
+          ],
+          [
+            'Students',
+            'school',
+            'green',
+            'clover',
+            'Record lectures, photograph the board, and let the AI Notebook turn it all into summaries and quizzes.',
+            [
+              ['menu_book', 'AI Notebook'],
+              ['mic', 'Transcribe'],
+              ['document_scanner', 'Image to Text'],
+              ['draw', 'Whiteboard'],
+            ],
+          ],
+          [
+            'Business',
+            'apartment',
+            'yellow',
+            'burst',
+            'Give the whole team the same tools, a shared library and boards, and connect your AI assistants.',
+            [
+              ['folder_shared', 'Shared library'],
+              ['draw', 'Team boards'],
+              ['swap_horiz', 'Converter'],
+              ['smart_toy', 'AI assistants'],
+            ],
+          ],
+        ];
+        $('whos').innerHTML = WHO.map(
+          ([h, icon, c, s, p, l]) =>
+            `<div class="who" style="--c:${T[c][0]};--fc:${T[c][1]}"><svg class="big" viewBox="0 0 100 100" aria-hidden="true"><path d="${shapePath(s)}" fill="rgba(255,255,255,.7)"/></svg>${shp('pill', 'rgba(255,255,255,.7)', T[c][1], icon, 56)}<h3>${h}</h3><p>${p}</p><ul>${l.map(([i, n]) => `<li>${ms(i)}${n}</li>`).join('')}</ul><a class="learn" href="#">Kimtos for ${h.toLowerCase()}${ms('arrow_forward')}</a></div>`,
+        ).join('');
+
+        /* faq */
+        const FAQ = [
+          [
+            'What is Kimtos?',
+            'One place for the everyday tools you usually find across many websites: file converters, voice and image to text, text to speech, an AI notebook, a PDF library and a whiteboard. It works in any browser, on every new tab in Chrome, and soon on your phone.',
+          ],
+          [
+            'Can I use Kimtos for free?',
+            'Yes. Create a free account and start using the tools right away. No credit card needed.',
+          ],
+          [
+            'Do I need to install anything?',
+            'No. Kimtos runs in your browser. You can add it to Chrome to open it on every new tab, and the iOS and Android apps are coming soon.',
+          ],
+          [
+            'Which file types are supported?',
+            'PDF, Word, Excel and PowerPoint files, images like JPG, PNG, HEIC and WebP, audio like MP3 and WAV, video like MP4 and MOV, and ebooks.',
+          ],
+          [
+            'Is my data safe?',
+            'Yes. Your content is encrypted in transit and at rest, private to your account, and never used to train AI models. You can export or delete it anytime.',
+          ],
+          [
+            'Can my AI assistant use Kimtos?',
+            'Yes. Kimtos supports MCP, so assistants like Claude, ChatGPT and Cursor can use your tools and notes with the access you grant.',
+          ],
+        ];
+        $('faqs').innerHTML = FAQ.map(
+          ([q, a], i) =>
+            `<details${i === 0 ? ' open' : ''}><summary>${q}${ms('expand_more')}</summary><p>${a}</p></details>`,
+        ).join('');
+
+        /* footer */
+        const FL = {
+          Tools: ['File Converter', 'Voice to Text', 'Image to Text', 'Text to Speech', 'Compress PDF'],
+          'Study and work': ['AI Notebook', 'PDF Library', 'Whiteboard', 'Flashcards', 'Tasks'],
+          'Get Kimtos': ['Web app', 'Chrome extension', 'iOS (soon)', 'Android (soon)', 'MCP for AI assistants'],
+          Resources: ['Help center', 'Blog', 'Guides', 'Status', 'Contact us'],
+          Company: ['About', 'Careers', 'Privacy', 'Terms', 'Cookies'],
+        };
+        $('fl').innerHTML = Object.entries(FL)
+          .map(([h, l]) => `<div><h4>${h}</h4><ul>${l.map((x) => `<li><a href="#">${x}</a></li>`).join('')}</ul></div>`)
+          .join('');
+
+        /* top bar: highlight the section in view */
+        const navLinks = [...document.querySelectorAll('.tabs-nav a')];
+        if ('IntersectionObserver' in window) {
+          const io = new IntersectionObserver(
+            (es) =>
+              es.forEach((en) => {
+                if (en.isIntersecting)
+                  navLinks.forEach((a) => a.classList.toggle('on', a.getAttribute('href') === '#' + en.target.id));
+              }),
+            { rootMargin: '-45% 0px -50% 0px' },
+          );
+          navLinks.forEach((a) => {
+            const t = document.querySelector(a.getAttribute('href'));
+            if (t) io.observe(t);
+          });
+        }
+        /* copy the MCP command */
+        $('copy').onclick = () => {
+          const t = $('cmd').textContent;
+          const done = () => {
+            $('copy').innerHTML = `${ms('check')}Copied`;
+            setTimeout(() => ($('copy').innerHTML = `${ms('content_copy')}Copy`), 1600);
+          };
+          try {
+            navigator.clipboard.writeText(t).then(done, () => {
+              const r = document.createRange();
+              r.selectNodeContents($('cmd'));
+              const sel = getSelection();
+              sel.removeAllRanges();
+              sel.addRange(r);
+            });
+          } catch {}
+        };
+
+        /* app bar elevation on scroll, mobile menu */
+        const bar = $('bar');
+        const onS = () => bar.classList.toggle('scrolled', scrollY > 4);
+        addEventListener('scroll', onS, { passive: true });
+        onS();
+        const bu = $('burger'),
+          mn = $('mnav');
+        bu.onclick = () => {
+          const o = mn.hidden;
+          mn.hidden = !o;
+          bu.setAttribute('aria-expanded', String(o));
+        };
+        mn.querySelectorAll('a').forEach((a) =>
+          a.addEventListener('click', () => {
+            mn.hidden = true;
+            bu.setAttribute('aria-expanded', 'false');
+          }),
+        );
+      })();
+    </script>
+  </body>
+</html>

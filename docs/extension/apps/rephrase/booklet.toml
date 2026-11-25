@@ -1,0 +1,9 @@
+# Documentation manifest for the Rewordit (rephrase) app.
+# Chapters live in content/ as numbered Markdown files (one H1 each), discovered
+# alphabetically. Build the whole app suite with `npm run docs` (from extension/).
+
+title    = "Rewordit"
+subtitle = "Rewrite any sentence in fresh words — on-device, meaning kept"
+accent   = "#f59e0b"
+order    = 8
+formats  = ["html"]

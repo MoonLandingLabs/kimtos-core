@@ -1,0 +1,231 @@
+/* Grammit — colocated app styles (loaded by ./index.ts). */
+/* ===== Grammit (live on-device grammar) ===== */
+.grammit {
+  gap: 12px;
+}
+.grammit-hint {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: var(--text-secondary);
+}
+/* Single scroll container: the textarea auto-grows, the backdrop scrolls with it. */
+.grammit-wrap {
+  position: relative;
+  /* The floor must yield to the ceiling: min-height always beats max-height per CSS,
+     and at high browser zoom the CSS-pixel viewport shrinks until 56vh drops below
+     240px — a raw 240px floor made the editor overflow the window exactly when space
+     was scarcest, forcing a second nested scrollbar on the dialog body (#942). */
+  min-height: min(240px, 56vh);
+  max-height: 56vh;
+  overflow-y: auto;
+  background: var(--field);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+}
+.grammit-wrap:focus-within {
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--hairline));
+}
+/* Textarea + backdrop + measuring mirror share identical box & type metrics. */
+.grammit-input,
+.grammit-highlights,
+.grammit-mirror {
+  margin: 0;
+  font-family: var(--font);
+  font-size: 15px;
+  line-height: 1.7;
+  padding: 14px 16px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+.grammit-input {
+  display: block;
+  width: 100%;
+  height: auto;
+  min-height: 100%;
+  position: relative;
+  z-index: 1;
+  overflow: hidden; /* the wrapper scrolls */
+  resize: none;
+  color: var(--text);
+  background: transparent;
+  outline: none;
+}
+.grammit-input::placeholder {
+  color: var(--text-secondary);
+}
+/* Backdrop: transparent text — only the underlines show, under the real glyphs. */
+.grammit-highlights,
+.grammit-mirror {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  min-height: 100%;
+  color: transparent;
+  pointer-events: none;
+}
+.grammit-highlights {
+  z-index: 0;
+}
+.grammit-mirror {
+  visibility: hidden;
+  z-index: -1;
+}
+.grammit-issue {
+  color: transparent;
+  background: transparent;
+  text-decoration: underline wavy var(--danger);
+  text-decoration-skip-ink: none;
+  text-underline-offset: 3px;
+}
+/* Status footer */
+.grammit-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 18px;
+  font-size: 12.5px;
+  color: var(--text-secondary);
+}
+.grammit-spinner {
+  width: 13px;
+  height: 13px;
+  border: 2px solid var(--hairline-strong);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+.grammit-status.is-clear .grammit-status-text {
+  color: color-mix(in srgb, var(--success) 60%, var(--text));
+}
+.grammit-status.is-issues .grammit-status-text {
+  color: var(--warning);
+}
+.grammit-status.is-error .grammit-status-text {
+  color: var(--danger);
+}
+/* Footer: status on the left, actions (Fix all / Copy) on the right. */
+.grammit-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 10px;
+}
+.grammit-actions {
+  display: flex;
+  gap: 8px;
+}
+.grammit-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--text);
+  background: var(--material);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition:
+    background 0.14s ease,
+    border-color 0.14s ease,
+    opacity 0.14s ease;
+}
+.grammit-action:hover:not(:disabled) {
+  background: var(--material-hover);
+  border-color: var(--hairline-strong);
+}
+.grammit-action:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+/* While fixing: keep it bright (the spinner reads as "working", not disabled). */
+.grammit-action.is-loading {
+  opacity: 1;
+  cursor: default;
+}
+.grammit-action.is-done {
+  color: color-mix(in srgb, var(--success) 60%, var(--text));
+  border-color: color-mix(in srgb, var(--success) 45%, transparent);
+}
+/* Suggestion popover */
+.grammit-pop {
+  position: absolute;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 300px;
+  padding: 8px;
+  background: var(--panel);
+  border: 1px solid var(--hairline-strong);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow);
+}
+.grammit-pop-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-secondary);
+}
+.grammit-pop-suggestion {
+  text-align: left;
+  font-size: 14px;
+  color: var(--text);
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
+  border-radius: var(--radius-sm);
+  padding: 7px 10px;
+  cursor: pointer;
+}
+.grammit-pop-suggestion:hover {
+  background: color-mix(in srgb, var(--accent) 30%, transparent);
+}
+.grammit-pop-custom {
+  display: flex;
+  gap: 6px;
+}
+.grammit-pop-input {
+  flex: 1;
+  min-width: 0;
+  font-size: 14px;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--hairline-strong);
+  border-radius: var(--radius-sm);
+  padding: 7px 10px;
+}
+.grammit-pop-input:focus {
+  outline: none;
+  border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+}
+.grammit-pop-apply {
+  font-size: 13px;
+  color: var(--text);
+  background: color-mix(in srgb, var(--accent) 22%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
+  border-radius: var(--radius-sm);
+  padding: 0 12px;
+  cursor: pointer;
+}
+.grammit-pop-apply:hover {
+  background: color-mix(in srgb, var(--accent) 34%, transparent);
+}
+.grammit-pop-dismiss {
+  align-self: flex-end;
+  font-size: 12px;
+  color: var(--text-secondary);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.grammit-pop-dismiss:hover {
+  color: var(--text);
+}

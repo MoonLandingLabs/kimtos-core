@@ -1,0 +1,9 @@
+# Documentation manifest for the Calculator app.
+# Chapters live in content/ as numbered Markdown files (one H1 each), discovered
+# alphabetically. Build the whole app suite with `npm run docs` (from extension/).
+
+title    = "Calculator"
+subtitle = "A quick four-function calculator"
+accent   = "#2dd4bf"
+order    = 2
+formats  = ["html"]

@@ -1,0 +1,1445 @@
+/* kimtos — marketing site. Premium, product-led, dark. Shares the app's tokens
+   (system font, #3b82f6 accent, hairline borders) but leans clean and editorial
+   rather than glassy: solid surfaces, restrained color, one confident type scale. */
+
+:root {
+  --bg: #0a0c12;
+  --bg-2: #0d1018;
+  --surface: #12151d;
+  --surface-2: #161a24;
+  --text: #f4f6fb;
+  --text-2: rgba(244, 246, 251, 0.66);
+  --text-3: rgba(244, 246, 251, 0.42);
+  --accent: #2563eb; /* white on the old #3b82f6 was 3.68:1, below WCAG AA (#129) */
+  --accent-soft: rgba(59, 130, 246, 0.14);
+  /* "New" badge — a freshly published app carries it for 30 days (#1114). A lighter value on
+     dark, deeper in light. */
+  --new: #7cc0ff;
+  --warning: #f0c674;
+  --danger: #ff8f8f;
+  --line: rgba(255, 255, 255, 0.09);
+  --line-2: rgba(255, 255, 255, 0.16);
+  /* Subtle raised fills on a surface (the old rgba(255,255,255,0.05) etc.). */
+  --fill: rgba(255, 255, 255, 0.05);
+  --fill-strong: rgba(255, 255, 255, 0.16);
+  /* The stuck nav sits on top of whatever is scrolling past, so their
+     legibility is not a property of the nav — it is a property of the nav PLUS the page under
+     it. At 0.72 the page won through: text on the nav competed with text behind it, on both
+     sites, which is what the report was. 0.94 keeps the frosted look and stops the contest. */
+  --nav-bg: rgba(10, 12, 18, 0.94);
+  /* The fixed nav's height — MEASURED in a browser at 1280px (63px: the padding plus
+     the `btn-sm` action buttons, which are taller than the brand mark, so do not
+     re-derive it from the padding and logo alone). Rounded up to 64. The nav is on
+     every page now (#159), so every page has to clear it, and a number each page
+     re-guesses is a number that drifts. The hero clears it with its own large top
+     padding and does not need this. */
+  --nav-h: 64px;
+  --panel: rgba(20, 22, 30, 0.97); /* opaque popovers/toasts */
+  --chrome: #0e1017; /* the browser-mock toolbar around the screenshot */
+  --hero-glow: rgba(59, 130, 246, 0.16); /* decorative top glow (kept for any single-colour use) */
+  /* The hero backdrop wash — a whisper of the brand gradient's two ends (indigo #5b6cff →
+     teal #18b6a4, the BRAND_GRADIENT_STOPS the icons and store slides use), so the site's
+     one decorative flourish nods to the brand without the loud gradient the calm layout
+     avoids. Two faint offset radials, never an interactive surface. */
+  --brand-glow-1: rgba(91, 108, 255, 0.16);
+  --brand-glow-2: rgba(24, 182, 164, 0.12);
+  --shadow-lg: 0 40px 120px rgba(0, 0, 0, 0.6); /* big drop shadow (screenshot/dialog) */
+  --on-accent: #fff; /* invariant: text/icon on an accent or coloured ground */
+  /* Same invariant for a --danger ground. It is NOT always #fff: --danger is a light
+     red in this (dark) theme, where white text lands around 2.2:1 -- far under WCAG AA
+     -- so the ink has to flip with the theme just as the ground does (#774). */
+  --on-danger: #3d0000;
+  --radius: 14px;
+  --radius-sm: 9px;
+  --maxw: 1120px;
+  --font:
+    -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI Variable', 'Segoe UI', system-ui, Roboto, Helvetica,
+    Arial, sans-serif;
+}
+
+/* Light palette. Only the colour tokens change — components read tokens only, so
+   redefining them re-themes the whole site. Two blocks, kept identical on purpose
+   (plain CSS can't share one across two selectors): `:root:not([data-theme])` is
+   the DEFAULT, and [data-theme='light'] is the explicit pick. Dark is the base
+   :root above, reached only by [data-theme='dark']. Theme-invariant tokens
+   (--accent, --on-accent, radii, font) are NOT redefined here.
+
+   The default block used to be wrapped in `@media (prefers-color-scheme: light)`,
+   which is how the site followed the OS before the default became light (#1217).
+   The inline head script sets data-theme before first paint, so that wrapper was
+   invisible to anyone with JS — and decided the theme for anyone without it, which
+   is the one case where the site would still have gone dark on a dark machine. */
+:root:not([data-theme]) {
+  --bg: #f6f8fb;
+  --bg-2: #eceff5;
+  --surface: #ffffff;
+  --surface-2: #f3f5f9;
+  --text: #0e1320;
+  --text-2: rgba(14, 19, 32, 0.64);
+  --text-3: rgba(14, 19, 32, 0.44);
+  --accent-soft: rgba(59, 130, 246, 0.1);
+  --new: #1d4ed8;
+  --warning: #b45309;
+  --danger: #d11a2a;
+  --on-danger: #fff; /* the light theme's danger is a dark red, so the ink flips back */
+  --line: rgba(15, 23, 42, 0.1);
+  --line-2: rgba(15, 23, 42, 0.16);
+  --fill: rgba(15, 23, 42, 0.045);
+  --fill-strong: rgba(15, 23, 42, 0.13);
+  --nav-bg: rgba(255, 255, 255, 0.94);
+  --panel: #ffffff;
+  --chrome: #e9edf3;
+  --hero-glow: rgba(59, 130, 246, 0.1);
+  --brand-glow-1: rgba(91, 108, 255, 0.1);
+  --brand-glow-2: rgba(24, 182, 164, 0.075);
+  --shadow-lg: 0 30px 70px rgba(15, 23, 42, 0.14);
+}
+:root[data-theme='light'] {
+  --bg: #f6f8fb;
+  --bg-2: #eceff5;
+  --surface: #ffffff;
+  --surface-2: #f3f5f9;
+  --text: #0e1320;
+  --text-2: rgba(14, 19, 32, 0.64);
+  --text-3: rgba(14, 19, 32, 0.44);
+  --accent-soft: rgba(59, 130, 246, 0.1);
+  --new: #1d4ed8;
+  --warning: #b45309;
+  --danger: #d11a2a;
+  --on-danger: #fff; /* the light theme's danger is a dark red, so the ink flips back */
+  --line: rgba(15, 23, 42, 0.1);
+  --line-2: rgba(15, 23, 42, 0.16);
+  --fill: rgba(15, 23, 42, 0.045);
+  --fill-strong: rgba(15, 23, 42, 0.13);
+  --nav-bg: rgba(255, 255, 255, 0.94);
+  --panel: #ffffff;
+  --chrome: #e9edf3;
+  --hero-glow: rgba(59, 130, 246, 0.1);
+  --brand-glow-1: rgba(91, 108, 255, 0.1);
+  --brand-glow-2: rgba(24, 182, 164, 0.075);
+  --shadow-lg: 0 30px 70px rgba(15, 23, 42, 0.14);
+}
+
+* {
+  box-sizing: border-box;
+}
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+  /* Reserve the scrollbar's track permanently, so hiding it (a modal locking scroll)
+     does not widen the viewport. Without this, opening a dialog shifts the page and
+     every position:fixed element -- the nav, a visible toast -- jogs sideways on any
+     platform that draws a classic scrollbar. Solving it here covers all of them; the
+     alternative is padding each fixed element by hand and missing the next one (#770). */
+  scrollbar-gutter: stable;
+}
+body {
+  margin: 0;
+  font-family: var(--font);
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+/* Sticky footer: the app root is a min-height column and the page (every page's
+   root is a <main>) takes the slack, so a short page pins the footer to the
+   viewport bottom and a long page pushes it down normally (#371). Fixed-position
+   chrome (the nav, toasts) is out of flow and unaffected. */
+#__nuxt {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+#__nuxt > main {
+  flex: 1 0 auto;
+}
+/* Subtle top glow behind the hero — the only decorative flourish. Two faint, offset
+   radials in the brand's two ends (indigo left-of-centre, teal right-of-centre) give the
+   backdrop a whisper of the brand gradient instead of one flat blue, without touching any
+   interactive colour. */
+body::before {
+  content: '';
+  position: fixed;
+  top: -30vh;
+  left: 50%;
+  width: 120vw;
+  height: 80vh;
+  transform: translateX(-50%);
+  background:
+    radial-gradient(38% 60% at 40% 42%, var(--brand-glow-1), transparent 72%),
+    radial-gradient(38% 60% at 62% 40%, var(--brand-glow-2), transparent 72%);
+  pointer-events: none;
+  z-index: 0;
+}
+main,
+.footer,
+.nav {
+  position: relative;
+  z-index: 1;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  letter-spacing: -0.03em;
+  font-weight: 600;
+}
+em {
+  font-style: normal;
+}
+
+/* ── Buttons ────────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  /* Sensible default sizing so a bare `.btn` (no size modifier) isn't cramped;
+     .btn-sm / .btn-lg / .btn-block override these where used. */
+  padding: 11px 20px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.1s ease,
+    filter 0.15s ease;
+}
+.btn:active {
+  transform: translateY(1px);
+}
+.btn-primary {
+  color: var(--on-accent);
+  background: var(--accent);
+  box-shadow: 0 6px 24px rgba(59, 130, 246, 0.32);
+}
+.btn-primary:hover {
+  filter: brightness(1.08);
+}
+.btn-ghost {
+  color: var(--text);
+  background: transparent;
+  border-color: var(--line-2);
+}
+.btn-ghost:hover {
+  background: var(--fill);
+  border-color: var(--text-3);
+}
+.btn-lg {
+  padding: 13px 24px;
+  font-size: 15px;
+}
+
+/* ── Nav ────────────────────────────────────────────────────────────── */
+.nav {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  padding: 13px clamp(16px, 4vw, 36px);
+  border-bottom: 1px solid transparent;
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    backdrop-filter 0.25s ease;
+}
+.nav.is-stuck {
+  background: var(--nav-bg);
+  border-bottom-color: var(--line);
+  backdrop-filter: blur(14px) saturate(150%);
+  -webkit-backdrop-filter: blur(14px) saturate(150%);
+}
+/* No blur, no translucency. `backdrop-filter` is what makes a see-through bar readable — it
+   flattens the detail behind it into a wash. Without it the alpha is doing the whole job alone,
+   and a bar at 94% over hard-edged text underneath still shimmers. Browsers that lack it get an
+   opaque bar instead, which is plainer and legible, rather than the frosted look degrading into
+   an unreadable one. Firefox shipped it enabled only in 2024, so this is not a hypothetical. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .nav.is-stuck {
+    background: var(--panel);
+  }
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 16px;
+  font-weight: 650;
+}
+.brand-logo {
+  border-radius: 7px;
+}
+.nav-links {
+  display: flex;
+  gap: 4px;
+  margin-left: auto;
+}
+.nav-links a {
+  padding: 7px 12px;
+  border-radius: 7px;
+  font-size: 14px;
+  color: var(--text-2);
+  transition:
+    color 0.15s ease,
+    background 0.15s ease;
+}
+.nav-links a:hover {
+  color: var(--text);
+  background: var(--fill);
+}
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+/* Theme toggle — Light / Dark segmented control. The selected segment gets a
+   soft accent tint (not a loud solid fill) so it reads as a quiet control. */
+/* Light/dark switch in the KimtOS app's own control style (the extension `.switch`): a
+   pill track, a sliding knob, sun and moon at the ends. All tokens, so it tracks the
+   theme it sets. See ThemeToggle.vue. The knob travel is (track 54 − knob 22 − 2×left 3)
+   = 26px; keep those three numbers in step if you retune it. */
+.ts-switch {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: 54px;
+  height: 28px;
+  padding: 0;
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  background: var(--fill);
+  cursor: pointer;
+  isolation: isolate;
+}
+.ts-ico {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 26px;
+  display: grid;
+  place-items: center;
+  color: var(--text-3);
+  transition: color 0.18s ease;
+  z-index: 1;
+}
+.ts-sun {
+  left: 1px;
+}
+.ts-moon {
+  right: 1px;
+}
+/* The active side lights up in the accent — like the extension's checked switch. */
+.ts-switch.is-ready:not(.is-dark) .ts-sun {
+  color: var(--accent);
+}
+.ts-switch.is-dark .ts-moon {
+  color: var(--accent);
+}
+.ts-knob {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--surface);
+  box-shadow:
+    0 1px 2px rgba(10, 12, 24, 0.18),
+    0 0 0 1px var(--line) inset;
+  border-bottom: 1.5px solid color-mix(in srgb, var(--accent) 55%, transparent);
+  transition: transform 0.22s cubic-bezier(0.34, 1.28, 0.5, 1);
+  opacity: 0;
+  z-index: 2;
+}
+.ts-switch.is-ready .ts-knob {
+  opacity: 1;
+}
+.ts-switch.is-dark .ts-knob {
+  transform: translateX(26px);
+}
+.ts-switch:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ts-knob {
+    transition: none;
+  }
+}
+
+.text-link {
+  font-size: 14px;
+  color: var(--text-2);
+}
+.text-link:hover {
+  color: var(--text);
+}
+
+/* Mobile menu — the burger button and the dropdown it toggles. Both are hidden on
+   desktop (the bar shows everything inline) and revealed under 720px, where the
+   inline links + auth actions are hidden and would otherwise be unreachable (#851). */
+.nav-burger {
+  display: none;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 1px solid var(--line-2);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+}
+.nav-burger:hover {
+  background: var(--fill);
+}
+.nav-burger-bars {
+  position: relative;
+  width: 18px;
+  height: 12px;
+}
+.nav-burger-bars span {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+  transition:
+    transform 0.2s ease,
+    opacity 0.15s ease;
+}
+.nav-burger-bars span:nth-child(1) {
+  top: 0;
+}
+.nav-burger-bars span:nth-child(2) {
+  top: 5px;
+}
+.nav-burger-bars span:nth-child(3) {
+  top: 10px;
+}
+.nav-burger-bars.is-x span:nth-child(1) {
+  transform: translateY(5px) rotate(45deg);
+}
+.nav-burger-bars.is-x span:nth-child(2) {
+  opacity: 0;
+}
+.nav-burger-bars.is-x span:nth-child(3) {
+  transform: translateY(-5px) rotate(-45deg);
+}
+.nav-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px clamp(16px, 4vw, 36px) 16px;
+  background: var(--nav-bg);
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(14px) saturate(150%);
+  -webkit-backdrop-filter: blur(14px) saturate(150%);
+}
+.nav-menu[hidden] {
+  display: none;
+}
+.nav-menu-links {
+  display: flex;
+  flex-direction: column;
+}
+.nav-menu-links a {
+  padding: 11px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  color: var(--text);
+}
+.nav-menu-links a:hover {
+  background: var(--fill);
+}
+.nav-menu-foot {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 8px;
+  padding: 12px 12px 2px;
+  border-top: 1px solid var(--line);
+}
+.nav-menu-foot .btn {
+  margin-left: auto;
+}
+
+/* ── Hero ───────────────────────────────────────────────────────────── */
+.hero {
+  max-width: 880px;
+  margin: 0 auto;
+  /* Its own top padding clears the fixed nav. The min (96px) is what clears the 64px nav on a short
+     viewport; 10vh is the comfortable gap on taller ones. */
+  padding: clamp(96px, 10vh, 160px) clamp(16px, 4vw, 36px) 40px;
+  text-align: center;
+}
+.kicker {
+  margin: 0 0 22px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  color: var(--accent);
+}
+.hero h1 {
+  font-size: clamp(42px, 7vw, 76px);
+  line-height: 1.02;
+}
+.hero h1 .hl {
+  color: var(--text-2);
+}
+.lede {
+  max-width: 40em;
+  margin: 24px auto 0;
+  font-size: clamp(16px, 1.7vw, 19px);
+  line-height: 1.6;
+  color: var(--text-2);
+}
+.hero-cta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 32px;
+}
+.hero-micro {
+  margin: 20px 0 0;
+  font-size: 13px;
+  color: var(--text-3);
+}
+
+/* Browser-framed product shot */
+.shot {
+  margin: clamp(48px, 7vw, 80px) auto 0;
+  max-width: var(--maxw);
+}
+.shot-frame {
+  border-radius: var(--radius);
+  border: 1px solid var(--line-2);
+  overflow: hidden;
+  background: var(--surface);
+  box-shadow:
+    var(--shadow-lg),
+    0 0 0 1px var(--line);
+}
+.shot-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 14px;
+  background: var(--chrome);
+  border-bottom: 1px solid var(--line);
+}
+.dots {
+  display: inline-flex;
+  gap: 7px;
+}
+.dots i {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--fill-strong);
+}
+.urlbar {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 16px;
+  border-radius: 999px;
+  background: var(--fill);
+  border: 1px solid var(--line);
+  font-size: 12.5px;
+  color: var(--text-3);
+}
+.bar-spacer {
+  flex: 1;
+}
+.shot-frame img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.shot figcaption {
+  margin-top: 16px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-3);
+}
+/* ── Stats ──────────────────────────────────────────────────────────── */
+.stats {
+  max-width: var(--maxw);
+  margin: clamp(56px, 8vw, 90px) auto 0;
+  padding: 0 clamp(16px, 4vw, 36px);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+.stats div {
+  text-align: center;
+  padding: 20px 8px;
+  border-left: 1px solid var(--line);
+}
+.stats div:first-child {
+  border-left: none;
+}
+.stats b {
+  display: block;
+  font-size: clamp(30px, 4vw, 42px);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+}
+.stats span {
+  display: block;
+  margin-top: 6px;
+  font-size: 13px;
+  color: var(--text-2);
+}
+
+/* ── Sections ───────────────────────────────────────────────────────── */
+.section {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: clamp(72px, 11vh, 130px) clamp(16px, 4vw, 36px);
+}
+.section.band {
+  max-width: none;
+  background: var(--bg-2);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.section.band > * {
+  max-width: var(--maxw);
+  margin-inline: auto;
+}
+.sec-head {
+  max-width: 640px;
+  margin: 0 auto clamp(40px, 5vw, 60px);
+  text-align: center;
+}
+.sec-head h2 {
+  font-size: clamp(28px, 4vw, 42px);
+  line-height: 1.1;
+}
+.sec-head p {
+  margin: 16px auto 0;
+  font-size: clamp(15px, 1.6vw, 17px);
+  line-height: 1.6;
+  color: var(--text-2);
+}
+.sec-head em {
+  color: var(--text);
+  font-weight: 600;
+}
+
+/* ── App grid ───────────────────────────────────────────────────────── */
+.app-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(255px, 1fr));
+  gap: 14px;
+}
+.app-card {
+  position: relative;
+  min-height: 258px;
+  perspective: 1300px;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  outline: none;
+}
+/* The rotating inner. Front + back are stacked, backface hidden. */
+.flip {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transition: transform 0.62s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.app-card:hover .flip,
+.app-card:focus-visible .flip {
+  transform: rotateY(180deg);
+}
+.face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 22px;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: var(--surface);
+  overflow: hidden;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.face-front {
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+.app-card:hover .face-front,
+.app-card:focus-visible .face-front {
+  border-color: var(--line-2);
+}
+.face-back {
+  transform: rotateY(180deg);
+  border-color: color-mix(in srgb, var(--c) 48%, transparent);
+  background: linear-gradient(155deg, color-mix(in srgb, var(--c) 24%, var(--surface)) 0%, var(--surface) 68%);
+  box-shadow: 0 24px 60px color-mix(in srgb, var(--c) 20%, transparent);
+}
+/* A soft accent glow bleeding from the corner — the "pretty" bit. */
+.face-back::after {
+  content: '';
+  position: absolute;
+  top: -40%;
+  right: -25%;
+  width: 70%;
+  height: 90%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--c) 34%, transparent), transparent 70%);
+  pointer-events: none;
+}
+.face-back > * {
+  position: relative;
+  z-index: 1;
+}
+.back-points {
+  list-style: none;
+  margin: 16px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+.back-points li {
+  position: relative;
+  padding-left: 24px;
+  font-size: 13.5px;
+  line-height: 1.4;
+  color: var(--text);
+}
+.back-points li::before {
+  content: '';
+  position: absolute;
+  left: 3px;
+  top: 4px;
+  width: 6px;
+  height: 10px;
+  border-right: 2px solid color-mix(in srgb, var(--c) 85%, #fff);
+  border-bottom: 2px solid color-mix(in srgb, var(--c) 85%, #fff);
+  transform: rotate(40deg);
+}
+.app-head {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+/* macOS-style app icon — mirrors the extension dock. The accent gradient fill is
+   set inline from the shared @kimtos/icons appTileGradient(); this owns the
+   shape, the Big Sur gloss, and the white glyph on top. */
+.app-ic {
+  position: relative;
+  width: 46px;
+  height: 46px;
+  flex-shrink: 0;
+  border-radius: 23%;
+  display: grid;
+  place-items: center;
+  color: var(--on-accent);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 6px 16px rgba(0, 0, 0, 0.28);
+}
+.app-ic::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.22), transparent 46%);
+  pointer-events: none;
+}
+.app-glyph {
+  position: relative;
+  z-index: 2;
+  width: 58%;
+  height: 58%;
+  display: block;
+}
+.app-card h3 {
+  font-size: 16px;
+  font-weight: 600;
+}
+.app-badge {
+  margin-left: auto;
+  align-self: flex-start;
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+/* "New" badge — sits on the right of the card header. Freshly published apps only, for 30 days (#1114). */
+.app-badge.is-new {
+  margin-left: 6px;
+  color: var(--new);
+  background: color-mix(in srgb, var(--new) 13%, transparent);
+  border: 1px solid color-mix(in srgb, var(--new) 32%, transparent);
+}
+.app-card p {
+  margin: 14px 0 0;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--text-2);
+}
+.app-tech {
+  margin-top: auto;
+  padding-top: 14px;
+  font-size: 11.5px;
+  color: var(--text-3);
+  font-variant-numeric: tabular-nums;
+}
+.face-back .app-tech {
+  color: color-mix(in srgb, var(--c) 60%, #fff);
+}
+
+/* "+N more" / "Show less" card — a grid cell that expands the app grid in place. */
+.app-more {
+  min-height: 258px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  border: 1px dashed var(--line-2);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--surface) 55%, transparent);
+  color: var(--text);
+  cursor: pointer;
+  font: inherit;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+.app-more:hover,
+.app-more:focus-visible {
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--line-2));
+  background: color-mix(in srgb, var(--surface) 80%, transparent);
+  transform: translateY(-2px);
+  outline: none;
+}
+.app-more.is-less {
+  min-height: 0;
+  grid-column: 1 / -1;
+  padding: 18px;
+}
+/* Overlapping stack of upcoming app icons. */
+.more-tiles {
+  display: flex;
+  padding-left: 10px;
+}
+.more-tiles .app-ic {
+  width: 38px;
+  height: 38px;
+  margin-left: -10px;
+  border-radius: 26%;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    0 4px 10px rgba(0, 0, 0, 0.3),
+    0 0 0 2px var(--surface);
+}
+.more-n {
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.5px;
+}
+.more-label {
+  margin-top: -4px;
+  font-size: 13.5px;
+  color: var(--text-2);
+}
+.more-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+/* ── Why on-device (split) ──────────────────────────────────────────── */
+.split {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: clamp(32px, 5vw, 64px);
+  align-items: start;
+}
+.split-lead h2 {
+  font-size: clamp(26px, 3.4vw, 38px);
+  line-height: 1.12;
+}
+.split-lead p {
+  margin: 20px 0 0;
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--text-2);
+}
+.split-lead .signoff {
+  margin-top: 18px;
+  font-size: 14px;
+  color: var(--text-3);
+  font-style: italic;
+}
+.points {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 2px;
+}
+.points li {
+  padding: 18px 0;
+  border-bottom: 1px solid var(--line);
+}
+.points li:first-child {
+  padding-top: 0;
+}
+.points li:last-child {
+  border-bottom: none;
+}
+.points h3 {
+  font-size: 16px;
+  font-weight: 600;
+}
+.points p {
+  margin: 6px 0 0;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--text-2);
+}
+
+/* Availability strip */
+.avail {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 44px auto 0;
+}
+.avail-label {
+  font-size: 12.5px;
+  color: var(--text-3);
+  margin-right: 4px;
+}
+.avail-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--text-2);
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 550;
+}
+.avail-item img {
+  filter: grayscale(0.6) opacity(0.85);
+}
+.avail-item em {
+  color: var(--warning);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+.avail-item.is-live {
+  color: var(--text);
+  border-color: color-mix(in srgb, var(--accent) 30%, transparent);
+}
+.avail-item.is-live img {
+  filter: none;
+}
+a.avail-item,
+button.avail-item {
+  cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease;
+}
+a.avail-item:hover,
+button.avail-item:hover {
+  border-color: var(--line-2);
+  background: var(--surface-2);
+}
+/* Every other row carries a full-colour browser logo; KimtOS Browser now has its own —
+   the roundel from @kimtos/icons (browserMarkSvg), rendered inline so it needs no image
+   file. It is full colour and full opacity like the live Chrome logo, NOT dimmed like the
+   'soon' third-party marks, because this is our brand, not a target we are waiting on. */
+.avail-mark {
+  flex: 0 0 auto;
+  display: inline-flex;
+  line-height: 0;
+}
+.avail-mark svg {
+  display: block;
+  width: 22px;
+  height: 22px;
+}
+/* KimtOS Browser is the destination, not a 'soon' third-party target: it reads in the
+   accent rather than the amber 'soon' colour, and links to the Vision page. */
+.avail-item.is-vision {
+  color: var(--text);
+  border-color: color-mix(in srgb, var(--accent) 34%, transparent);
+}
+.avail-item.is-vision em {
+  color: var(--accent);
+}
+
+/* ── FAQ ────────────────────────────────────────────────────────────── */
+.faq {
+  max-width: 760px;
+  margin: 0 auto;
+  border-top: 1px solid var(--line);
+}
+.faq details {
+  border-bottom: 1px solid var(--line);
+}
+.faq summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 22px 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  list-style: none;
+}
+.faq summary::-webkit-details-marker {
+  display: none;
+}
+.faq summary::after {
+  content: '+';
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--text-3);
+  transition: transform 0.2s ease;
+}
+.faq details[open] summary::after {
+  transform: rotate(45deg);
+}
+.faq p {
+  margin: 0;
+  padding: 0 4px 24px;
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: var(--text-2);
+}
+
+/* ── CTA band ───────────────────────────────────────────────────────── */
+.cta-band {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: clamp(72px, 11vh, 120px) clamp(16px, 4vw, 36px);
+  text-align: center;
+}
+.cta-band h2 {
+  font-size: clamp(30px, 4.5vw, 52px);
+}
+.cta-band p {
+  margin: 16px 0 30px;
+  font-size: 17px;
+  color: var(--text-2);
+}
+
+/* ── Footer ─────────────────────────────────────────────────────────── */
+.footer {
+  border-top: 1px solid var(--line);
+  background: var(--bg-2);
+}
+.footer-grid {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 56px clamp(16px, 4vw, 36px) 36px;
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1fr 1fr;
+  gap: 32px;
+}
+.footer-brand .fb-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+}
+.footer-brand img {
+  border-radius: 7px;
+}
+.footer-brand .brand-name {
+  font-size: 16px;
+  font-weight: 650;
+}
+.footer-brand p {
+  margin: 12px 0 0;
+  max-width: 28ch;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text-3);
+}
+.footer nav h4 {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-3);
+  margin-bottom: 14px;
+}
+.footer nav a {
+  display: block;
+  padding: 5px 0;
+  font-size: 14px;
+  color: var(--text-2);
+}
+.footer nav a:hover {
+  color: var(--text);
+}
+.footer-base {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 20px clamp(16px, 4vw, 36px) 36px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 24px;
+  justify-content: space-between;
+  font-size: 12.5px;
+  color: var(--text-3);
+}
+/* Colour-theme switcher, right-aligned in the footer base row opposite the copyright
+   (the base row is a space-between flex). Set-once preference — see TheFooter.vue. */
+.footer-theme {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.footer-theme-label {
+  font-size: 12.5px;
+  color: var(--text-3);
+}
+
+/* ── Toast ──────────────────────────────────────────────────────────── */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 28px;
+  transform: translate(-50%, 18px);
+  z-index: 90;
+  padding: 12px 20px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line-2);
+  background: var(--panel);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  font-size: 13.5px;
+  font-weight: 500;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
+}
+.toast.is-show {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+.toast b {
+  color: var(--accent);
+}
+
+/* ── Confirm dialog ─────────────────────────────────────────────────── */
+/* The site's one modal (ConfirmDialog.vue, #770). Global rather than scoped for the same
+   reason .toast is: it belongs to a singleton host mounted in app.vue. z-index clears the
+   toast (90) and the fixed nav (40); the component teleports to <body>, without which
+   .footer's z-index:1 paints over the action buttons (#561). */
+.confirm-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(2px);
+}
+.confirm-card {
+  width: 100%;
+  max-width: 460px;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  padding: 26px;
+  background: var(--surface);
+  border: 1px solid var(--line-2);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+}
+/* The card takes focus on open (tabindex="-1") — but it is a container, not a control, so
+   the ring would frame the whole dialog for no information. */
+.confirm-card:focus {
+  outline: none;
+}
+/* Same reasoning for <main>, but scoped to the tabindex="-1" restoreFocus (#786) sets when a
+   confirm dialog closes onto a trigger the confirmed action removed: it is the page's content
+   landmark, not a control, so a whole-page outline would be noise (screen readers still
+   announce the landmark). Scoped to tabindex="-1" so a <main> an author deliberately made
+   Tab-focusable (tabindex="0") keeps its ring. */
+main[tabindex='-1']:focus {
+  outline: none;
+}
+.confirm-title {
+  margin: 0 0 12px;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+}
+.confirm-copy {
+  margin: 0 0 12px;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--text-2);
+}
+.confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 22px;
+}
+/* The buttons are the site's own .btn / .btn-ghost / .btn-primary, so the dialog inherits
+   the shared typography, radius and press state rather than restating them. Only what is
+   specific to a modal is set here: a tighter footprint than a page CTA, a filled ground on
+   the dismiss action, and the destructive variant. */
+.confirm-actions .btn {
+  padding: 9px 18px;
+}
+.confirm-cancel {
+  background: var(--fill);
+}
+.confirm-cancel:hover:not(:disabled) {
+  background: var(--fill-strong);
+}
+/* .btn-primary's glow is tuned for a CTA on a page ground; inside a card it reads as a
+   smudge against the border. */
+.confirm-ok {
+  box-shadow: none;
+}
+.confirm-ok.is-danger {
+  color: var(--on-danger);
+  background: var(--danger);
+  border-color: var(--danger);
+}
+/* Darkens rather than brightens, so it also has to cancel .btn-primary's hover filter.
+   `:not(:disabled)` because a disabled button still matches :hover. */
+.confirm-ok.is-danger:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--danger) 88%, #000);
+  filter: none;
+}
+.confirm-actions .btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+  filter: none;
+  transform: none;
+}
+
+/* ── Reveal ─────────────────────────────────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.55s ease,
+    transform 0.55s ease;
+}
+.reveal.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* ── Responsive ─────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .split {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+  }
+  .stats div:nth-child(3) {
+    border-left: none;
+  }
+}
+@media (max-width: 720px) {
+  .nav-links,
+  .nav-desktop-only {
+    display: none;
+  }
+  /* On a phone the eyebrow is redundant above the headline and only adds height — drop it here. */
+  .kicker {
+    display: none;
+  }
+  /* With the inline links gone, nothing carried the auto margin that pushed the
+     actions to the right — so the avatar/burger floated mid-bar with dead space
+     beside them (#851). Push the actions cluster to the end here instead. */
+  .nav-actions {
+    margin-left: auto;
+  }
+  .nav-burger {
+    display: grid;
+  }
+  .nav.is-menu-open .nav-menu {
+    display: flex;
+  }
+}
+@media (max-width: 460px) {
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .footer-brand {
+    grid-column: 1 / -1;
+  }
+  .stats b {
+    font-size: 28px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+  /* No 3D flip; the front already carries the full description. */
+  .flip {
+    transition: none;
+  }
+  .app-card:hover .flip,
+  .app-card:focus-visible .flip {
+    transform: none;
+  }
+}
+
+/* --- Legal pages (Privacy / Terms, via LegalPage.vue) ------------- */
+.legal {
+  max-width: 760px; /* narrower than --maxw: long-form prose wants a short measure */
+}
+.legal-draft {
+  margin: 0 0 32px;
+  padding: 14px 16px;
+  border: 1px solid var(--danger);
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--danger) 8%, transparent);
+  font-size: 14px;
+}
+.legal-head {
+  padding-bottom: 24px;
+  margin-bottom: 32px;
+  border-bottom: 1px solid var(--line);
+}
+.legal-head h1 {
+  font-size: clamp(30px, 4vw, 40px);
+  margin: 0;
+}
+.legal-intro {
+  margin: 12px 0 0;
+  font-size: 17px;
+  color: var(--text-2);
+}
+.legal-meta {
+  margin: 16px 0 0;
+  font-size: 13px;
+  color: var(--text-3);
+}
+.legal-body h2 {
+  margin: 40px 0 12px;
+  font-size: 21px;
+}
+.legal-body h3 {
+  margin: 28px 0 8px;
+  font-size: 16px;
+}
+.legal-body p,
+.legal-body li {
+  color: var(--text-2);
+  line-height: 1.7;
+}
+.legal-body ul {
+  margin: 12px 0;
+  padding-left: 22px;
+}
+.legal-body li {
+  margin: 6px 0;
+}
+.legal-body strong {
+  color: var(--text);
+}
+.legal-body table {
+  width: 100%;
+  margin: 16px 0;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.legal-body th,
+.legal-body td {
+  padding: 10px 12px;
+  text-align: left;
+  vertical-align: top;
+  border: 1px solid var(--line);
+  color: var(--text-2);
+}
+.legal-body th {
+  background: var(--bg-2);
+  color: var(--text);
+  font-weight: 600;
+}
+.legal-callout {
+  margin: 20px 0;
+  padding: 16px 18px;
+  border-left: 3px solid var(--accent);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  background: var(--bg-2);
+}
+.legal-callout p:first-child {
+  margin-top: 0;
+}
+.legal-callout p:last-child {
+  margin-bottom: 0;
+}
+.legal-foot {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+  font-size: 14px;
+  color: var(--text-2);
+}
+.legal-entity {
+  color: var(--text-3);
+}

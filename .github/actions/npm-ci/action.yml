@@ -1,0 +1,33 @@
+name: npm ci (ETXTBSY retry)
+description: >-
+  Runs `npm ci`, retrying only when it fails with ETXTBSY. On the self-hosted runners' virtiofs
+  working directory, esbuild's postinstall writes bin/esbuild and immediately execs it
+  (`esbuild --version`) to verify the install; the exec can race the still-open write and die
+  with ETXTBSY ("text file busy") even though the install is sound, and the race clears on a
+  second attempt (#909). `npm ci` is idempotent - it removes node_modules before installing -
+  so a retry is safe by construction. Any failure WITHOUT ETXTBSY in its output is a real
+  dependency problem and fails immediately, first time: this action must never paper over one.
+runs:
+  using: composite
+  steps:
+    - name: npm ci
+      shell: bash
+      run: |
+        log="$RUNNER_TEMP/npm-ci-attempt.log"
+        for attempt in 1 2 3; do
+          # `tee` keeps the full npm output in the job log; pipefail (the default for
+          # composite bash steps) keeps npm's own exit status through the pipe.
+          if npm ci 2>&1 | tee "$log"; then
+            exit 0
+          fi
+          if ! grep -q ETXTBSY "$log"; then
+            echo "npm ci failed without ETXTBSY - a real failure, not the virtiofs race; not retrying." >&2
+            exit 1
+          fi
+          if [ "$attempt" -lt 3 ]; then
+            echo "npm ci hit ETXTBSY (the virtiofs write-then-exec race, #909) - attempt $attempt of 3 failed, retrying in 5s..." >&2
+            sleep 5
+          fi
+        done
+        echo "npm ci failed with ETXTBSY on all 3 attempts - the race should clear on retry, so something else is wrong." >&2
+        exit 1

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "@kimtos base",
+  "_comment": "Shared TypeScript strictness doctrine for every @kimtos/* workspace package. Framework-agnostic — no module/target/outDir here (each package sets its own build output). Packages extend this and add only what their toolchain needs.",
+  "compilerOptions": {
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "noFallthroughCasesInSwitch": true,
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true
+  }
+}

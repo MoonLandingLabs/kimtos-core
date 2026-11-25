@@ -1,0 +1,11 @@
+# The sha256 of the `brandMarkSvg(64)` that `www/public/favicon.ico` was rasterised from.
+#
+# The .ico is the one brand asset this repo cannot regenerate: comparing a raster to an SVG needs a
+# renderer, and one hand-made file is preferred to an image dependency. So its provenance is
+# recorded here instead, and `scripts/check-favicons.mjs` fails the build when the mark moves on
+# without it — the way a lockfile pins assets the build cannot rebuild.
+#
+# WHEN THE MARK CHANGES: re-rasterise www/public/favicon.ico from the new mark (48x48, PNG-in-ICO,
+# which is what the current file is), run `make favicons` to distribute it, and replace the digest
+# below with the one the check prints.
+38b8d2560161261cf7d181599fc217de84091bf60451537d530fc7abbc1ad599

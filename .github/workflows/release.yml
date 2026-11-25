@@ -1,0 +1,175 @@
+name: Release
+
+# Push a tag like `v0.1.1` and this builds the extension and submits it to the
+# Chrome Web Store. That is all it does — the store is the only place the package
+# needs to go.
+#
+# It does NOT publish a GitHub Release here, and does not attach a zip to this repo:
+# this repo is private, so a release asset would only ever reach people who already
+# have the code. The user-facing CHANGELOG is published separately, to the public
+# community repo, by `make release-prepare` — see docs/extension/releasing.md.
+#
+# Cutting a release is FOUR steps, and the tag is the last of them (#1208):
+#
+#   1. bump "version" in extension/manifest.json and extension/package.json
+#   2. make release-prepare VERSION=0.1.1  on a branch — generates the notes from the
+#      merged PRs and commits them; push, open a PR, get it reviewed, merge it
+#   3. run this workflow manually as a dry run
+#   4. make release-tag VERSION=0.1.1  from main — tags and pushes the tag, which is
+#      what triggers everything below
+#
+# It can also be run manually (Actions -> Release -> Run workflow) as a DRY RUN:
+# it builds and packages, but submits nothing. Run it BEFORE tagging — otherwise the
+# first tag doubles as the first test of this workflow, which is how a launch-day
+# release fails.
+#
+# What the dry run proves: the version matches the manifest, the install resolves, lint
+# and build pass, and the package is produced. What it does NOT prove: that CHANGELOG.md
+# has this version's section — step 2 writes that, and a dry run is allowed at any point,
+# so the guard below is skipped on a dry run and runs only on a real tag (#1201).
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to dry-run, e.g. 0.6.0 (must match extension/manifest.json). Nothing is submitted.'
+        required: true
+        type: string
+
+# Read-only: this workflow no longer creates a GitHub Release, so it needs no write
+# access to the repo. The only thing it publishes is the package, to the store.
+permissions:
+  contents: read
+
+jobs:
+  release:
+    name: Build & publish
+    runs-on: ubuntu-latest
+    env:
+      # Skip onnxruntime-node's CUDA-binary download (unused; times out on CI).
+      ONNXRUNTIME_NODE_INSTALL: skip
+      DRY_RUN: ${{ github.event_name == 'workflow_dispatch' }}
+      TAG: ${{ github.event_name == 'workflow_dispatch' && format('v{0}', inputs.version) || github.ref_name }}
+      # Chrome Web Store. Absent until the store listing exists, which is what makes
+      # the publish step below skip rather than fail — see docs/extension/chrome-web-store.md.
+      CWS_EXTENSION_ID: ${{ secrets.CWS_EXTENSION_ID }}
+      CWS_CLIENT_ID: ${{ secrets.CWS_CLIENT_ID }}
+      CWS_CLIENT_SECRET: ${{ secrets.CWS_CLIENT_SECRET }}
+      CWS_REFRESH_TOKEN: ${{ secrets.CWS_REFRESH_TOKEN }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0 # full history + tags, needed for the changelog
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Verify manifest version matches the tag
+        run: |
+          VERSION="${TAG#v}"
+          MANIFEST="$(jq -r .version extension/manifest.json)"
+          if [ "$VERSION" != "$MANIFEST" ]; then
+            echo "::error::Tag v$VERSION does not match extension/manifest.json version $MANIFEST — bump manifest.json and package.json before tagging."
+            exit 1
+          fi
+
+      # The in-app Release notes dialog is compiled from CHANGELOG.md at build time
+      # (scripts/release.mjs compile — nothing is fetched at runtime), so a tag whose
+      # version has no changelog section ships "No releases yet." to every user (#416).
+      # `make release-prepare VERSION=x.y.z` writes the section (## vx.y.z — date); this
+      # guard makes tagging without it a red X instead of a silent, user-visible gap.
+      #
+      # SKIPPED ON A DRY RUN, and that is not a loophole — it is the only way the documented
+      # order can be followed at all. A dry run is meant to be runnable at any point, and the
+      # section it would grep for does not exist until the prepare PR is merged, so this guard
+      # failed every dry run — which meant the dry run could never pass and the tag was always
+      # the first real test of this workflow (#1201). It still runs on a real tag, which is the
+      # moment it protects. `make release-tag` carries the same check locally (#1208), so a
+      # missing section is normally caught before the tag exists at all; this is the backstop
+      # for a tag pushed by hand.
+      - name: Verify the changelog has notes for this version
+        if: env.DRY_RUN != 'true'
+        run: |
+          VERSION="${TAG#v}"
+          if ! grep -qE "^## v${VERSION//./\\.}\b" CHANGELOG.md; then
+            echo "::error::CHANGELOG.md has no section for v$VERSION — run 'make release-prepare VERSION=$VERSION' and merge that PR so the in-app release notes ship with this version."
+            exit 1
+          fi
+
+      - uses: ./.github/actions/npm-ci
+
+      - name: Lint & build
+        run: |
+          npm run lint -w @kimtos/extension
+          npm run build -w @kimtos/extension
+
+      - name: Package extension
+        run: |
+          cd extension/dist
+          zip -qr "../../kimtos-${TAG}.zip" .
+          cd ../..
+          ls -lh "kimtos-${TAG}.zip"
+
+      - name: Dry run — nothing submitted
+        if: env.DRY_RUN == 'true'
+        run: |
+          echo "::notice::Dry run for ${TAG}: built and packaged. Nothing was submitted to the store."
+
+      # The store is the ONLY place the package goes — it is the only path by which a
+      # user can install KimtOS. This step SKIPS (it does not fail) until the four CWS
+      # secrets exist, so tagging keeps working before the store listing is set up.
+      # Setup: docs/extension/chrome-web-store.md
+      - name: Publish to the Chrome Web Store
+        if: env.DRY_RUN != 'true' && env.CWS_REFRESH_TOKEN != ''
+        run: |
+          set -euo pipefail
+          ASSET="kimtos-${TAG}.zip"
+
+          # 1. Exchange the long-lived refresh token for an access token.
+          ACCESS_TOKEN="$(curl -sS -X POST 'https://oauth2.googleapis.com/token' \
+            -d "client_id=${CWS_CLIENT_ID}" \
+            -d "client_secret=${CWS_CLIENT_SECRET}" \
+            -d "refresh_token=${CWS_REFRESH_TOKEN}" \
+            -d 'grant_type=refresh_token' | jq -r '.access_token // empty')"
+          if [ -z "$ACCESS_TOKEN" ]; then
+            echo "::error::Could not get a Chrome Web Store access token. The refresh token is likely expired or revoked — mint a new one (see docs/extension/chrome-web-store.md)."
+            exit 1
+          fi
+
+          # 2. Upload the new package as a draft.
+          UPLOAD="$(curl -sS -X PUT \
+            -H "Authorization: Bearer ${ACCESS_TOKEN}" \
+            -H 'x-goog-api-version: 2' \
+            -T "$ASSET" \
+            "https://www.googleapis.com/upload/chromewebstore/v1.1/items/${CWS_EXTENSION_ID}")"
+          STATE="$(echo "$UPLOAD" | jq -r '.uploadState // empty')"
+          if [ "$STATE" != "SUCCESS" ]; then
+            echo "::error::Chrome Web Store upload failed: $(echo "$UPLOAD" | jq -c '.itemError // .')"
+            exit 1
+          fi
+
+          # 3. Submit for review. Google reviews before it goes live — this does not
+          #    make it public immediately, and a first submission can take days.
+          PUBLISH="$(curl -sS -X POST \
+            -H "Authorization: Bearer ${ACCESS_TOKEN}" \
+            -H 'x-goog-api-version: 2' \
+            -H 'Content-Length: 0' \
+            "https://www.googleapis.com/chromewebstore/v1.1/items/${CWS_EXTENSION_ID}/publish")"
+          echo "$PUBLISH" | jq -c '.'
+          if echo "$PUBLISH" | jq -e '.status[]? | select(. == "OK")' >/dev/null; then
+            echo "::notice::Submitted ${TAG} to the Chrome Web Store. It goes live only after Google's review."
+          else
+            echo "::error::Chrome Web Store publish failed: $(echo "$PUBLISH" | jq -c '.statusDetail // .')"
+            exit 1
+          fi
+
+      - name: Chrome Web Store — not configured
+        if: env.DRY_RUN != 'true' && env.CWS_REFRESH_TOKEN == ''
+        run: |
+          echo "::warning::No Chrome Web Store secrets set, so this release was NOT submitted to the store and the public cannot install it. See docs/extension/chrome-web-store.md."

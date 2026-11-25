@@ -1,0 +1,9 @@
+# Documentation manifest for the Tasks app.
+# Chapters live in content/ as numbered Markdown files (one H1 each), discovered
+# alphabetically. Build the whole app suite with `npm run docs` (from extension/).
+
+title    = "Tasks"
+subtitle = "A fresh to-do list for each day"
+accent   = "#fb923c"
+order    = 3
+formats  = ["html"]

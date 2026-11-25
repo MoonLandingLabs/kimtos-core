@@ -1,0 +1,41 @@
+{
+  "name": "@kimtos/www",
+  "private": true,
+  "description": "The KimtOS marketing site \u2014 fully static (nuxt generate). Free and open source (MIT); no accounts, no backend.",
+  "type": "module",
+  "scripts": {
+    "gen:apps": "node scripts/gen-apps.mjs",
+    "predev": "node scripts/gen-apps.mjs && node scripts/gen-blog.mjs",
+    "dev": "nuxt dev",
+    "prebuild": "node scripts/gen-apps.mjs && node scripts/gen-blog.mjs",
+    "build": "nuxt build",
+    "pregenerate": "node scripts/gen-apps.mjs && node scripts/gen-blog.mjs",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "pretypecheck": "node scripts/gen-apps.mjs && node scripts/gen-blog.mjs",
+    "typecheck": "nuxt typecheck",
+    "test": "node --import tsx --import ./test/harness/setup.ts --test \"test/**/*.test.ts\"",
+    "gen:blog": "node scripts/gen-blog.mjs"
+  },
+  "dependencies": {
+    "@kimtos/icons": "*",
+    "markdown-it": "^15.0.3"
+  },
+  "devDependencies": {
+    "@happy-dom/global-registrator": "^21.0.4",
+    "@kimtos/config": "*",
+    "@kimtos/releaser": "*",
+    "@types/markdown-it": "^14.1.2",
+    "@vue/test-utils": "^2.6.0",
+    "esbuild": "^0.28.2",
+    "happy-dom": "^21.0.4",
+    "nuxt": "^4.5.2",
+    "prettier": "^3.10.1",
+    "tsx": "^4.23.15",
+    "vue": "^3.5.41",
+    "vue-router": "^5.1.0",
+    "vue-tsc": "^3.3.14"
+  },
+  "license": "MIT",
+  "version": "1.2.0"
+}

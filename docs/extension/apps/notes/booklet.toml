@@ -1,0 +1,9 @@
+# Documentation manifest for the Notes (notes) app.
+# Chapters live in content/ as numbered Markdown files (one H1 each), discovered
+# alphabetically. Build the whole app suite with `npm run docs` (from extension/).
+
+title    = "Notes"
+subtitle = "Markdown notes, organized into collections"
+accent   = "#a78bfa"
+order    = 5
+formats  = ["html"]

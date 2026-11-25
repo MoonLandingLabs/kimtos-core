@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "@kimtos/config/tsconfig.base.json",
+  "_comment": "noUncheckedIndexedAccess is opted out below — 255 pre-existing violations to resolve incrementally before adopting the base's setting.",
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "noEmit": true,
+    "allowJs": false,
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
+    "noUncheckedIndexedAccess": false
+  },
+  "include": ["src"]
+}

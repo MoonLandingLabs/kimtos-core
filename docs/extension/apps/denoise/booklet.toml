@@ -1,0 +1,9 @@
+# Documentation manifest for the Denoise app.
+# Chapters live in content/ as numbered Markdown files (one H1 each), discovered
+# alphabetically. Build the whole app suite with `npm run docs` (from extension/).
+
+title    = "Denoise"
+subtitle = "Remove background noise from audio"
+accent   = "#22d3ee"
+order    = 7
+formats  = ["html"]

@@ -1,0 +1,69 @@
+name: Site
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'www/**'
+      - 'shared-modules/**'
+      - '.github/workflows/www.yml'
+      - 'package.json'
+      - 'package-lock.json'
+  pull_request:
+    branches: [main]
+    # A draft PR runs nothing (#1188): the self-hosted pool is the only one we have, and the
+    # issue-workflow opens every PR as a draft and pushes review commits to it. `ready_for_review`
+    # is listed because it is NOT in the default set — without it a PR opened as a draft would
+    # never get any checks at all, which is worse than running them too early.
+    types: [opened, synchronize, reopened, ready_for_review]
+    paths:
+      - 'www/**'
+      - 'shared-modules/**'
+      - '.github/workflows/www.yml'
+      - 'package.json'
+      - 'package-lock.json'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  # Cancel a superseded run on a BRANCH — only the latest push there needs verifying — but
+  # never on `main`. A burst of merges used to destroy the verification of everything it
+  # landed on top of: two commits 17 seconds apart both had their run cancelled, and a
+  # cancelled run reports as a red X with no failing step and no log, which is
+  # indistinguishable from a real failure (#1196). The original reasoning was that finishing
+  # stale runs wastes scarce self-hosted slots; that is weaker since the pool moved to
+  # dedicated hardware (#1185) and drafts stopped consuming it (#1188). Knowing whether
+  # `main` is green is worth the slots.
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Site build
+    if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    env:
+      # The workspace root install also pulls the extension's onnxruntime-node.
+      ONNXRUNTIME_NODE_INSTALL: skip
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: package-lock.json
+      - uses: ./.github/actions/npm-ci
+      - run: npm run typecheck -w @kimtos/www
+      - run: npm run test -w @kimtos/www
+      - run: npm run generate -w @kimtos/www
+
+      # The marketing app catalog is GENERATED from the extension's apps/*/meta.ts
+      # (scripts/gen-apps.mjs, a pregenerate hook) but committed. So a change to an
+      # app's meta can leave this file stale from a PR that never touches www/. The
+      # generate above already refreshed it — fail if that moved anything, as a
+      # stale catalog would otherwise ship (#573).
+      - name: Assert the marketing app catalog is in sync with the metas
+        run: |
+          git diff --exit-code -- www/data/apps.ts \
+            || { echo "::error::www/data/apps.ts is out of date. Run 'npm run generate -w @kimtos/www' and commit the result."; exit 1; }

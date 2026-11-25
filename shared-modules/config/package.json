@@ -1,0 +1,38 @@
+{
+  "name": "@kimtos/config",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Central config for every @kimtos workspace: shared runtime constants plus the base TypeScript + ESLint config.",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./tsconfig.base.json": "./tsconfig.base.json",
+    "./eslint.base": {
+      "types": "./dist/eslint.base.d.ts",
+      "default": "./dist/eslint.base.js"
+    },
+    "./ui": {
+      "types": "./dist/ui.d.ts",
+      "default": "./dist/ui.js"
+    }
+  },
+  "files": [
+    "dist",
+    "tsconfig.base.json"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "prepare": "tsc -p tsconfig.json",
+    "test": "node --test test/*.test.js"
+  },
+  "dependencies": {
+    "@eslint/js": "^10.0.1",
+    "typescript-eslint": "^8.67.0"
+  },
+  "license": "MIT"
+}

@@ -1,0 +1,9 @@
+# Documentation manifest for the Grammit app.
+# Chapters live in content/ as numbered Markdown files (one H1 each), discovered
+# alphabetically. Build the whole app suite with `npm run docs` (from extension/).
+
+title    = "Grammit"
+subtitle = "Fix grammar and spelling as you type — all on-device"
+accent   = "#4ade80"
+order    = 8
+formats  = ["html"]

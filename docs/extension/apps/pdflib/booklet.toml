@@ -1,0 +1,9 @@
+# Documentation manifest for the PDF Library app.
+# Chapters live in content/ as numbered Markdown files (one H1 each), discovered
+# alphabetically. Build the whole app suite with `npm run docs` (from extension/).
+
+title    = "PDF Library"
+subtitle = "A reading list with an in-app PDF reader and annotations"
+accent   = "#38bdf8"
+order    = 6
+formats  = ["html"]

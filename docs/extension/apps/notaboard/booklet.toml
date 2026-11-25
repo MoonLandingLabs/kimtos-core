@@ -1,0 +1,9 @@
+# Documentation manifest for the NotaBoard app.
+# Chapters live in content/ as numbered Markdown files (one H1 each), discovered
+# alphabetically. Build the whole app suite with `npm run docs` (from extension/).
+
+title    = "NotaBoard"
+subtitle = "A whiteboard for notes, sketches and quick diagrams"
+accent   = "#10b981"
+order    = 6
+formats  = ["html"]

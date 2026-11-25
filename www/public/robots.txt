@@ -1,0 +1,3 @@
+# Static marketing site
+User-agent: *
+Allow: /

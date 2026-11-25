@@ -1,0 +1,70 @@
+{
+  "name": "@kimtos/extension",
+  "version": "1.0.1",
+  "description": "KimtOS — a free, open-source (MIT) Chrome new-tab extension: private notes, PDFs, whiteboards and on-device AI. No accounts, no servers; everything runs in your browser.",
+  "keywords": [
+    "chrome-extension",
+    "new-tab",
+    "local-first",
+    "on-device-ai",
+    "open-source",
+    "mit"
+  ],
+  "type": "module",
+  "license": "MIT",
+  "author": "Mahmoud Emad",
+  "homepage": "https://github.com/MoonLandingLabs/kimtos-core#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MoonLandingLabs/kimtos-core.git"
+  },
+  "bugs": {
+    "url": "https://github.com/MoonLandingLabs/kimtos-core/issues"
+  },
+  "scripts": {
+    "gen:app-install": "node scripts/gen-app-install.mjs",
+    "gen": "npm run gen:app-install && npm run gen:app-changelogs && npm run gen:changelog",
+    "predev": "npm run gen",
+    "dev": "vite",
+    "prebuild": "npm run gen",
+    "build": "vite build && CS=writer vite build --config vite.content.config.ts && CS=clipboard vite build --config vite.content.config.ts && CS=fakeform vite build --config vite.content.config.ts && CS=fakeform-fill vite build --config vite.content.config.ts && CS=background vite build --config vite.content.config.ts && node scripts/assert-content-bundles.mjs",
+    "preview": "vite preview",
+    "lint": "eslint . && stylelint 'src/**/*.css' && node scripts/check-contrast.mjs",
+    "pretypecheck": "npm run gen",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "gen:changelog": "node ../scripts/release.mjs compile",
+    "gen:app-changelogs": "node scripts/gen-app-changelogs.mjs",
+    "test": "node --import tsx --import ./src/test/appsLoader.mjs --test 'src/**/*.test.ts'"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@kimtos/config": "*",
+    "@kimtos/releaser": "*",
+    "@types/chrome": "^0.3.7",
+    "eslint": "^10.8.1",
+    "eslint-config-prettier": "^10.1.8",
+    "fake-indexeddb": "^6.2.8",
+    "globals": "^17.14.0",
+    "happy-dom": "^21.0.4",
+    "prettier": "^3.10.1",
+    "tsx": "^4.23.15",
+    "typescript-eslint": "^8.67.0",
+    "vite": "^8.2.1",
+    "vite-plugin-static-copy": "^4.1.1"
+  },
+  "dependencies": {
+    "@huggingface/transformers": "^4.2.0",
+    "@kimtos/icons": "*",
+    "@kimtos/prompts": "*",
+    "highlight.js": "^11.12.0",
+    "marked": "^18.2.1",
+    "marked-highlight": "^2.2.4",
+    "onnxruntime-web": "1.31.1",
+    "pdfjs-dist": "^6.5.438",
+    "tesseract.js": "^7.0.0",
+    "webm-muxer": "^5.1.4"
+  },
+  "private": true
+}

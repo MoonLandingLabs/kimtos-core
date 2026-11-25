@@ -1,0 +1,279 @@
+/* Tasks — colocated app styles (loaded by ./index.ts). */
+/* Tasks — sidebar of days + task list */
+.todo-layout {
+  position: relative;
+  display: flex;
+  height: 100%; /* shell flex-fills the app root in every window state (#1089) */
+}
+/* Day sidebar hidden by the hamburger toggle. */
+.todo-layout.collapsed .todo-sidebar {
+  display: none;
+}
+/* Narrow window: the day sidebar floats over the list as an overlay panel. */
+.todo-layout.is-narrow .todo-sidebar {
+  position: absolute;
+  inset: 0 auto 0 0;
+  z-index: 6;
+  width: 200px;
+  margin: 0;
+  padding: 12px;
+  background: var(--panel);
+  border-right: 1px solid var(--hairline);
+  box-shadow: 0 12px 50px rgba(0, 0, 0, 0.5);
+}
+.todo-sidebar {
+  flex: 0 0 160px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-right: 14px;
+  margin-right: 16px;
+  border-right: 1px solid var(--hairline);
+  overflow-y: auto;
+}
+.todo-day {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  text-align: left;
+  padding: 9px 12px;
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--text-secondary);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+.todo-day-dot {
+  flex: 0 0 auto;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.todo-day:hover {
+  color: var(--text);
+  background: var(--surface);
+}
+.todo-day.is-active {
+  color: var(--text);
+  font-weight: 600;
+  background: color-mix(in srgb, var(--accent) 24%, transparent);
+}
+.todo-main {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.todo-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.todo-heading {
+  flex: 1;
+  min-width: 0;
+}
+.todo-burger,
+.todo-title {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 650;
+}
+.todo-subtitle {
+  margin: 2px 0 0;
+  font-size: 12.5px;
+  color: var(--text-secondary);
+}
+.todo-count {
+  flex: 0 0 auto;
+  margin-top: 5px;
+  font-size: 12px;
+  font-weight: 600;
+  color: color-mix(in srgb, var(--accent) var(--accent-ink-mix), var(--text));
+}
+/* Composer — compact, expands on focus */
+.todo-compose {
+  width: 100%;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+  background: var(--field);
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+.todo-compose:focus-within {
+  border-color: var(--accent);
+  background: var(--field);
+}
+.todo-compose-title {
+  width: 100%;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--hairline);
+  outline: none;
+  padding: 12px 14px;
+}
+.todo-compose-title::placeholder {
+  color: var(--text-secondary);
+}
+.todo-compose-more {
+  padding: 0 14px 12px;
+  padding-top: 10px;
+}
+.todo-compose.is-compact .todo-compose-more {
+  display: none;
+}
+.todo-compose.is-compact:focus-within .todo-compose-more {
+  display: block;
+}
+.todo-compose-desc {
+  width: 100%;
+  font-family: inherit;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--text);
+  background: transparent;
+  border: none;
+  outline: none;
+  resize: none;
+  padding: 0;
+}
+.todo-compose-desc::placeholder {
+  color: var(--text-secondary);
+}
+.todo-compose-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 10px;
+}
+/* Task list */
+.todo-list {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-y: auto;
+}
+.todo-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px;
+  border-radius: var(--radius-sm);
+}
+.todo-row:hover {
+  background: var(--surface);
+}
+.todo-row.is-editing {
+  padding: 0;
+  background: transparent;
+}
+.todo-row.is-editing .todo-compose {
+  flex: 1;
+  min-width: 0;
+}
+.todo-check {
+  appearance: none;
+  -webkit-appearance: none;
+  flex: 0 0 auto;
+  position: relative;
+  width: 18px;
+  height: 18px;
+  margin-top: 1px;
+  border-radius: 50%;
+  border: 2px solid var(--hairline-strong);
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease;
+}
+.todo-check:checked {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.todo-check:checked::after {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 2px;
+  width: 4px;
+  height: 8px;
+  border: solid var(--on-accent);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+.todo-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.todo-row-title {
+  font-size: 14px;
+}
+.todo-row-desc {
+  font-size: 12.5px;
+  line-height: 1.4;
+  color: var(--text-secondary);
+  white-space: pre-wrap;
+}
+.todo-row.is-done .todo-row-title {
+  color: var(--text-secondary);
+  text-decoration: line-through;
+}
+.todo-row.is-done .todo-row-desc {
+  opacity: 0.7;
+}
+.todo-row-actions {
+  flex: 0 0 auto;
+  display: flex;
+  gap: 4px;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+.todo-row:hover .todo-row-actions {
+  opacity: 1;
+}
+.todo-action {
+  width: 28px;
+  height: 28px;
+  color: var(--text-secondary);
+}
+.todo-action:hover {
+  color: var(--text);
+}
+.todo-empty {
+  padding: 18px 10px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+/* Row picked in a custom-list selection mode. */
+.todo-row-select {
+  cursor: pointer;
+}
+.todo-row.is-selected {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 13px;
+  color: var(--text);
+}

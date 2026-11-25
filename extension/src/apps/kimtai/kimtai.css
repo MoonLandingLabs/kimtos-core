@@ -1,0 +1,497 @@
+/* KimtAI — colocated app styles (loaded by ./index.ts). */
+/* ============================================================================
+   KimtAI — on-device AI chat. Reuses the shared mt-layout sidebar shell; the
+   main pane is a chat column (header · scrolling thread · composer).
+   ============================================================================ */
+.kimtai-layout {
+  height: 100%; /* shell flex-fills the app root in every window state (#1089) */
+}
+.kimtai-main {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* the thread scrolls, not the whole pane */
+  padding: 0 0 0 16px;
+}
+.kimtai-header {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 2px 2px 10px;
+  border-bottom: 1px solid var(--hairline);
+}
+/* Non-interactive status label: shows the loaded model + GPU/CPU. */
+.kimtai-model-status {
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  padding: 6px 12px;
+  background: color-mix(in srgb, var(--accent) 16%, var(--material));
+  border: 1px solid color-mix(in srgb, var(--accent) 38%, transparent);
+  border-radius: 999px;
+}
+.kimtai-model-status.is-empty {
+  color: var(--text-secondary);
+  background: var(--material);
+  border-color: var(--hairline);
+}
+.kimtai-models-btn {
+  margin-left: auto;
+}
+/* --- thread --- */
+.kimtai-thread {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 16px 12px 16px 2px;
+}
+.kimtai-empty {
+  margin: auto;
+  max-width: 420px;
+  text-align: center;
+  color: var(--text-secondary);
+}
+.kimtai-empty-title {
+  margin: 0 0 6px;
+  font-size: 18px;
+  color: var(--text);
+}
+.kimtai-empty-sub {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+.kimtai-note {
+  margin: 12px 0 0;
+  font-size: 12.5px;
+  color: color-mix(in srgb, var(--warning) 70%, var(--text-secondary));
+}
+.kimtai-msg {
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
+}
+.kimtai-msg.is-user {
+  align-items: flex-end;
+}
+.kimtai-msg.is-assistant {
+  align-items: flex-start;
+}
+.kimtai-bubble {
+  max-width: 82%;
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+.kimtai-msg.is-user .kimtai-bubble {
+  color: var(--text);
+  background: color-mix(in srgb, var(--accent) 22%, var(--material));
+  border: 1px solid color-mix(in srgb, var(--accent) 36%, transparent);
+  border-bottom-right-radius: 4px;
+}
+.kimtai-msg.is-assistant .kimtai-bubble {
+  width: 100%;
+  max-width: 100%;
+  padding: 2px 2px;
+  background: none;
+  white-space: normal;
+}
+/* NOTE: no `white-space: pre-wrap` while streaming — we render real Markdown HTML
+   live now, so pre-wrap would leak the source whitespace into the output. */
+
+.kimtai-thinking {
+  color: var(--text-secondary);
+  font-style: italic;
+}
+.kimtai-error {
+  margin: 0;
+  color: var(--danger);
+  font-size: 13px;
+}
+.kimtai-msg-actions {
+  margin-top: 4px;
+  display: flex;
+  gap: 6px;
+}
+/* --- composer --- */
+.kimtai-composer {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  padding: 10px 2px 2px;
+  border-top: 1px solid var(--hairline);
+}
+.kimtai-input {
+  flex: 1;
+  min-width: 0;
+  resize: none;
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text);
+  padding: 10px 12px;
+  max-height: 160px;
+  background: var(--material);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+}
+.kimtai-input:focus {
+  outline: none;
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--hairline));
+}
+.kimtai-send {
+  flex: 0 0 auto;
+}
+.kimtai-send.is-stop {
+  background: var(--danger-solid);
+}
+/* --- Model Library overlay --- */
+.kimtai-lib-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2400;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: var(--scrim);
+  backdrop-filter: blur(2px);
+}
+.kimtai-lib-card {
+  width: min(780px, 100%);
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  background: var(--panel);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
+}
+.kimtai-lib-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.kimtai-lib-title {
+  margin: 0;
+  font-size: 17px;
+}
+.kimtai-lib-sub {
+  margin: 4px 0 14px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+.kimtai-lib-list {
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.kimtai-lib-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  background: var(--material);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+}
+.kimtai-lib-info {
+  flex: 1;
+  min-width: 0;
+}
+.kimtai-lib-name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.kimtai-lib-label {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--text);
+}
+.kimtai-badge {
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 2px 7px;
+  border-radius: 999px;
+  color: var(--text);
+}
+.kimtai-badge.tier-smart {
+  background: var(--accent);
+}
+.kimtai-badge.tier-smartest {
+  /* stylelint-disable-next-line color-no-hex -- shade endpoint: #000/#fff only darkens/lightens the token, the colour itself is still var() */
+  background: color-mix(in srgb, var(--accent) 82%, #000);
+}
+.kimtai-lib-meta {
+  margin-top: 3px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+.kimtai-lib-note {
+  margin-top: 4px;
+  font-size: 12.5px;
+  color: var(--text-secondary);
+}
+.kimtai-lib-actions {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 150px;
+  justify-content: flex-end;
+}
+.kimtai-lib-actions .dl-progress {
+  width: 100%;
+}
+/* Live download: progress bar plus its Cancel control, side by side (#655). */
+.kimtai-dl-live {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-width: 230px;
+}
+.kimtai-dl-live .dl-progress {
+  flex: 1;
+  min-width: 0;
+}
+.kimtai-dl-cancel {
+  flex: 0 0 auto;
+}
+.kimtai-lib-row .is-danger {
+  color: var(--danger);
+}
+.kimtai-lib-actions .button-primary svg,
+.kimtai-lib-actions .button-primary span {
+  vertical-align: middle;
+}
+/* header is the popover host */
+.kimtai-header {
+  position: relative;
+}
+.kimtai-main {
+  position: relative;
+}
+.kimtai-icon-btn {
+  display: inline-grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  color: var(--text-secondary);
+  background: var(--material);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+.kimtai-icon-btn:hover,
+.kimtai-icon-btn.is-open {
+  color: var(--text);
+  background: var(--material-hover);
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--hairline));
+}
+/* tune popover */
+.kimtai-pop {
+  position: absolute;
+  z-index: 30;
+  width: 300px;
+  max-width: calc(100% - 12px);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 14px;
+  background: var(--panel);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+  box-shadow: 0 16px 50px rgba(0, 0, 0, 0.5);
+}
+.kimtai-pop-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+.kimtai-pop-strong {
+  color: color-mix(in srgb, var(--accent) var(--accent-ink-mix), var(--text));
+  font-weight: 600;
+}
+.kimtai-pop-textarea {
+  width: 100%;
+  resize: vertical;
+  font-family: inherit;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--text);
+  padding: 8px 10px;
+  background: var(--material);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-sm);
+}
+.kimtai-pop-range {
+  width: 100%;
+  accent-color: var(--accent);
+}
+.kimtai-pop-select {
+  width: 100%;
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--text);
+  padding: 7px 10px;
+  background: var(--material);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-sm);
+}
+/* jump-to-latest */
+.kimtai-jump {
+  position: absolute;
+  left: 50%;
+  bottom: 74px;
+  transform: translateX(-50%);
+  z-index: 8;
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text);
+  padding: 6px 14px;
+  /* stylelint-disable-next-line color-no-hex -- shade endpoint: #000/#fff only darkens/lightens the token, the colour itself is still var() */
+  background: color-mix(in srgb, var(--accent) 88%, #000);
+  border: none;
+  border-radius: 999px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+}
+.kimtai-jump:hover {
+  background: var(--accent);
+}
+/* assistant action row: Copy + Retry + meta */
+.kimtai-mini-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: inherit;
+  font-size: 12px;
+  color: var(--text-secondary);
+  padding: 3px 8px;
+  background: none;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+.kimtai-mini-btn:hover {
+  color: var(--text);
+  background: var(--surface);
+}
+.kimtai-meta {
+  align-self: center;
+  font-size: 11.5px;
+  color: var(--text-secondary);
+}
+/* edit button on user messages (hover) */
+.kimtai-msg.is-user {
+  position: relative;
+}
+.kimtai-edit {
+  position: absolute;
+  top: 6px;
+  left: -30px;
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  opacity: 0;
+  color: var(--text-secondary);
+  background: var(--material);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: opacity 0.12s ease;
+}
+.kimtai-msg.is-user:hover .kimtai-edit {
+  opacity: 1;
+}
+.kimtai-edit:hover {
+  color: var(--text);
+}
+/* Model Library: device recommendation + speed badge */
+.kimtai-lib-rec {
+  margin: -4px 0 12px;
+  font-size: 12.5px;
+  color: var(--text);
+  padding: 8px 12px;
+  background: color-mix(in srgb, var(--accent) 14%, var(--material));
+  border: 1px solid color-mix(in srgb, var(--accent) 34%, transparent);
+  border-radius: var(--radius-sm);
+}
+.kimtai-badge.tier-rec {
+  /* stylelint-disable-next-line color-no-hex -- shade endpoint: #000/#fff only darkens/lightens the token, the colour itself is still var() */
+  background: color-mix(in srgb, var(--accent) 80%, #000);
+}
+/* "Tools" badge on agent-capable models — accent outline (distinct from the
+   filled tier badges, and fully palette-based). */
+.kimtai-badge.tier-agent {
+  color: color-mix(in srgb, var(--accent) var(--accent-ink-mix), var(--text));
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
+}
+
+/* Resource-gated download confirm (#269): shown before a model download so the user sees the
+   model's needs vs this device, and must acknowledge a hard warning before Download enables. */
+.kimtai-dl-confirm {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.kimtai-dl-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 650;
+  color: var(--text);
+}
+.kimtai-dl-size {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+.kimtai-dl-device {
+  margin: 0;
+  font-size: 12.5px;
+  color: var(--text-secondary);
+}
+.kimtai-dl-warn {
+  padding: 11px 13px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--hairline);
+}
+.kimtai-dl-warn.is-warn {
+  color: var(--danger);
+  background: color-mix(in srgb, var(--danger) 10%, transparent);
+  border-color: color-mix(in srgb, var(--danger) 35%, transparent);
+}
+.kimtai-dl-warn.is-caution {
+  color: color-mix(in srgb, var(--warning) 72%, var(--text));
+  background: color-mix(in srgb, var(--warning) 10%, transparent);
+  border-color: color-mix(in srgb, var(--warning) 35%, transparent);
+}
+.kimtai-dl-warn-title {
+  margin: 0 0 6px;
+  font-size: 13px;
+  font-weight: 700;
+}
+.kimtai-dl-reasons {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--text);
+}

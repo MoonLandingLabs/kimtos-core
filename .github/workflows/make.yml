@@ -1,0 +1,112 @@
+name: Makefile
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+    # A draft PR runs nothing (#1188): the self-hosted pool is the only one we have, and the
+    # issue-workflow opens every PR as a draft and pushes review commits to it. `ready_for_review`
+    # is listed because it is NOT in the default set — without it a PR opened as a draft would
+    # never get any checks at all, which is worse than running them too early.
+    types: [opened, synchronize, reopened, ready_for_review]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  # Cancel a superseded run on a BRANCH — only the latest push there needs verifying — but
+  # never on `main`. A burst of merges used to destroy the verification of everything it
+  # landed on top of: two commits 17 seconds apart both had their run cancelled, and a
+  # cancelled run reports as a red X with no failing step and no log, which is
+  # indistinguishable from a real failure (#1196). The original reasoning was that finishing
+  # stale runs wastes scarce self-hosted slots; that is weaker since the pool moved to
+  # dedicated hardware (#1185) and drafts stopped consuming it (#1188). Knowing whether
+  # `main` is green is worth the slots.
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+permissions:
+  contents: read
+
+jobs:
+  cold-start:
+    name: make, from a cold start
+    if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    # onnxruntime-node (pulled in transitively by @huggingface/transformers) tries to
+    # download CUDA EP binaries from a CDN during install on linux/x64, which times out
+    # in CI. We never use the Node binding — the extension runs onnxruntime-web in the
+    # browser — so skip that download.
+    env:
+      ONNXRUNTIME_NODE_INSTALL: skip
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: package-lock.json
+      # The lockfile's CONTENT depends on the npm major: npm 11 records `libc` fields for
+      # optional platform deps, npm 10 strips them. Node 22 ships npm 10, contributors on
+      # Node 24 have npm 11 — so the two disagree about the SAME dependency tree, and the
+      # lock flip-flops depending on who ran install last. Nothing pinned it (#143).
+      # package.json now pins it; honour that pin here, or this job asserts against a lock
+      # format nobody else produces.
+      - run: npm i -g npm@$(node -p "require('./package.json').packageManager.split('@')[1]")
+      - run: npm --version
+
+      - uses: ./.github/actions/npm-ci
+
+      # THE LOAD-BEARING LINE. Without it this job is theatre.
+      #
+      # `npm ci` fires every workspace's `prepare` hook, which compiles all five shared
+      # packages into their (gitignored) dist/. So by the time make runs, every dist
+      # already exists — and `make build` would pass even if the Makefile had NO idea
+      # how to build them. That is exactly how #111 survived: the Makefile built two of
+      # the five shared packages, `make www` died with "Cannot find module
+      # '@kimtos/config'", no target could repair it, and CI stayed green the whole time.
+      #
+      # Deleting the dists puts us in the state a real contributor is in after a
+      # `git clean -xfd` (or on a machine that has not reinstalled). Only then does make
+      # have to know how to build the repo itself.
+      - name: Undo what npm's prepare hook did for us
+        run: rm -rf shared-modules/*/dist .make
+
+      # Every one of these fails on the pre-#111 Makefile and passes on the fixed one —
+      # verified, not assumed. `make` is what the README, CONTRIBUTING and every
+      # contributor actually type; until now nothing checked it.
+      - run: make build
+      - run: make lint
+      # `make docs` is the docs site's DEV SERVER now (#182) — it never exits, so it can
+      # never be a CI step. `docs-build` is the same target's build, which is what this
+      # job is here to prove: that the make path itself works from a cold start.
+      - run: make docs-build
+
+      # `make` runs `npm install` (its node_modules target), and npm REWRITES the lockfile
+      # whenever it disagrees with a package.json. So when the two drift, every contributor
+      # gets a mystery `M package-lock.json` after any build — noise that is easy to commit
+      # by accident, and easy to `git checkout --` away together with a real change. That is
+      # exactly what happened: www/ declared a version the lock never
+      # recorded (#143).
+      #
+      # No other workflow can catch this: they all run `npm ci`, which never rewrites the
+      # lock. Same blind spot as #111/#114 — npm behaves differently in CI than it does on a
+      # developer's machine, and hides a real defect.
+      #
+      # Regenerate explicitly rather than trusting `make` to have reinstalled: make only
+      # reinstalls when a manifest is NEWER than node_modules, so a drifted lock could
+      # otherwise sail through untouched.
+      # A dependency advisory used to be a line in an install log that everyone scrolled
+      # past — 7 of them had accumulated (1 high), and no workflow or make target ever
+      # looked (#150). Now a new one is a red check.
+      #
+      # `moderate`, not `high`: the seven are cleared, so the gate can start strict rather
+      # than being merged already-red and then never tightened.
+      - run: make audit
+
+      - name: Assert package.json and the lockfile agree
+        run: |
+          npm install --package-lock-only --no-audit --no-fund >/dev/null
+          git diff --exit-code -- package-lock.json \
+            || { echo "::error::package-lock.json is out of sync with a package.json. Run 'npm install --package-lock-only' and commit the result."; exit 1; }
+      # The target that reproduced the reported failure: www/nuxt.config.ts imports
+      # @kimtos/config, so this dies unless make can build it.
+      - run: make www-build

@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "@kimtos/config/tsconfig.base.json",
+  "_comment": "Covers the VitePress shell only — .vitepress/ (theme + config.mts). The site content is Markdown and the build scripts are plain JS with their own tests; allowJs lets config.mts's import of build-content.mjs resolve with inferred types without turning the scripts into checked TS.",
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "noEmit": true,
+    "allowJs": true,
+    "verbatimModuleSyntax": true,
+    "types": ["vite/client"]
+  },
+  "include": [".vitepress/**/*.ts", ".vitepress/**/*.mts", ".vitepress/**/*.vue"],
+  "exclude": [".vitepress/cache"]
+}

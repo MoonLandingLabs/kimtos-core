@@ -1,0 +1,540 @@
+/* NotaBoard — colocated app styles (loaded by ./index.ts). */
+/* NOTE: the board/canvas is a paper surface with its own engine-managed light/dark
+   theme — colours drawn ON the board (paper, ink, notes, minimap) are content and
+   intentionally NOT app-theme tokens. Only the chrome (toolbar/sidebar) themes. */
+/* ============================================================================
+   NotaBoard — whiteboard app (sidebar of boards + a pen/shape/text canvas)
+   ========================================================================== */
+.notaboard-layout {
+  position: relative;
+  display: flex;
+  /* The shared shell flex-fills the tagged app root in every window state
+     (mounted included, #1089), so the layout is exactly the window height —
+     never a `vh` guess, which used to overflow the mounted body and push the
+     empty-state CTA below the fold. */
+  height: 100%;
+}
+/* --- boards sidebar --- */
+.nb-sidebar {
+  flex: 0 0 auto;
+  width: 248px; /* overridden inline; drag-resizable */
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+  padding-right: 12px;
+  border-right: 1px solid var(--hairline);
+  overflow: hidden;
+}
+.notaboard-layout.collapsed .nb-sidebar {
+  display: none;
+}
+.notaboard-layout.is-narrow .nb-sidebar {
+  position: absolute;
+  inset: 0 auto 0 0;
+  z-index: 6;
+  width: 244px;
+  padding: 12px;
+  background: var(--panel);
+  border-right: 1px solid var(--hairline);
+  box-shadow: 0 12px 50px rgba(0, 0, 0, 0.5);
+}
+.notaboard-layout.is-narrow .pane-resizer,
+.notaboard-layout.collapsed .pane-resizer {
+  display: none;
+}
+.nb-sidebar-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 4px 10px;
+}
+.nb-sidebar-title {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+.nb-new {
+  width: 28px;
+  height: 28px;
+}
+.nb-board-list {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 2px 2px 8px;
+}
+.nb-side-empty {
+  margin: 14px 6px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+.nb-board-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease;
+}
+.nb-board-card:hover {
+  background: var(--material);
+}
+.nb-board-card.is-active {
+  background: var(--material-hover);
+  border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+}
+.nb-board-card.is-selected {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+}
+.nb-board-thumb {
+  flex: 0 0 auto;
+  width: 56px;
+  height: 42px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: var(--panel);
+  border: 1px solid var(--hairline);
+  display: grid;
+  place-items: center;
+}
+.nb-board-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.nb-board-thumb.is-empty {
+  background: repeating-linear-gradient(
+    45deg,
+    var(--surface),
+    var(--surface) 6px,
+    var(--surface) 6px,
+    var(--surface) 12px
+  );
+}
+.nb-board-meta {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.nb-board-title {
+  font-size: 13.5px;
+  font-weight: 550;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.nb-board-date {
+  font-size: 11.5px;
+  color: var(--text-secondary);
+}
+.nb-board-check {
+  flex: 0 0 auto;
+  accent-color: var(--accent);
+  width: 16px;
+  height: 16px;
+}
+/* --- main column --- */
+.nb-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  padding-left: 8px;
+}
+.nb-titlebar {
+  padding: 2px 2px 8px;
+}
+.nb-title-input {
+  width: 100%;
+  font-family: inherit;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--text);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 4px 6px;
+  outline: none;
+}
+.nb-title-input:focus {
+  background: var(--material);
+}
+.nb-title-input::placeholder {
+  color: var(--text-secondary);
+}
+/* --- toolbar: one slim bar (Notability-style); colour/thickness live in a
+   popover under the active drawing tool --- */
+.nb-toolbar {
+  position: relative; /* popovers anchor against this */
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 8px;
+  margin-bottom: 10px;
+  background: var(--material);
+  border: 1px solid var(--hairline);
+  border-radius: 13px;
+}
+/* display:flex above would defeat the [hidden] attribute; make it authoritative so the
+   bar can be hidden when no board is open (#256). */
+.nb-toolbar[hidden] {
+  display: none;
+}
+/* Right-aligned action cluster (undo/redo · arrange · zoom · page · screen). */
+.nb-bar-right {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+}
+/* Hairline divider between tool sub-groups. */
+.nb-sep {
+  align-self: stretch;
+  width: 1px;
+  margin: 3px 5px;
+  background: var(--hairline);
+}
+.nb-tool,
+.nb-act {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  color: var(--text);
+  background: transparent;
+  border: none;
+  border-radius: 9px;
+  cursor: pointer;
+  transition:
+    background 0.14s ease,
+    color 0.14s ease,
+    box-shadow 0.14s ease;
+}
+.nb-tool:hover,
+.nb-act:hover:not(:disabled) {
+  background: var(--material-hover);
+}
+.nb-tool.is-active {
+  color: var(--on-accent);
+  background: var(--accent-solid);
+  box-shadow: 0 2px 9px color-mix(in srgb, var(--accent) 45%, transparent);
+}
+/* Popover-open affordance on a tool/button. */
+.nb-tool.is-open,
+.nb-act.is-open {
+  box-shadow: inset 0 0 0 1.5px var(--accent);
+}
+.nb-act:disabled {
+  opacity: 0.32;
+  cursor: default;
+}
+.nb-act.nb-danger:hover:not(:disabled) {
+  color: var(--danger);
+  background: color-mix(in srgb, var(--danger) 14%, transparent);
+}
+.nb-act svg,
+.nb-tool svg {
+  pointer-events: none;
+}
+/* Ink underline: shows each drawing tool's current colour. */
+.nb-tool-ink {
+  position: absolute;
+  left: 7px;
+  right: 7px;
+  bottom: 3px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--text-secondary);
+  pointer-events: none;
+  box-shadow: 0 0 0 0.5px rgba(0, 0, 0, 0.25);
+}
+.nb-zoom-label {
+  min-width: 48px;
+  height: 34px;
+  padding: 0 8px;
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.nb-zoom-label:hover {
+  background: var(--material-hover);
+}
+/* Always visible — toggles the boards sidebar open/closed (like the other apps). */
+.nb-burger {
+  display: inline-grid;
+}
+/* Boards sidebar bulk-select controls: stack the Select/Done toggle above the
+   Select-all + Delete(N) bar so nothing wraps in the narrow sidebar. */
+.nb-board-list .bulk-controls {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
+}
+.nb-board-list .bulk-controls .mt-select-toggle {
+  align-self: flex-start;
+}
+/* --- popovers (style palette + page setup) --- */
+.nb-popover {
+  position: absolute;
+  z-index: 30;
+  min-width: 176px;
+  max-width: 280px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  background: var(--panel);
+  border: 1px solid var(--hairline-strong);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  animation: nb-pop-in 0.12s ease;
+}
+.nb-pop-label {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+.nb-pop-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px;
+}
+.nb-pop-row + .nb-pop-label {
+  margin-top: 3px;
+}
+/* swatches (used in the style popover) */
+.nb-swatch {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  box-shadow: 0 0 0 1px var(--hairline);
+  cursor: pointer;
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease;
+}
+.nb-swatch:hover {
+  transform: scale(1.14);
+}
+.nb-swatch.is-active {
+  box-shadow: 0 0 0 2px var(--accent);
+}
+.nb-swatch.is-light {
+  box-shadow: 0 0 0 1px var(--hairline-strong);
+}
+.nb-swatch-custom {
+  position: relative;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: conic-gradient(red, yellow, lime, aqua, blue, magenta, red);
+}
+.nb-color-input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+/* thickness presets — a stack of line-weight bars */
+.nb-psize {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 34px;
+  background: transparent;
+  border: 1px solid var(--hairline);
+  border-radius: 8px;
+  cursor: pointer;
+  transition:
+    background 0.14s ease,
+    border-color 0.14s ease;
+}
+.nb-psize:hover {
+  background: var(--material-hover);
+}
+.nb-psize.is-active {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+}
+.nb-psize-bar {
+  width: 26px;
+  border-radius: 3px;
+  background: var(--text);
+}
+/* pill toggles + chips inside popovers (fill, paper, theme, navigator) */
+.nb-toggle,
+.nb-chip {
+  height: 30px;
+  padding: 0 13px;
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  background: transparent;
+  border: 1px solid var(--hairline);
+  border-radius: 8px;
+  cursor: pointer;
+  transition:
+    background 0.14s ease,
+    color 0.14s ease,
+    border-color 0.14s ease;
+}
+.nb-toggle:hover,
+.nb-chip:hover {
+  background: var(--material-hover);
+  color: var(--text);
+}
+.nb-toggle.is-active,
+.nb-chip.is-active {
+  color: var(--on-accent);
+  background: var(--accent-solid);
+  border-color: transparent;
+}
+/* --- the canvas stage --- */
+.nb-stage {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--panel);
+  cursor: crosshair;
+}
+.nb-stage[data-tool='select'] {
+  cursor: default;
+}
+.nb-stage[data-tool='text'] {
+  cursor: text;
+}
+.nb-stage[data-tool='note'] {
+  cursor: copy;
+}
+.nb-stage[data-tool='pan'],
+.nb-stage.can-pan {
+  cursor: grab;
+}
+.nb-stage.is-panning {
+  cursor: grabbing;
+}
+.nb-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  cursor: inherit;
+  outline: none;
+}
+/* in-place text / sticky-note editor (overlaid on the canvas) */
+.nb-text-input {
+  position: absolute;
+  z-index: 5;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  /* stylelint-disable-next-line color-no-hex -- ink ON the fixed white canvas, so it cannot follow the theme */
+  color: #1f2937;
+  font-family: var(--font);
+  line-height: 1.25;
+  resize: none;
+  overflow: hidden;
+  white-space: pre;
+  outline: 2px solid color-mix(in srgb, var(--accent) 70%, transparent);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+.nb-text-input.is-note {
+  white-space: pre-wrap;
+  line-height: 1.35;
+  /* stylelint-disable-next-line color-no-hex -- ink ON the fixed white canvas, so it cannot follow the theme */
+  color: #3a3a32;
+  border-radius: 10px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+  outline: none;
+}
+.nb-file-input {
+  display: none;
+}
+/* --- empty state --- */
+.nb-stage.is-empty {
+  cursor: default;
+  display: grid;
+  place-items: center;
+}
+.nb-empty {
+  max-width: 380px;
+  padding: 24px;
+  text-align: center;
+  color: var(--text-secondary);
+}
+.nb-empty-art {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 16px;
+  border-radius: 18px;
+  background:
+    /* stylelint-disable-next-line color-no-hex -- the whiteboard surface is paper-white in both themes, like a real board */
+    radial-gradient(circle at 30% 30%, #fff 0 2px, transparent 2px) 0 0 / 16px 16px,
+    /* stylelint-disable-next-line color-no-hex -- shade endpoint: #000/#fff only darkens/lightens the token, the colour itself is still var() */
+    linear-gradient(135deg, color-mix(in srgb, var(--accent) 85%, #fff), var(--accent));
+  box-shadow: 0 10px 30px color-mix(in srgb, var(--accent) 40%, transparent);
+}
+.nb-empty-title {
+  margin: 0 0 6px;
+  font-size: 18px;
+  font-weight: 650;
+  color: var(--text);
+}
+.nb-empty-sub {
+  margin: 0 0 18px;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+/* navigator minimap (bottom-right of the stage) */
+.nb-minimap {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  width: 188px;
+  height: 132px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--hairline-strong);
+  /* stylelint-disable-next-line color-no-hex -- the whiteboard surface is paper-white in both themes, like a real board */
+  background: #fff;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.28);
+  cursor: pointer;
+  z-index: 4;
+  touch-action: none;
+}
+.nb-minimap[hidden] {
+  display: none;
+}

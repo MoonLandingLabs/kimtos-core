@@ -1,0 +1,432 @@
+/* Voice Studio — colocated app styles (loaded by ./index.ts). Colours are tokens
+   only, so light/dark both work. */
+
+.vs-composer {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* --- Voice bar: who is speaking, and the two things you do with them --- */
+.vs-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+
+.vs-avatar {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+  /* The accent as TEXT is illegible on a tint of itself in both themes (#135) — the
+     initial is small text, so it takes the text ink mix. */
+  color: color-mix(in srgb, var(--accent) var(--accent-ink-mix), var(--text));
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.vs-bar-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.vs-bar-name {
+  font-size: 15px;
+  color: var(--text);
+}
+
+.vs-bar-meta {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.vs-bar-actions {
+  display: inline-flex;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.vs-bar-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition:
+    border-color 0.12s ease,
+    background 0.12s ease,
+    color 0.12s ease;
+}
+
+.vs-bar-btn:hover {
+  border-color: var(--hairline-strong);
+  background: var(--surface-hover);
+}
+
+.vs-bar-btn.is-playing {
+  border-color: var(--accent);
+  color: color-mix(in srgb, var(--accent) var(--accent-ink-mix), var(--text));
+}
+
+.vs-bar-btn svg {
+  width: 15px;
+  height: 15px;
+}
+
+.vs-preview-error {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+}
+
+/* `hidden` has to win over the flex above, or an empty error box shows always. */
+.vs-preview-error[hidden] {
+  display: none;
+}
+
+.vs-preview-retry {
+  font-size: 13px;
+}
+
+.vs-preview-note {
+  margin: 0;
+}
+
+/* A voice not held on this device yet: its control downloads rather than plays, and
+   the card says so in words as well as in the glyph. */
+.vs-card-state {
+  color: var(--warning);
+}
+
+/* Fetching: the same words, in the ordinary secondary colour — this one is progress,
+   not a caution. */
+.vs-card-state.is-working {
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+.vs-card-play.is-download {
+  border-style: dashed;
+}
+
+/* Working: the accent-filled treatment the App Store's download button uses, so the
+   SHARED `.btn-spinner` (white on accent) reads correctly in both themes. There is no
+   spinner of our own — a third private copy is exactly the drift this repo keeps
+   paying for (#1163).
+
+   The ground is `--accent-solid`, not the raw accent: a per-app accent can be light
+   enough that white on it fails AA, which is what those tokens exist to guarantee. */
+.vs-card-play.is-loading,
+.vs-bar-btn.is-loading {
+  background: var(--accent-solid);
+  border-color: var(--accent-solid);
+  color: var(--on-accent);
+}
+
+.vs-card-play.is-loading .btn-spinner,
+.vs-bar-btn.is-loading .btn-spinner {
+  margin-right: 0;
+}
+
+.vs-bar-btn.is-loading .btn-spinner {
+  margin-right: 6px;
+}
+
+/* --- Voice picker: search + filters + a grid of voice cards --- */
+.vs-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+
+.vs-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 10px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-sm);
+  background: var(--field);
+  color: var(--text-secondary);
+}
+
+.vs-search:focus-within {
+  border-color: var(--accent);
+}
+
+.vs-search svg {
+  flex: none;
+  width: 15px;
+  height: 15px;
+}
+
+.vs-search-input {
+  flex: 1;
+  min-width: 0;
+  padding: 8px 0;
+  border: none;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 13px;
+  outline: none;
+}
+
+.vs-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.vs-chip-group {
+  display: inline-flex;
+  gap: 4px;
+  padding: 3px;
+  border-radius: var(--radius-sm);
+  background: var(--material);
+}
+
+.vs-chip {
+  border: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-secondary);
+  font: inherit;
+  font-size: 12px;
+  padding: 4px 10px;
+  cursor: pointer;
+  transition:
+    background 0.12s ease,
+    color 0.12s ease;
+}
+
+.vs-chip:hover {
+  color: var(--text);
+  background: var(--surface-hover);
+}
+
+.vs-chip.is-on {
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+  color: color-mix(in srgb, var(--accent) var(--accent-ink-mix), var(--text));
+}
+
+.vs-picker-count {
+  margin: 0;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+/* The grid scrolls in its own region: the text you came to narrate must stay on
+   screen at the mounted 720x620 window (convention 4 / #1089). */
+.vs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 8px;
+  max-height: 244px;
+  overflow-y: auto;
+  padding-right: 2px;
+}
+
+.vs-card {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+  background: var(--panel);
+  transition:
+    border-color 0.12s ease,
+    background 0.12s ease;
+}
+
+.vs-card:hover {
+  border-color: var(--hairline-strong);
+  background: var(--surface-hover);
+}
+
+.vs-card.is-selected {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
+.vs-card-pick {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 34px 10px 10px;
+  border: none;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.vs-card-avatar {
+  width: 32px;
+  height: 32px;
+  font-size: 13px;
+}
+
+.vs-card-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.vs-card-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.vs-card-meta {
+  font-size: 11px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.vs-card-play {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border: 1px solid var(--hairline);
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition:
+    border-color 0.12s ease,
+    color 0.12s ease;
+}
+
+/* The play control is a GLYPH, not text — it takes the non-text ink mix (WCAG 1.4.11),
+   which keeps it recognisably accent instead of dragging it toward --text. */
+.vs-card-play:hover,
+.vs-card-play.is-playing {
+  border-color: var(--accent);
+  color: color-mix(in srgb, var(--accent) var(--accent-ink-ui-mix), var(--text));
+}
+
+.vs-card-play svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* --- Composer --- */
+.vs-text {
+  width: 100%;
+  box-sizing: border-box;
+  resize: vertical;
+  min-height: 120px;
+  padding: 10px 12px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+  background: var(--field);
+  color: var(--text);
+  font: inherit;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.vs-text:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.vs-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.vs-count {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.vs-speed-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.vs-speed {
+  accent-color: var(--accent);
+}
+
+.vs-speed-val {
+  min-width: 34px;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+.vs-actions {
+  display: inline-flex;
+  gap: 8px;
+  margin-left: auto;
+}
+
+/* --- Result --- */
+.vs-result {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.vs-result-head {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.vs-saved {
+  align-self: center;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.vs-clip-text {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  white-space: pre-wrap;
+}

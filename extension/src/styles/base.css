@@ -1,0 +1,323 @@
+/* ── Design tokens ───────────────────────────────────────────────────────────
+   ALL colours in the app come from these tokens — never hard-code a hex/rgba in a
+   component (see .claude/skills/theming). The palette is defined for both themes:
+   the base :root is DARK; a light palette is applied for `System` mode (when the
+   OS prefers light) and for an explicit `Light` pick. An explicit choice sets
+   `data-theme` on <html> (via the Appearance setting) and always wins over the OS.
+   To add a colour: add a token here (dark + light), then use var(--token). */
+:root {
+  /* Theme-invariant tokens (shape/size/brand — identical in both themes). */
+  /* Brand accent. #2563eb, not the old #3b82f6: white on that measured 3.68:1, below AA
+     (#129). Darkened just enough that white clears it (5.17:1) — so the brand keeps its
+     white-on-blue look instead of flipping to dark ink. Per-app accents override this,
+     and lib/accent.ts derives the ink for whichever colour is set. */
+  --accent: #2563eb;
+  /* How much accent survives in ACCENT TEXT. The accent is a GROUND colour; as text it is
+     illegible — measured 2.9-3.9:1 on a panel or on a tint of itself, for every accent
+     (#135). So accent text is the accent mixed toward --text, which flips with the theme.
+     It CANNOT be a colour token: --accent is set per element (each app overrides it), and a
+     :root-declared --accent-ink would bake in the ROOT accent and inherit that. A
+     PERCENTAGE token works, because the color-mix is then evaluated where it is used.
+     65% dark / 45% light are the most accent that still clears 4.5:1 on all 19 accents. */
+  --accent-ink-mix: 65%;
+  /* The same idea for ICONS and other non-text graphics — but they are NOT text, and the
+     text rule is the wrong rule for them. WCAG asks 4.5:1 of small text (1.4.3) and only
+     3:1 of graphical objects and UI components (1.4.11). Holding icons to the text
+     threshold darkened them toward --text far more than legibility needs, and it showed:
+     an accent icon came out muddy (Notes' amber #f59e0b as #77541c in light). Icons keep
+     4.5:1's ancestor honest by clearing 3:1, and get 15-20 points more accent back.
+     85% dark / 60% light are the most accent that still clears 3:1 on all 19 accents
+     (worst: Grammit 3.35:1 light, Thoth 3.31:1 dark — measured, with margin).
+     On an accent or coloured GROUND, neither of these applies: use --on-accent (white). */
+  --accent-ink-ui-mix: 85%;
+  /* Destructive state. TWO tokens, because --danger had two jobs pulling opposite ways:
+     as INK on a tint of itself it must be bright enough for a dark panel, while as the
+     GROUND under white text it must be deep. The old single #e5484d did neither —
+     3.86:1 in dark and 3.09:1 in light, below AA in BOTH themes (#128).
+       --danger        ink + graphics: error text, borders, the record dot. Per theme.
+       --danger-solid  the ground under --on-accent white ink (destructive buttons,
+                       close-on-hover). Deep in both themes — white on it is 6.47:1. */
+  --danger: #f87171; /* ink; 5.18:1 on its own 12% wash in dark */
+  --danger-solid: #b91c1c; /* ground for white ink; identical in both themes */
+  /* Cautions — ink only, nothing uses it as a background. The old single #f0c674 was
+     8.49:1 in dark but 1.42:1 in LIGHT: pale yellow on a near-white panel, i.e. an
+     invisible notice banner (#128). Deep amber in light; the dark value is unchanged. */
+  --warning: #f0c674;
+  --on-accent: #ffffff; /* text/icon on an accent / coloured / image ground (both themes) */
+  /* The ground under SYNTAX-HIGHLIGHTED code. Dark in both themes, deliberately, like
+     --on-accent: the highlighter's palette is highlight.js's github-dark (imported once in
+     lib/markdown.ts and shared by every consumer), and its token colours are chosen for a
+     dark ground — pale blue string literals on a near-white panel are unreadable. It is
+     github-dark's own background, so the vendor palette sits on what it was designed for.
+     --code-ink is that palette's default foreground, for the spans it does not colour. */
+  --code-surface: #0d1117;
+  --code-ink: #c9d1d9;
+
+  /* A SOLID accent surface (a primary button, a badge, an app tile) carries white ink -- so
+     the surface, not the ink, is what has to be dark enough to hold it. --accent is the true
+     brand colour and is never darkened; these two are it darkened just enough that white
+     clears the bar, and only when it must. See lib/accent.ts, which sets them per app.
+       --accent-solid      white TEXT  >= 4.5:1  (WCAG 1.4.3)
+       --accent-solid-ui   white GLYPH >= 3:1    (WCAG 1.4.11)
+     The brand accent (#2563eb) already clears both at 5.17:1, so here they ARE the accent.
+     A light app accent (Grammit's green is 1.74:1 against white) is where they diverge. */
+  --accent-solid: var(--accent);
+  --accent-solid-ui: var(--accent);
+  --radius-lg: 16px;
+  --radius-md: 12px;
+  --radius-sm: 8px;
+  /* Backdrop-filter blur radii — modest so surfaces stay cheap to composite over
+     the (animating) wallpaper. */
+  --blur: 18px;
+  --font:
+    -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI Variable', 'Segoe UI', system-ui, Roboto, Helvetica,
+    Arial, sans-serif;
+
+  /* Dark palette (the default). */
+  /* The one declaration the BROWSER reads. Everything below is ours — the browser cannot
+     see a single token of it — so the controls IT draws (a <select>'s drop-down list,
+     checkboxes, range sliders, colour and file pickers, date fields, scrollbars) were
+     drawn light on a dark page, because `normal` means "light" (#1160). Each palette
+     block states the scheme it has already resolved, NOT `light dark`: that would hand
+     the choice back to the OS and put an OS-light machine pinned to Dark right back
+     where it started. Keep this in step with the palette around it. */
+  color-scheme: dark;
+  --text: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.62);
+  --material: rgba(28, 28, 30, 0.45); /* dock / panels / dialogs (translucent) */
+  --material-hover: rgba(48, 48, 52, 0.55);
+  --hairline: rgba(255, 255, 255, 0.14); /* 1px borders / dividers */
+  --hairline-strong: rgba(255, 255, 255, 0.28);
+  --surface: rgba(255, 255, 255, 0.05); /* subtle fills on a material (rows, tiles) */
+  --surface-hover: rgba(255, 255, 255, 0.09);
+  --surface-strong: rgba(255, 255, 255, 0.14);
+  --audio-wave-idle: rgba(255, 255, 255, 0.16); /* not-yet-played bars in the waveform player */
+  --panel: rgba(28, 28, 32, 0.98); /* opaque menus / popovers / settings panels */
+  --field: rgba(0, 0, 0, 0.25); /* sunken input / well background */
+  --scrim: rgba(0, 0, 0, 0.55); /* modal backdrops / overlays */
+  --shadow: 0 12px 40px rgba(0, 0, 0, 0.32);
+  --app-icon-shadow: 0 6px 16px rgba(0, 0, 0, 0.35); /* drop shadow under app-icon squircles */
+  --text-halo: rgba(0, 0, 0, 0.45); /* glow behind over-wallpaper text (clock/subtitle/credit/tip) */
+  --bg-overlay:
+    radial-gradient(85% 65% at 50% 42%, rgba(0, 0, 0, 0.6) 0%, transparent 66%),
+    linear-gradient(180deg, transparent 60%, rgba(0, 0, 0, 0.55) 100%);
+  /* "New" badge — a freshly published app carries it for 30 days (#1114). Blue, so it reads
+     as distinct from the accent, and says "new/notable".
+     It is used as TEXT on a wash of itself, so it needs a lighter value on dark and a deeper
+     one in the light blocks below — measured by check-contrast in both. */
+  --new: #7cc0ff;
+  /* Positive / "this is good" state — the green counterpart to --danger (diff
+     additions, a passing check, a `true` value).
+     Unlike --danger, one green cannot serve both themes: these are used as TEXT on a
+     wash of themselves, and a bright green on a light ground gives ~2.4:1 (unreadable),
+     while a deep green on a dark ground gives ~1.1:1 — which is exactly the AnubisDB
+     bug this fixed (#72). So the light blocks below use a DEEP green: ~5.9:1 on dark,
+     ~4.7:1 on light. Keep it that way if you retune these. */
+  --success: #4ade80;
+  /* Data-store kinds — AnubisDB labels each partition records / blobs / kv, and the
+     three pills need three distinguishable hues. Same rule as --success: they are
+     TEXT on a wash of themselves, so each needs a deeper value on the light ground
+     (the bright pastels these replaced measured 3.1-3.4:1 in Light — all three below
+     WCAG AA). Now ~9:1 dark, ~6.8-7.4:1 light. Measure if you retune them. */
+  --kind-records: #7dd3fc;
+  --kind-blobs: #f0abfc;
+  --kind-kv: #6ee7b7;
+}
+
+/* Light palette — shared by `System` (OS prefers light, no explicit pick) and
+   the explicit `Light` choice. Kept in one @media + one attr rule (duplicated on
+   purpose; plain CSS can't share a declaration block across the two). */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) {
+    color-scheme: light;
+    --text: #1d1d1f;
+    --text-secondary: rgba(0, 0, 0, 0.5);
+    --material: rgba(250, 250, 253, 0.97);
+    --material-hover: rgba(255, 255, 255, 0.99);
+    --hairline: rgba(0, 0, 0, 0.08);
+    --hairline-strong: rgba(0, 0, 0, 0.15);
+    --surface: rgba(0, 0, 0, 0.04);
+    --surface-hover: rgba(0, 0, 0, 0.06);
+    --surface-strong: rgba(0, 0, 0, 0.1);
+    --audio-wave-idle: rgba(0, 0, 0, 0.16); /* not-yet-played bars in the waveform player */
+    --panel: #f5f5f8;
+    --field: rgba(0, 0, 0, 0.05);
+    --scrim: rgba(0, 0, 0, 0.26);
+    --shadow: 0 16px 50px rgba(0, 0, 0, 0.12);
+    --app-icon-shadow: 0 3px 8px rgba(0, 0, 0, 0.1); /* softer under light surfaces */
+    --text-halo: rgba(255, 255, 255, 0.8);
+    --bg-overlay:
+      radial-gradient(85% 65% at 50% 42%, rgba(255, 255, 255, 0.8) 0%, transparent 66%),
+      linear-gradient(180deg, transparent 60%, rgba(255, 255, 255, 0.6) 100%);
+    --accent-ink-mix: 45%;
+    --accent-ink-ui-mix: 60%; /* icons: 3:1, not 4.5:1 — see the token comment */
+    --danger: #b91c1c;
+    --warning: #92400e;
+    --new: #1d4ed8;
+    --success: #166534;
+    --kind-records: #0369a1;
+    --kind-blobs: #a21caf;
+    --kind-kv: #047857;
+  }
+}
+:root[data-theme='light'] {
+  color-scheme: light;
+  --text: #1d1d1f;
+  --text-secondary: rgba(0, 0, 0, 0.5);
+  --material: rgba(250, 250, 253, 0.97);
+  --material-hover: rgba(255, 255, 255, 0.99);
+  --hairline: rgba(0, 0, 0, 0.08);
+  --hairline-strong: rgba(0, 0, 0, 0.15);
+  --surface: rgba(0, 0, 0, 0.04);
+  --surface-hover: rgba(0, 0, 0, 0.06);
+  --surface-strong: rgba(0, 0, 0, 0.1);
+  --audio-wave-idle: rgba(0, 0, 0, 0.16); /* not-yet-played bars in the waveform player */
+  --panel: #f5f5f8;
+  --field: rgba(0, 0, 0, 0.05);
+  --scrim: rgba(0, 0, 0, 0.26);
+  --shadow: 0 16px 50px rgba(0, 0, 0, 0.12);
+  --app-icon-shadow: 0 3px 8px rgba(0, 0, 0, 0.1); /* softer under light surfaces */
+  --text-halo: rgba(255, 255, 255, 0.8);
+  --bg-overlay:
+    radial-gradient(85% 65% at 50% 42%, rgba(255, 255, 255, 0.8) 0%, transparent 66%),
+    linear-gradient(180deg, transparent 60%, rgba(255, 255, 255, 0.6) 100%);
+  --accent-ink-mix: 45%;
+  --accent-ink-ui-mix: 60%; /* icons: 3:1, not 4.5:1 — see the token comment */
+  --danger: #b91c1c;
+  --warning: #92400e;
+  --new: #1d4ed8;
+  --success: #166534;
+  --kind-records: #0369a1;
+  --kind-blobs: #a21caf;
+  --kind-kv: #047857;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Honor the hidden attribute even when an element sets its own display. */
+[hidden] {
+  display: none !important;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  font-family: var(--font);
+  color: var(--text);
+  /* Always-visible base so the page is never blank if a photo is slow or blocked. */
+  background: radial-gradient(120% 120% at 18% 12%, #243244 0%, #0d1726 45%, #05070d 100%);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.bg-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background-size: cover;
+  background-position: center;
+  /* Blur amount is set from settings; the slight over-scale hides the
+     transparent edges the blur would otherwise expose. */
+  filter: blur(var(--bg-blur, 3px));
+  opacity: 0;
+  /* Static scale (no animated zoom): a moving backdrop forces every
+     backdrop-filter surface above it (dock, search, widgets) to re-rasterize
+     each frame. Keeping it still lets those blurs cache, so the home page stays
+     smooth — including while dragging Chrome tabs. Only opacity fades in. */
+  transform: scale(1.04);
+  transition: opacity 0.9s ease;
+}
+
+.bg-layer.is-loaded {
+  opacity: 1;
+}
+
+.bg-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  background: var(--bg-overlay);
+}
+
+.stage {
+  position: relative;
+  z-index: 2;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px 140px;
+}
+
+.center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+}
+
+.clock {
+  font-size: clamp(72px, 12vw, 150px);
+  font-weight: 250;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+  text-shadow: 0 2px 30px var(--text-halo);
+}
+
+.subtitle {
+  margin: 0;
+  font-size: clamp(14px, 1.5vw, 18px);
+  font-weight: 400;
+  letter-spacing: 0.2px;
+  color: var(--text-secondary);
+  text-shadow: 0 1px 12px var(--text-halo);
+}
+
+/* Search field — Spotlight / Windows search styling */
+.search {
+  width: min(600px, 92vw);
+  margin-top: 8px;
+}
+
+.search-form {
+  display: flex;
+  align-items: center;
+  height: 50px;
+  padding: 0 20px;
+  border-radius: var(--radius-md);
+  background: var(--material);
+  border: 1px solid var(--hairline);
+  backdrop-filter: blur(var(--blur)) saturate(160%);
+  -webkit-backdrop-filter: blur(var(--blur)) saturate(160%);
+  box-shadow: var(--shadow);
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+.search-form:focus-within {
+  background: var(--material-hover);
+  border-color: var(--accent);
+}
+
+.search-input {
+  width: 100%;
+  border: none;
+  background: transparent;
+  color: var(--text);
+  font-size: 16px;
+  font-family: inherit;
+  outline: none;
+}
+
+.search-input::placeholder {
+  color: var(--text-secondary);
+}

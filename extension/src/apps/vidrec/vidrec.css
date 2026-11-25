@@ -1,0 +1,426 @@
+/* Video Recorder (vidrec) — colocated app styles (loaded by ./index.ts).
+   The shared video-player and recording components (.video-, .rec-, .record-)
+   stay in the shared stylesheet.
+
+   The action bar is DOCKED under the stage rather than floated over the video
+   (#1245). Two reasons, and they both point the same way: a bar big enough to
+   group its controls covers a quarter of the preview in the standard 720x620 app
+   window, and a bar sitting on arbitrary video can never be reliably legible, so
+   it has to invent its own over-media colours. Docked, it is an ordinary themed
+   panel — every colour is a token and it reads the same in both themes. Only the
+   status pill and the countdown still overlay the stage, which is where they
+   belong; the stage itself is a black media surface in both themes. */
+.vid-studio {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+  min-height: 0;
+}
+.vid-stage {
+  position: relative;
+  flex: 1;
+  /* Everything in the stage is absolutely positioned, so it has no intrinsic
+     height: without a floor a short window would collapse the preview to nothing
+     and leave only the bar. It shrinks to here, then `.mt-main` scrolls. */
+  min-height: 160px;
+  display: flex;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  /* stylelint-disable-next-line color-no-hex -- media stage is always black, in both themes (letterboxing behind video) */
+  background: #000;
+}
+.vid-preview {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  /* stylelint-disable-next-line color-no-hex -- media stage is always black, in both themes (letterboxing behind video) */
+  background: #000;
+}
+.vid-placeholder {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 14px;
+  padding: 20px;
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 14px;
+  /* Covers the black stage when the camera/screen is off, so the empty state
+     follows the theme (light in light mode) instead of showing bare black. */
+  background: var(--panel);
+}
+/* Avatar shown when no camera/screen is on (instead of placeholder text). */
+.vid-placeholder-img {
+  width: min(40%, 180px);
+  height: auto;
+  aspect-ratio: 1;
+  border-radius: 23%;
+  object-fit: cover;
+  opacity: 0.95;
+}
+.vid-placeholder-note {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+/* --- the status pill: the one place that says what is happening --------------
+   Idle, recording and paused are three states of ONE element, so they can never
+   disagree. It sits on the stage (over black video or over the themed empty
+   state), so it is an opaque panel with its own hairline rather than a wash. */
+.vid-status {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  max-width: calc(100% - 24px);
+  padding: 5px 12px;
+  font-size: 12px;
+  color: var(--text);
+  background: var(--panel);
+  border: 1px solid var(--hairline);
+  border-radius: 999px;
+  box-shadow: var(--shadow);
+}
+.vid-status-dot {
+  flex: 0 0 auto;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentcolor;
+  opacity: 0.5;
+}
+.vid-status-state {
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+.vid-timer {
+  font-variant-numeric: tabular-nums;
+}
+/* A middot before each following part, so the pill reads "REC · 1:23 · Camera + Mic". */
+.vid-timer::before,
+.vid-status-src::before {
+  content: '·';
+  margin-right: 8px;
+  opacity: 0.55;
+}
+.vid-status-src {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  opacity: 0.8;
+}
+.vid-status.is-recording {
+  color: var(--on-accent);
+  background: var(--danger-solid);
+  border-color: transparent;
+}
+.vid-status.is-recording .vid-status-dot {
+  opacity: 1;
+  animation: pulse 1s ease-in-out infinite;
+}
+.vid-status.is-paused {
+  color: var(--warning);
+}
+.vid-status.is-paused .vid-status-dot {
+  opacity: 1;
+}
+
+/* --- the action bar ----------------------------------------------------------
+   A docked, themed panel: sources on the left, Record on the right, and the
+   pre-flight strip on its own line underneath. It wraps rather than shrinking,
+   so nothing is ever pushed out of reach in a narrow window. */
+.vid-bar {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  padding: 10px;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+}
+.vid-bar-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+.vid-sources {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+/* One source and everything that only makes sense with it, as a segmented pill.
+   The containment is the hierarchy: Mirror belongs to Camera, System audio to
+   Screen, and neither pretends to be a source of its own. */
+.vid-group {
+  display: inline-flex;
+  align-items: stretch;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+/* Dividers sit BETWEEN the buttons, so the first one drops its own — whatever role
+   it happens to be. The bubble pill opens with a modifier, the source pills with a
+   source; neither should show a hairline hard against the group's own border. */
+.vid-group > :first-child {
+  border-left: none;
+}
+.vid-src,
+.vid-mod,
+.vid-cycle {
+  display: inline-flex;
+  align-items: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+/* The three sources are the primary targets, so they read at full strength even
+   when off; the accent fill is what says "on". */
+.vid-src {
+  gap: 7px;
+  padding: 7px 12px;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--text);
+}
+/* The modifiers are icon-only and separated by a hairline: present, reachable
+   mid-recording, and visibly subordinate to what they belong to. */
+.vid-mod {
+  justify-content: center;
+  width: 32px;
+  color: var(--text-secondary);
+  border-left: 1px solid var(--hairline);
+}
+/* A cycling control has no on/off — its LABEL is its state, so it shows the value
+   it is currently set to rather than a highlight. */
+.vid-cycle {
+  gap: 7px;
+  padding: 7px 11px;
+  font-size: 12px;
+  color: var(--text);
+  border-left: 1px solid var(--hairline);
+}
+.vid-src svg,
+.vid-mod svg,
+.vid-cycle svg {
+  width: 15px;
+  height: 15px;
+}
+.vid-cycle svg {
+  color: var(--text-secondary);
+}
+/* Hover is split at `.is-on` rather than overridden per variant: a plain hover rule
+   that also matched an on button would out-specify `.is-on` and make it read as OFF
+   under the cursor, and every new variant would then need its own re-override. An
+   on button brightens instead, which needs no colours of its own. */
+.vid-src:not(.is-on):hover:not(:disabled),
+.vid-mod:not(.is-on):hover:not(:disabled),
+.vid-cycle:hover:not(:disabled) {
+  color: var(--text);
+  background: var(--surface-hover);
+}
+.vid-src.is-on:hover:not(:disabled),
+.vid-mod.is-on:hover:not(:disabled) {
+  filter: brightness(1.08);
+}
+.vid-src.is-on {
+  color: var(--on-accent);
+  background: var(--accent-solid);
+}
+.vid-mod.is-on {
+  /* Accent ink, not a second accent fill: a modifier that is on must read as on
+     without competing with the source button it hangs off. */
+  color: color-mix(in srgb, var(--accent) var(--accent-ink-ui-mix), var(--text));
+  background: var(--surface-strong);
+}
+.vid-src:disabled,
+.vid-mod:disabled,
+.vid-cycle:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+/* Record and Pause sit apart from the sources, hard right. */
+.vid-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+.vid-record {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 18px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--on-accent);
+  background: var(--danger-solid);
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+}
+.vid-record:hover:not(:disabled) {
+  filter: brightness(0.9);
+}
+.vid-record:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.vid-record-dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--on-accent);
+}
+/* While recording, the dot becomes a square "stop" glyph. */
+.vid-record.is-recording .vid-record-dot {
+  border-radius: 2px;
+}
+/* Pause / resume button, shown only while recording. */
+.vid-pause {
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  background: var(--surface-strong);
+  border: 1px solid var(--hairline);
+  border-radius: 999px;
+  cursor: pointer;
+}
+.vid-pause:hover {
+  background: var(--surface-hover);
+}
+/* "Resume" is TEXT, so it takes the text ink mix (4.5:1), not the icon one — the
+   split the two tokens exist for. */
+.vid-pause.is-paused {
+  color: color-mix(in srgb, var(--accent) var(--accent-ink-mix), var(--text));
+}
+
+/* --- the pre-flight strip ----------------------------------------------------
+   Reduce noise is not a source: it is decided before you press Record and cannot
+   change afterwards. It gets its own labelled line and, while recording, stays
+   visible but says in words that it is locked (#1245). */
+.vid-preflight {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  padding-top: 9px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  border-top: 1px solid var(--hairline);
+}
+/* The two strips under the sources — the camera bubble and the pre-flight choice —
+   read as a pair, so their titles share a column. */
+.vid-preflight-title {
+  min-width: 106px;
+  font-weight: 600;
+  color: var(--text);
+}
+.vid-preflight-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+/* A size-and-weight variant of the shared Settings switch. At its native 44x26 in
+   the raw --accent it was the loudest thing in the bar, which is the wrong end of
+   the hierarchy for the one control you set and forget. The knob is a UI graphic,
+   not text, so its ground is --accent-solid-ui (3:1) — same as `.audio-play`. */
+.vid-preflight .switch {
+  width: 34px;
+  height: 20px;
+}
+.vid-preflight .switch-track::after {
+  top: 3px;
+  left: 3px;
+  width: 14px;
+  height: 14px;
+}
+.vid-preflight .switch input:checked + .switch-track {
+  background: var(--accent-solid-ui);
+}
+.vid-preflight .switch input:checked + .switch-track::after {
+  transform: translateX(14px);
+}
+.vid-preflight-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text);
+}
+.vid-preflight-name svg {
+  width: 14px;
+  height: 14px;
+}
+.vid-preflight-note {
+  margin-left: auto;
+}
+.vid-preflight.is-locked {
+  opacity: 0.75;
+}
+.vid-preflight.is-locked .vid-preflight-item {
+  cursor: default;
+}
+.vid-preflight.is-locked .vid-preflight-note {
+  color: var(--warning);
+}
+/* 3-2-1 countdown — big centered number over the stage. Deliberately WITHOUT
+   backdrop-filter: blurring the live video every frame is very expensive and made
+   recording stutter on every interaction. */
+.vid-countdown {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: clamp(64px, 22vmin, 160px);
+  font-weight: 700;
+  color: var(--on-accent);
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.28);
+  pointer-events: none;
+}
+/* Source <video>s for canvas compositing — kept in the DOM, in the viewport, and
+   invisible (opacity:0, 1px). Chrome suspends decoding for <video> that's
+   display:none or fully off-screen, which froze the canvas/preview — so we keep it
+   technically on-screen instead of pushing it far off to the side. */
+.vid-offscreen {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  z-index: -1;
+}
+.vid-result {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+  min-height: 0;
+}
+/* A saved recording should fill the stage just like the live preview does, so
+   drop the player's default 60vh cap when it's shown in the result screen. */
+.vid-result .video-frame {
+  max-height: none;
+}
+
+/* A declined screen-share prompt is a normal choice, not an error: say so quietly. */
+.app-error.is-calm {
+  color: var(--text-secondary);
+  background: var(--surface);
+  border-color: var(--hairline);
+}

@@ -1,0 +1,9 @@
+# Documentation manifest for the AnubisDB (anubisdb) app.
+# Chapters live in content/ as numbered Markdown files (one H1 each), discovered
+# alphabetically. Build the whole app suite with `npm run docs` (from extension/).
+
+title    = "AnubisDB"
+subtitle = "Inspect, export and clear every app's on-device data"
+accent   = "#c9a34a"
+order    = 20
+formats  = ["html"]

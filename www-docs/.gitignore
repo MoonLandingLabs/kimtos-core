@@ -1,0 +1,7 @@
+# Generated from /docs by scripts/build-content.mjs
+content/
+# VitePress build output + caches
+dist/
+.vitepress/cache/
+.vitepress/.temp/
+cache/

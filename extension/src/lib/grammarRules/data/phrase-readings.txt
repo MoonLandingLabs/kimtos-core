@@ -1,0 +1,125 @@
+# The review the phrase tables must pass (#1051) — read by phrases.test.ts.
+#
+# Two kinds of line:
+#
+#   never: <key>   The reviewer's declaration that this PHRASES key has NO valid
+#                  English reading, so rewriting it on sight is safe. Every flat
+#                  key must have one, and a stale declaration fails the test — so
+#                  adding a phrase forces exactly the review the table used to
+#                  take on trust.
+#
+#   <sentence>     Valid English that ruleIssues() must leave completely clean.
+#                  Every CONTEXTUAL_PHRASES key must appear in at least one of
+#                  these, so its gate is proven against the valid reading it
+#                  exists to protect, not merely asserted.
+#
+# If you cannot honestly write a `never:` line for a new phrase, it does not
+# belong in the flat table: gate it in CONTEXTUAL_PHRASES with a sentence here,
+# or leave it out — a silent miss beats a confident wrong correction.
+
+# --- Reviewed as never valid: be/do agreement ---------------------------------
+never: he are
+never: she are
+never: it are
+never: they is
+never: they was
+never: we is
+never: we was
+never: you is
+never: you was
+
+# --- Reviewed as never valid: negated third-person aux ------------------------
+never: he dont
+never: she dont
+never: it dont
+never: he don't
+never: she don't
+never: it don't
+
+# --- Reviewed as never valid: redundant comparatives / superlatives -----------
+# (hyphenated compounds like "more better-paying jobs" are valid, but phraseRules
+# refuses to fire into a hyphen, so the flat entries stay safe)
+never: more better
+never: more easier
+never: more faster
+never: more taller
+never: more smarter
+never: more bigger
+never: more older
+never: more younger
+never: more higher
+never: more longer
+never: more stronger
+never: more happier
+never: more worse
+never: most best
+never: most worst
+never: more better than
+
+# --- The subjunctive the table used to break (entries dropped) ----------------
+If I were you, I would go.
+I wish I were taller.
+If he were here, he would know.
+If she were honest, she would say so.
+If it were up to me, we would ship.
+As if I were the only one.
+As it were, the plan had already worked.
+
+# --- Questions and modals (the 'he/she/it have' entries are dropped) ----------
+Does he have a car?
+Does she have kids?
+Should he have known better?
+Would it have mattered?
+
+# --- "married with", "discuss about", "good in English" (dropped) -------------
+He is married with two kids.
+They are married with children.
+There is a lot to discuss about the merger.
+Her grades are good in English and maths.
+
+# --- Degree clauses and correlatives (the quantifier entries are dropped) -----
+You would be surprised how much people care.
+You know how much things cost these days.
+The less people know, the better.
+What worries most people is inflation.
+Meeting people is easy.
+The number of people is growing.
+A group of people was waiting outside.
+That many people is a fire hazard.
+People is my favorite magazine.
+
+# --- Roman numerals and named letters (gated 'i is' / 'i are', and the
+# --- agreement conjugator's numeral guard) ------------------------------------
+World War I is studied in every school.
+Type I is the most common form.
+Drugs on Schedule I are strictly controlled.
+The letter I is the ninth in the alphabet.
+Part I has three chapters.
+Part I does not cover installation.
+Group I wants more time.
+
+# --- Coordinated subjects (gated 'i is' / 'i are' hold fire after and/or/nor:
+# --- "and I are" is correct, and "and I is" wants "are", which 'I am' cannot fix)
+My family and I are happy.
+You and I are friends.
+
+# --- say with a direct object (gated 'said me/him/her/them') ------------------
+He said her name softly.
+She said them aloud, one by one.
+He repeated the words and said them to himself.
+He said me being late was the real problem.
+She said him being there was no accident.
+
+# --- explain with a direct object (gated 'explain me') ------------------------
+Please do not explain me to your parents.
+
+# --- Fixed idioms behind the block gates --------------------------------------
+There is many a slip between cup and lip.
+There was many a time when we nearly gave up.
+It depends of course on the weather.
+They depend of course on our support.
+
+# --- Hyphenated compounds the phrase matcher must not fire into ---------------
+We need more higher-quality data.
+He gets more better-paying offers every year.
+Too much people-pleasing wears you out.

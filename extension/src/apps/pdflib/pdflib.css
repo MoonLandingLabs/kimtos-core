@@ -1,0 +1,667 @@
+/* PDF Library (pdflib) — colocated app styles (loaded by ./index.ts).
+   NOTE: PDF pages are white paper and highlight/swatch colours are content —
+   theme-invariant. Only the reader chrome (gutter, panels, danger) themes. */
+/* PDF Library — reading list */
+.pdf-listview {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  /* Fill the flex-column app root (`.app-flow`) so the header/add/filters stay
+     put and only `.pdf-list` scrolls — never a `vh` guess (#1089). width:100% +
+     max-width keeps the card the same width on every filter tab. */
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+}
+.pdf-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+.pdf-h-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 650;
+}
+.pdf-count {
+  font-size: 12px;
+  font-weight: 600;
+  color: color-mix(in srgb, var(--accent) var(--accent-ink-mix), var(--text));
+}
+.pdf-add {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.pdf-add-row {
+  display: flex;
+  gap: 8px;
+}
+.pdf-add-row .input {
+  flex: 1;
+}
+.pdf-upload-row {
+  display: flex;
+}
+.pdf-add-status {
+  margin: 0;
+  font-size: 12.5px;
+  color: var(--text-secondary);
+}
+.pdf-add-status.is-error {
+  color: var(--danger);
+}
+.pdf-filter {
+  margin: 0;
+}
+.pdf-list {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0;
+  padding: 2px;
+  list-style: none;
+  overflow-y: auto;
+}
+.pdf-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease;
+}
+.pdf-item:hover {
+  background: var(--surface);
+  border-color: var(--hairline);
+}
+/* Little PDF "cover" tile on the left of each row. */
+.pdf-cover {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 48px;
+  color: color-mix(in srgb, var(--accent) var(--accent-ink-mix), var(--text));
+  background: color-mix(in srgb, var(--accent) 15%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  border-radius: 7px;
+}
+.pdf-item.is-read .pdf-cover {
+  color: var(--text-secondary);
+  background: var(--surface);
+  border-color: var(--hairline);
+}
+.pdf-row-actions {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.pdf-check {
+  appearance: none;
+  -webkit-appearance: none;
+  flex: 0 0 auto;
+  position: relative;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid var(--hairline-strong);
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease;
+}
+.pdf-check:checked {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.pdf-check:checked::after {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 2px;
+  width: 4px;
+  height: 8px;
+  border: solid var(--on-accent);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+.pdf-open {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: left;
+  font-family: inherit;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+.pdf-title {
+  font-size: 14px;
+  font-weight: 550;
+  color: var(--text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.pdf-open:hover .pdf-title {
+  color: color-mix(in srgb, var(--accent) var(--accent-ink-mix), var(--text));
+}
+.pdf-item.is-read .pdf-title {
+  color: var(--text-secondary);
+  text-decoration: line-through;
+}
+.pdf-host {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+.pdf-action {
+  flex: 0 0 auto;
+  width: 30px;
+  height: 30px;
+  color: var(--text-secondary);
+  opacity: 0;
+  transition:
+    opacity 0.15s ease,
+    color 0.15s ease;
+}
+.pdf-item:hover .pdf-action,
+.pdf-action:focus-visible {
+  opacity: 1;
+}
+.pdf-action:hover {
+  color: var(--danger);
+}
+/* Download is not destructive, so it must not borrow the trash's red. Raw
+   --accent is illegible on the row in dark; the accent-tinted ink mix is the
+   same one the row title uses on hover. */
+.pdf-action-save:hover {
+  color: color-mix(in srgb, var(--accent) var(--accent-ink-mix), var(--text));
+}
+.pdf-empty {
+  padding: 16px 10px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+/* "Read" group divider in the All tab */
+.pdf-divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 6px 4px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+.pdf-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--hairline);
+}
+/* PDF reader */
+.pdf-reader {
+  position: relative; /* positioning context for the annotation popup */
+  display: flex;
+  flex-direction: column;
+  /* Nested inside the app root, so the shared shell flex-fills it in every
+     window state (`.dialog-app .pdf-reader`, #1089) — no `vh` guess here. */
+}
+.pdf-loading {
+  padding: 24px 4px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+.pdf-reader-bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 10px;
+  padding-bottom: 12px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid var(--hairline);
+}
+.pdf-reader-title {
+  flex: 1 1 90px;
+  min-width: 0;
+  font-size: 14px;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* The search group shrinks first and wraps to its own row when space is tight,
+   so the controls are never clipped. */
+/* One cluster holding every control, pushed to the right so the title sits alone on the
+   left (#266). It stays content-sized and wraps as a unit on a narrow bar. */
+.pdf-reader-controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 10px;
+  margin-left: auto;
+  min-width: 0;
+}
+.pdf-search-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: 1 1 200px;
+  min-width: 0;
+}
+.pdf-search {
+  flex: 1 1 auto;
+  width: auto;
+  min-width: 70px;
+  max-width: 220px;
+}
+.pdf-match {
+  min-width: 54px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+.pdf-page-label {
+  min-width: 58px;
+  text-align: center;
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+.pdf-zoom-group {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex: 0 0 auto;
+}
+.pdf-zoom-label {
+  min-width: 42px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+.pdf-nav-btn {
+  width: 30px;
+  height: 30px;
+}
+/* Reader body: the scrollable view + the (overlay) notes panel. */
+.pdf-reader-main {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  overflow: hidden;
+}
+.pdf-reader-view {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: 16px;
+  background: var(--field);
+  border-radius: var(--radius-md);
+  scroll-behavior: auto;
+  /* A visible grey scrollbar — the default white one vanishes over the pages. */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(150, 150, 160, 0.6) transparent;
+}
+.pdf-reader-view::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+.pdf-reader-view::-webkit-scrollbar-track {
+  background: transparent;
+}
+.pdf-reader-view::-webkit-scrollbar-thumb {
+  background: rgba(150, 150, 160, 0.6);
+  border: 3px solid transparent;
+  background-clip: padding-box;
+  border-radius: 8px;
+}
+.pdf-reader-view::-webkit-scrollbar-thumb:hover {
+  background: rgba(175, 175, 185, 0.8);
+  background-clip: padding-box;
+  border: 3px solid transparent;
+}
+/* Continuous column of pages (Chrome-style). */
+.pdf-pages {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+.pdf-page {
+  position: relative;
+  /* stylelint-disable-next-line color-no-hex -- the PDF page is paper: white in both themes */
+  background: #fff;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.45);
+  border-radius: 2px;
+}
+.pdf-canvas {
+  display: block;
+  position: relative;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+.pdf-canvas.is-ready {
+  opacity: 1;
+}
+/* Highlight layer — coloured rects in % of the page box (so they track zoom),
+   sitting between the canvas and the selectable text layer. Purely visual;
+   clicks are hit-tested in JS so text stays selectable. */
+.pdf-hl-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+.pdf-hl {
+  position: absolute;
+  border-radius: 2px;
+  mix-blend-mode: multiply;
+}
+.pdf-hl-yellow {
+  background: rgba(255, 222, 89, 0.55);
+}
+.pdf-hl-green {
+  background: rgba(126, 217, 87, 0.5);
+}
+.pdf-hl-blue {
+  background: rgba(96, 165, 250, 0.45);
+}
+.pdf-hl-pink {
+  background: rgba(244, 114, 182, 0.5);
+}
+/* A dot marks a highlight that carries a note. */
+.pdf-hl.has-note::after {
+  content: '';
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--accent);
+  /* stylelint-disable-next-line color-no-hex -- the PDF page is paper: white in both themes */
+  border: 2px solid #fff;
+  mix-blend-mode: normal;
+}
+/* Annotations sidebar — slides in over the right of the view. */
+.pdf-side {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(280px, 85%);
+  display: flex;
+  flex-direction: column;
+  background: var(--panel);
+  border-left: 1px solid var(--hairline);
+  box-shadow: -10px 0 34px rgba(0, 0, 0, 0.45);
+  transform: translateX(100%);
+  transition: transform 0.22s ease;
+  z-index: 4;
+}
+.pdf-reader.notes-open .pdf-side {
+  transform: none;
+}
+.pdf-side-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--hairline);
+}
+.pdf-side-title {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+.pdf-side-count {
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+.pdf-side-list {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.pdf-side-empty {
+  padding: 16px 10px;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+.pdf-side-item {
+  display: flex;
+  gap: 9px;
+  align-items: flex-start;
+  padding: 9px 10px;
+  border-radius: 8px;
+  transition: background 0.15s ease;
+}
+.pdf-side-item:hover {
+  background: var(--surface);
+}
+.pdf-side-dot {
+  flex: 0 0 auto;
+  width: 11px;
+  height: 11px;
+  margin-top: 3px;
+  border-radius: 50%;
+}
+.pdf-side-text-wrap {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  cursor: pointer;
+}
+.pdf-side-text {
+  font-size: 13px;
+  color: var(--text);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.pdf-side-note {
+  font-size: 12px;
+  color: var(--text-secondary);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.pdf-side-page {
+  font-size: 11px;
+  color: var(--text-secondary);
+  opacity: 0.8;
+}
+.pdf-side-del {
+  width: 26px;
+  height: 26px;
+  flex: 0 0 auto;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+.pdf-side-item:hover .pdf-side-del {
+  opacity: 1;
+}
+.pdf-side-del:hover {
+  color: var(--on-accent);
+  background: var(--danger-solid);
+  border-color: var(--danger);
+}
+.pdf-hl.is-flash {
+  animation: pdf-flash 0.65s ease 2;
+  mix-blend-mode: normal;
+}
+/* Floating highlight/comment popup — absolute within .pdf-reader so it always
+   stays inside the dialog, near the cursor. */
+.pdf-popup {
+  position: absolute;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  padding: 10px;
+  background: var(--panel);
+  border: 1px solid var(--hairline-strong);
+  border-radius: 12px;
+  box-shadow: 0 12px 44px rgba(0, 0, 0, 0.55);
+}
+.pdf-popup[hidden] {
+  display: none;
+}
+.pdf-colors {
+  display: flex;
+  gap: 7px;
+}
+.pdf-color {
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: transform 0.12s ease;
+}
+.pdf-color:hover {
+  transform: scale(1.12);
+}
+.pdf-color.is-active {
+  border-color: var(--text);
+}
+.pdf-color-yellow {
+  /* stylelint-disable-next-line color-no-hex -- highlighter ink the USER picks — content, not UI chrome */
+  background: #ffde59;
+}
+.pdf-color-green {
+  /* stylelint-disable-next-line color-no-hex -- highlighter ink the USER picks — content, not UI chrome */
+  background: #7ed957;
+}
+.pdf-color-blue {
+  /* stylelint-disable-next-line color-no-hex -- highlighter ink the USER picks — content, not UI chrome */
+  background: #60a5fa;
+}
+.pdf-color-pink {
+  /* stylelint-disable-next-line color-no-hex -- highlighter ink the USER picks — content, not UI chrome */
+  background: #f472b6;
+}
+.pdf-popup-note {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 7px 10px;
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--text);
+  background: var(--material-hover);
+  border: 1px solid var(--hairline);
+  border-radius: 8px;
+  cursor: pointer;
+}
+.pdf-popup-note:hover {
+  border-color: var(--hairline-strong);
+}
+.pdf-popup-comment {
+  width: 230px;
+  min-height: 64px;
+  padding: 8px 10px;
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--text);
+  background: var(--field);
+  border: 1px solid var(--hairline);
+  border-radius: 8px;
+  resize: vertical;
+}
+.pdf-popup-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.pdf-popup-actions .button-primary {
+  flex: 1;
+}
+.pdf-popup-del {
+  width: 34px;
+  height: 34px;
+  flex: 0 0 auto;
+}
+.pdf-popup-del:hover {
+  color: var(--on-accent);
+  background: var(--danger-solid);
+  border-color: var(--danger);
+}
+/* PDF.js text layer — transparent text over the canvas, for search highlight
+   (and selection later). */
+.pdf-text-layer {
+  position: absolute;
+  inset: 0;
+  overflow: clip;
+  opacity: 1;
+  line-height: 1;
+  text-size-adjust: none;
+  forced-color-adjust: none;
+  transform-origin: 0 0;
+  z-index: 2;
+}
+.pdf-text-layer span {
+  position: absolute;
+  color: transparent;
+  white-space: pre;
+  transform-origin: 0 0;
+}
+.pdf-text-layer .pdf-mark {
+  background: rgba(56, 189, 248, 0.5);
+  color: transparent;
+  border-radius: 2px;
+}
+/* Selection mode changes NOTHING about the row's shape — it adds a checkbox and a way to say
+   which rows are picked, and that is all.
+ *
+ * These two selectors used to carry a copy of `.pdf-open`'s ruleset: `flex-direction: column`,
+ * `background: none`, `border: none`. `.pdf-open` is the INNER column that stacks a title over its
+ * subtitle, where a column is right; `.pdf-item` is the ROW. So pressing Select turned every row
+ * into a column — checkbox above cover above title — and `.pdf-item`'s own `align-items: center`
+ * then centred the lot, one enormous entry per row, with the row's border and hover surface
+ * stripped off. It came from a shared rule in the old `apps.css` that grouped these row selectors
+ * with `.mt-history-open`, which genuinely IS that shape; the layout properties were never meant
+ * for a row.
+ *
+ * So the row keeps `.pdf-item` exactly as it is, and all that is added is the pointer and the
+ * picked state — the same treatment `.clip-row.is-selected` uses, and free of layout shift because
+ * `.pdf-item` already reserves a 1px transparent border. */
+.pdf-item-select {
+  cursor: pointer;
+}
+.pdf-item.is-selected {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+}

@@ -1,0 +1,9 @@
+# Documentation manifest for the Video Recorder app.
+# Chapters live in content/ as numbered Markdown files (one H1 each), discovered
+# alphabetically. Build the whole app suite with `npm run docs` (from extension/).
+
+title    = "Video Recorder"
+subtitle = "Record your camera and/or screen with mic, entirely on-device"
+accent   = "#f472b6"
+order    = 9
+formats  = ["html"]

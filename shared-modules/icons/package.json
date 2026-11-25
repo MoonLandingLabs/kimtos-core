@@ -1,0 +1,33 @@
+{
+  "name": "@kimtos/icons",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Shared macOS-style app icons for the kimtos extension and marketing site.",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./glyphs": {
+      "types": "./dist/glyphs.d.ts",
+      "default": "./dist/glyphs.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "prepare": "tsc -p tsconfig.json",
+    "render:brand": "tsx scripts/render-brand.ts",
+    "render:linkedin": "tsx scripts/render-linkedin-banner.ts"
+  },
+  "devDependencies": {
+    "@kimtos/config": "*",
+    "sharp": "^0.35.3"
+  },
+  "license": "MIT"
+}

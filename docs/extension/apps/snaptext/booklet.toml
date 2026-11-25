@@ -1,0 +1,9 @@
+# Documentation manifest for the Image to Text (snaptext) app.
+# Chapters live in content/ as numbered Markdown files (one H1 each), discovered
+# alphabetically. Build the whole app suite with `npm run docs` (from extension/).
+
+title    = "Image to Text"
+subtitle = "Extract text from an image, right in your browser"
+accent   = "#f59e0b"
+order    = 4
+formats  = ["html"]

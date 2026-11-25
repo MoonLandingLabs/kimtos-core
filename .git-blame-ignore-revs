@@ -1,0 +1,17 @@
+# Commits that only reformat. `git blame` skips these so it still shows who wrote a line
+# rather than who ran prettier.
+#
+# Your local git does not read this file automatically. Turn it on once, per clone:
+#
+#   git config blame.ignoreRevsFile .git-blame-ignore-revs
+#
+# (GitHub applies it automatically in its blame view.) Only add a commit here if it changes
+# formatting and NOTHING else — a commit with a real change in it would hide that change.
+
+# chore(repo): reformat with prettier — the one-time sweep after a prettier config was
+# finally defined for every workspace (#721).
+c98900a56401640d5d4d7c17a21ee83758d3da21
+
+# chore(repo): reformat Markdown with prettier — the Markdown half, once #737 decided it
+# should be formatted (#721 had deferred it).
+5de9b95a9ddbaaa72b4c1a4d1ada16e145426057

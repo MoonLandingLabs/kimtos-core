@@ -1,0 +1,9 @@
+{
+  "extends": ["@kimtos/config/tsconfig.base.json", "./.nuxt/tsconfig.json"],
+  "compilerOptions": {
+    // Base first so Nuxt's generated config stays authoritative; opt out of
+    // noUncheckedIndexedAccess so the shared base can't break `nuxt typecheck`.
+    // Enable it here when ready. (A "_comment" key is not a valid TS option.)
+    "noUncheckedIndexedAccess": false
+  }
+}

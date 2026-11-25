@@ -1,0 +1,35 @@
+version: 2
+updates:
+  # npm workspace — one root package.json + lockfile covers every package
+  # (extension, www, www-docs, shared-modules/*).
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 10
+    groups:
+      # One PR for routine dev-tooling bumps instead of many. Majors are kept
+      # OUT of the group: a single unmergeable major used to fail the whole
+      # grouped PR and hold every routine bump hostage (#745), so a major gets
+      # its own PR that can be judged (and blocked) on its own.
+      dev-dependencies:
+        dependency-type: development
+        update-types:
+          - minor
+          - patch
+    ignore:
+      # TEMPORARY: TypeScript 7.0 is the native port and ships the `tsc`
+      # executable only — no programmatic compiler API until 7.1, which vue-tsc
+      # requires, so the Nuxt site cannot build on it. Dependabot regenerated
+      # the unmergeable bump weekly (#701, #708). REMOVE THIS once TypeScript
+      # 7.1 is out and the toolchain supports it (#745).
+      #
+      - dependency-name: typescript
+        update-types:
+          - version-update:semver-major
+
+  # GitHub Actions used by the workflows
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly

@@ -1,0 +1,60 @@
+# What prettier must not touch when run from the REPO ROOT.
+#
+# Note how prettier resolves this: unlike the config (resolved per file, walking up), the
+# ignore file is read relative to the working directory. So this file governs a root-level
+# `prettier --write .`, while a workspace's own `.prettierignore` governs `npm run
+# format:check -w <workspace>`. Both need the load-bearing entries below — a rule that lives
+# in only one of them holds for only one of the two ways we invoke prettier.
+
+# These use gitignore syntax: a pattern with no slash matches at ANY depth, so `dist/` already
+# covers every workspace's dist and needs no `**/` prefix.
+node_modules/
+dist/
+.make/
+.nuxt/
+.output/
+.data/
+.nitro/
+
+package-lock.json
+extension/public/
+
+# Same shape, surfaced once Markdown came into scope (#737): www-docs/content/ is assembled
+# from /docs and the app booklets by build-content.mjs on every docs build. CI's Formatting
+# job never sees it (fresh checkout, no docs build), but anyone who has built the docs does —
+# and without this, `npm run format` rewrites generated Markdown and format:check fails
+# locally while passing in CI. Format the SOURCE under /docs, which this sweep did.
+www-docs/content/
+
+# Same shape again (#748): VitePress writes its Vite dependency pre-bundle cache to
+# .vitepress/cache/ (`npm run dev`/`build` -w @kimtos/www-docs, ~15 files under cache/deps/,
+# e.g. vue.js, dayjs.js). It's gitignored (www-docs/.gitignore) but that does not help —
+# prettier never reads .gitignore. CI never sees it (fresh checkout, no docs build), but
+# anyone who has built or run the docs locally does, and format:check fails on generated
+# dependency bundles that are not ours to format. www-docs/dist/ (the VitePress build output)
+# needs no entry of its own — the `dist/` pattern above already matches it at any depth.
+www-docs/.vitepress/cache/
+
+# LOAD-BEARING: prompt Markdown is literal model input, not prose. Prettier rewrites `>>>`
+# (a delimiter the parser depends on) into `> > >` (a blockquote) and the prompt stops
+# working. This is why shared-modules/prompts carries its own .prettierignore; the same rule
+# has to exist here or a root-level sweep destroys what that file protects.
+shared-modules/prompts/prompts/
+shared-modules/prompts/src/generated.ts
+
+# CLAUDE.md is formatted like every other Markdown file — NOT excluded. It briefly was (#742):
+# prettier would not CONVERGE on it, re-indenting the continuation paragraphs in the checklist
+# under "Before the first public / commercial release" by four more spaces every pass (10 -> 14
+# -> 18). #741 fixed that at the source by restructuring the one offending item, so the file now
+# reaches a fixed point and is swept with the rest. If it ever fails `format:check` on that block
+# again, restructure the item — do not re-add an exclusion here.
+
+# One thing to leave alone if you touch .prettierrc.json: `proseWrap` must stay at its default
+# of `preserve`. Setting it to `always` rewraps every paragraph, and scripts/check-agent-claims
+# .mjs matches capability claims line by line — rewrapping silently changes what it catches.
+
+# NOT ignored, deliberately: www/data/apps.ts is generated
+# and committed, but its generator call prettier's own resolveConfig + format before
+# writing (#559), so its output already matches whatever this config says. Checking them is
+# therefore free and catches the generator drifting from the repo style — which is the exact
+# bug #559 fixed. Ignoring them would re-open it.

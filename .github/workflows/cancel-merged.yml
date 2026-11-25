@@ -1,0 +1,61 @@
+name: Cancel merged-PR runs
+
+# When a PR merges, GitHub does NOT cancel the CI still running on its branch. But
+# that work is now redundant: the merge commit re-runs the full gate on the base
+# branch, so the branch's runs are testing code that has already landed. With only
+# a handful of self-hosted runners, those orphaned runs sit and waste scarce slots
+# for minutes. This cancels them the instant the PR merges.
+#
+# (The OTHER waste — a superseded commit replaced by a newer push — is already
+# handled: every gate workflow's `concurrency` cancels a superseded run ON A BRANCH,
+# so a new push cancels its own older run. It deliberately does NOT cancel on `main`,
+# where that would throw away the verification of everything a merge lands on (#1196).
+# Concurrency cannot cover the merge case either way, because the PR branch and the
+# base branch are different refs and so different groups.)
+#
+# runs-on: ubuntu-latest — GitHub-hosted runners; the job is a few API calls.
+
+on:
+  pull_request:
+    types: [closed]
+
+permissions:
+  actions: write
+
+jobs:
+  cancel:
+    # Only a MERGE makes the branch runs redundant; a plain close leaves nothing to
+    # re-run on the base, so do not touch its runs.
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cancel redundant runs on the merged branch
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          HEAD_REF: ${{ github.event.pull_request.head.ref }}
+          BASE_REF: ${{ github.event.pull_request.base.ref }}
+          # This job's own run is on the PR head branch too, so exclude it or it
+          # would cancel itself mid-cancel.
+          SELF_RUN_ID: ${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          api() {
+            curl -fsS -H "Authorization: Bearer $GH_TOKEN" \
+                 -H "Accept: application/vnd.github+json" "$@"
+          }
+          ids=$(api "https://api.github.com/repos/$REPO/actions/runs?branch=$HEAD_REF&per_page=100" \
+            | jq -r --arg self "$SELF_RUN_ID" \
+                '.workflow_runs[]
+                 | select((.status == "in_progress" or .status == "queued")
+                          and (.id | tostring) != $self)
+                 | .id')
+          if [ -z "$ids" ]; then
+            echo "No in-progress runs on $HEAD_REF — nothing to cancel."
+            exit 0
+          fi
+          for id in $ids; do
+            echo "Cancelling run $id on $HEAD_REF (redundant after merge into $BASE_REF)"
+            api -X POST "https://api.github.com/repos/$REPO/actions/runs/$id/cancel" >/dev/null \
+              || echo "  run $id was already finishing"
+          done

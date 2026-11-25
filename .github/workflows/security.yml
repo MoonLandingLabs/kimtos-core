@@ -1,0 +1,92 @@
+name: Security
+
+# Static application security testing (SAST). Semgrep analyses the checked-out
+# source for security-relevant bugs — the extension's message handling, DOM
+# injection and URL handling are what it is good at auditing — and fails the check on every pull request that introduces
+# one. Runs on main, on every PR, and once a week so a rule added upstream still
+# gets applied to code that has not changed.
+#
+# WHY NOT CODEQL. This job replaced a CodeQL workflow, and the reason is licensing,
+# not preference. CodeQL is free only on PUBLIC repositories; on a private one it
+# needs an organization on GitHub Team or Enterprise Cloud WITH a GitHub Code
+# Security licence. kimtos-core is private and has no such licence, so every run
+# died at the upload step with "Advanced Security must be enabled for this
+# repository to use code scanning".
+#
+# Running CodeQL with the upload disabled is NOT a workaround: the restriction is
+# on the CLI analysing private code, not on the dashboard upload. Owning the
+# runners does not change it either — the limit is the licence, not the compute.
+# Semgrep's OSS engine and the `p/*` rule packs used here carry no such condition,
+# so this runs on our own runners at no cost. If a Code Security licence is ever
+# bought, CodeQL can come back alongside this — they are complementary.
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+    # A draft PR runs nothing (#1188): the self-hosted pool is the only one we have, and the
+    # issue-workflow opens every PR as a draft and pushes review commits to it. `ready_for_review`
+    # is listed because it is NOT in the default set — without it a PR opened as a draft would
+    # never get any checks at all, which is worse than running them too early.
+    types: [opened, synchronize, reopened, ready_for_review]
+  schedule:
+    # Mondays at 03:00 UTC — a low-traffic slot; the weekly run re-scans main
+    # against the latest upstream rules even when nothing has landed.
+    - cron: '0 3 * * 1'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  # Cancel a superseded run on a BRANCH — only the latest push there needs verifying — but
+  # never on `main`. A burst of merges used to destroy the verification of everything it
+  # landed on top of: two commits 17 seconds apart both had their run cancelled, and a
+  # cancelled run reports as a red X with no failing step and no log, which is
+  # indistinguishable from a real failure (#1196). The original reasoning was that finishing
+  # stale runs wastes scarce self-hosted slots; that is weaker since the pool moved to
+  # dedicated hardware (#1185) and drafts stopped consuming it (#1188). Knowing whether
+  # `main` is green is worth the slots.
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+permissions:
+  contents: read
+
+jobs:
+  semgrep:
+    name: Semgrep (javascript-typescript)
+    if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      # GitHub-hosted runners do not ship semgrep, so install it per run.
+      - name: Install semgrep
+        run: |
+          python3 -m pip install --user semgrep
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+          "$HOME/.local/bin/semgrep" --version
+
+      # This is a JS/TS monorepo — one interpreted language, so semgrep reads
+      # straight from source. Like the CodeQL job before it, this deliberately runs
+      # no `npm ci`: installing the workspace (and its onnxruntime-node download)
+      # would add minutes and a flaky network dependency for no analysis benefit.
+      #
+      # The three packs are the high-signal ones for this tree, and they are chosen
+      # to keep the check green on the existing code rather than blocking every PR
+      # on lower-confidence findings — the same trade-off the CodeQL job made by
+      # sticking to the default suite. At the time of writing the whole repo scans
+      # clean (889 files, zero findings after the one false positive in
+      # shared-modules/icons/src/index.ts was annotated at its site).
+      #
+      # --metrics=off: semgrep's OSS engine otherwise reports anonymous usage data
+      # to semgrep.dev on every run. This is a private repo; it does not phone home.
+      # --error: exit non-zero on any finding, which is what makes this a gate
+      # rather than a report nobody reads.
+      - name: Semgrep scan
+        run: |
+          semgrep scan \
+            --config p/javascript \
+            --config p/typescript \
+            --config p/secrets \
+            --metrics=off \
+            --error
