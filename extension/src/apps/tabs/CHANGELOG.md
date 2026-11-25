@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.4 — 2026-11-25
+
+- Tab icons are requested with the Tabs app's other optional permissions when you open it, so installing Kimtos shows no icon-reading warning.
+
 ## 1.0.3 — 2026-11-25
 
 - Page icons come from your browser's own icon cache, so showing your tabs makes no request to the sites they belong to.

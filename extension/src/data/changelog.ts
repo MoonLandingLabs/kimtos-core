@@ -13,6 +13,11 @@ export interface ChangelogEntry {
 /** Newest first. */
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '1.0.4',
+    date: '2026-11-25',
+    body: "### Improved\n\n- Installing Kimtos no longer shows a permission warning: tab icons are now requested together with the Tabs app's other optional permissions, only when you open it",
+  },
+  {
     version: '1.0.3',
     date: '2026-11-25',
     body: "Kimtos now makes no network request except the AI model downloads you start, from Hugging Face.\n\n### Improved\n\n- Kimtos now makes no network request except the AI model downloads you start, from Hugging Face. Everything else stays in your browser\n- Image to Text reads English with its engine and language data built in, so it works offline and loads nothing from the internet\n- The Tabs app shows page icons from your browser's own icon cache instead of asking each site for them\n\n### Removed\n\n- The weather and trending-articles cards were removed from the home screen\n- Adding a PDF by URL was removed from PDF Library. Add PDFs by uploading them from your computer\n- The Image to Text language setting was removed, because only English is built in",

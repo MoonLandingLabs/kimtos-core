@@ -263,9 +263,11 @@ keep that tab open and browse in _other_ tabs to keep the floating window around
 
 - `permissions`: `storage`, `unlimitedStorage`, `contextMenus`,
   `sidePanel`, `scripting` (registers the content scripts at runtime —
-  see below), `activeTab`, `search` and `favicon` (the Tabs app shows a page's icon from
-  the browser's own icon cache through `chrome-extension://<id>/_favicon/`, so no request
-  goes to the site; `lib/favicon.ts`).
+  see below), `activeTab` and `search`. `favicon` is an OPTIONAL permission, requested at
+  runtime with the Tabs app's other optional permissions: it shows a page's icon from the
+  browser's own icon cache through `chrome-extension://<id>/_favicon/`, so no request goes to
+  the site (`lib/favicon.ts`). It carries an install-time warning, which is why it is not
+  requested at install.
   **Every name here is checked in CI** by `scripts/check-manifest-permissions.mjs`
   against Chrome's documented list, because nothing else reads these keys and the
   browser is otherwise the first thing that validates one (#1335).

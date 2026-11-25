@@ -12,6 +12,12 @@ Write PR titles for users.
 
 <!-- releases below; newest first -->
 
+## v1.0.4 — 2026-11-25
+
+### Improved
+
+- Installing Kimtos no longer shows a permission warning: tab icons are now requested together with the Tabs app's other optional permissions, only when you open it
+
 ## v1.0.3 — 2026-11-25
 
 Kimtos now makes no network request except the AI model downloads you start, from Hugging Face.

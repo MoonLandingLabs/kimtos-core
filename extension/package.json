@@ -1,6 +1,6 @@
 {
   "name": "@kimtos/extension",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Kimtos — a free, open-source (MIT) Chrome new-tab extension: private notes, PDFs, whiteboards and on-device AI. No accounts, no servers; everything runs in your browser.",
   "keywords": [
     "chrome-extension",

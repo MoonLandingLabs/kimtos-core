@@ -3,9 +3,11 @@
 //
 // Privacy: reading tab titles/URLs needs the `tabs` permission, which we request
 // at runtime (optional permission) only when the user opens this app — not from
-// everyone on update. Everything here is on-device; nothing is uploaded.
+// everyone on update. `favicon` rides along in the same request: it lets the app show each
+// tab's icon from the browser's own cache (lib/favicon.ts) instead of contacting the site.
+// Everything here is on-device; nothing is uploaded.
 
-const PERMS: chrome.permissions.Permissions = { permissions: ['tabs', 'tabGroups', 'sessions'] };
+const PERMS: chrome.permissions.Permissions = { permissions: ['tabs', 'tabGroups', 'sessions', 'favicon'] };
 
 /** The nine colors Chrome allows for a tab group. */
 export const GROUP_COLORS = ['grey', 'blue', 'red', 'yellow', 'green', 'pink', 'purple', 'cyan', 'orange'] as const;

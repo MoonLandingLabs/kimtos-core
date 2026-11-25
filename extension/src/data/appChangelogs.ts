@@ -496,6 +496,13 @@ export const APP_CHANGELOGS: Record<string, AppRelease[]> = {
   ],
   tabs: [
     {
+      version: '1.0.4',
+      date: '2026-11-25',
+      lines: [
+        "Tab icons are requested with the Tabs app's other optional permissions when you open it, so installing Kimtos shows no icon-reading warning.",
+      ],
+    },
+    {
       version: '1.0.3',
       date: '2026-11-25',
       lines: [
