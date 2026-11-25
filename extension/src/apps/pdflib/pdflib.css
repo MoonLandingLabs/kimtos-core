@@ -36,13 +36,6 @@
   flex-direction: column;
   gap: 8px;
 }
-.pdf-add-row {
-  display: flex;
-  gap: 8px;
-}
-.pdf-add-row .input {
-  flex: 1;
-}
 .pdf-upload-row {
   display: flex;
 }

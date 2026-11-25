@@ -122,7 +122,7 @@ export const APPS: MarketingApp[] = [
     c: '#38bdf8',
     tech: 'PDF.js',
     desc: 'Read and annotate PDFs — highlights, notes, zoom, and last-page memory.',
-    points: ['Highlights & margin notes', 'Remembers your last page', 'Import by URL or upload'],
+    points: ['Highlights & margin notes', 'Remembers your last page', 'Upload PDFs from your computer'],
     featured: true,
     firstReleased: '2026-07-06',
   },

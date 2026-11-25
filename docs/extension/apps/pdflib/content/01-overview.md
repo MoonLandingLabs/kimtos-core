@@ -1,7 +1,7 @@
 # Overview
 
 **PDF Library** is a reading list with a built-in PDF reader. You collect PDFs —
-by pasting a URL or uploading a file — track which ones you have read, and open
+by uploading files from your computer — track which ones you have read, and open
 any of them in a smooth, continuous reader where you can search the text and mark
 it up with colored highlights and notes. It is part of the kimtos new-tab app
 suite.
@@ -13,8 +13,8 @@ the machine.
 
 ## Highlights
 
-- **Build a reading list** — import a PDF by URL or upload one from your
-  computer. The file is downloaded/stored locally, so it opens instantly later.
+- **Build a reading list** — upload a PDF from your computer. The file is
+  stored locally, so it opens instantly later.
 - **Track progress** — a read checkbox per book, plus **All / Unread / Read**
   filters. Unread books sort first; read ones fall below a divider.
 - **Dock badge** — the app's dock icon shows how many books are still unread.
@@ -39,6 +39,6 @@ PDF Library writes only to local browser storage:
 - **Annotations** (highlights and comments) are separate records linked to a
   book.
 
-When you import by URL, the PDF is fetched once and saved locally; from then on
-it is read from your own storage and **rendered in the browser**. Nothing is
-uploaded, and there are no analytics or third-party calls.
+A PDF is copied into your own storage when you upload it and is **rendered in the
+browser**. PDF Library makes no network request: it cannot fetch a PDF from a
+URL, nothing is uploaded, and there are no analytics or third-party calls.

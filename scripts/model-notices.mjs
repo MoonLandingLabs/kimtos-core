@@ -145,9 +145,8 @@ export const MODELS = [
     note:
       'Google publishes the Tesseract `tessdata_best` trained-data files under Apache-2.0, which ' +
       'permits commercial redistribution with the notice preserved. English is bundled in the ' +
-      'extension (extension/public/ocr) and works offline; the other language packs are fetched ' +
-      'from jsDelivr, from the official @tesseract.js-data npm packages (Tesseract.js default). ' +
-      'The tesseract.js engine itself is an npm dependency and is attributed above with the other ' +
+      'extension (extension/public/ocr) and works offline; it is the only language, and nothing is ' +
+      'downloaded. The tesseract.js engine itself is an npm dependency and is attributed above with the other ' +
       'shipped packages.',
   },
   {

@@ -1,16 +1,13 @@
 // Where the extension downloads its on-device AI models and data files from.
 //
-// Everything comes from public, no-auth hosts that already serve it with CORS, so Kimtos runs no
-// file server of its own:
+// Everything comes from Hugging Face, a public, no-auth host that already serves it with CORS, so
+// Kimtos runs no file server of its own. Nothing else is contacted:
 //
 //   - Hugging Face (`huggingface.co`) for every model: Whisper, Kokoro, the chat models, the
 //     grammar model, MiniLM and the denoiser. Transformers.js already resolves
 //     `<model id>` to `https://huggingface.co/<id>/resolve/main/<file>`, so the engines only
 //     name the repo and leave `env.remoteHost` at its default. Large files redirect to
 //     `*.cdn.hf.co`, which the manifest grants alongside the main host.
-//   - jsDelivr for the non-English Tesseract language packs. Tesseract.js already defaults to
-//     `https://cdn.jsdelivr.net/npm/@tesseract.js-data/<lang>/4.0.0_best_int`, so no override is
-//     needed.
 //
 // The full list of hosts, and why each is there, lives in scripts/network-hosts.mjs; the model
 // choices and their sources are in docs/extension/models.md.

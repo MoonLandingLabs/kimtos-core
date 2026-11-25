@@ -91,7 +91,7 @@ const INSTALLED_APPS = [
 
 // Persisted-store blob (src/models/store.ts shape): device fields + the workspace's
 // settings. Everything here exists to make the FIRST paint the one worth photographing:
-// no onboarding overlay, no dock nudge, no per-app tip banner, no live trending fetches,
+// no onboarding overlay, no dock nudge, no per-app tip banner,
 // LIGHT theme to sit inside the bright gallery band the slides are framed in.
 const blob = (installed, extra = {}) =>
   JSON.stringify({
@@ -102,7 +102,6 @@ const blob = (installed, extra = {}) =>
       [WORKSPACE]: {
         onboarded: true,
         theme: 'light',
-        homeReadit: false,
         dockScrollHint: false,
         pipNoteSeen: true,
         tipsSeen: Object.fromEntries(installed.map((id) => [id, true])),

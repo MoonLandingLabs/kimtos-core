@@ -447,11 +447,17 @@ twice, and a review-checklist item is the minimum bar until something enforces i
 
 - [x] **Model hosting + licences — DONE. Keep it that way.**
 
-  Kimtos runs **no file host**. Every on-device model is downloaded once, in the browser, from a
-  public host that already serves it with CORS: **Hugging Face** (`huggingface.co`, with large files
-  redirected to `*.hf.co`) for Whisper, Kokoro, the KimtAI chat models, FLAN-T5, MiniLM and Denoise's
-  DeepFilterNet weight (`kimtos-labs/denoiser-dfn3`), and **jsDelivr** (`cdn.jsdelivr.net`, the
-  `@tesseract.js-data` npm packages) for non-English OCR language packs. Transformers.js resolves a
+  **Kimtos makes no network request except the model downloads you start, from Hugging Face.** This
+  is an owner decision, not a default: no user data and no request ever goes to any other host, so
+  never add a fetch, a remote image, a CDN, a feed or an analytics call. The manifest's
+  `host_permissions` and its CSP `connect-src` name Hugging Face and nothing else, and
+  `extension/src/build/manifestHosts.test.ts` fails if either widens.
+
+  Kimtos runs **no file host**. Every on-device model is downloaded once, in the browser, from
+  **Hugging Face** (`huggingface.co`, with large files redirected to `*.hf.co`), which already serves
+  it with CORS: Whisper, Kokoro, the KimtAI chat models, FLAN-T5, MiniLM and Denoise's DeepFilterNet
+  weight (`kimtos-labs/denoiser-dfn3`). OCR (Tesseract: worker, core and the English data) ships
+  inside the extension under `/ocr` and loads nothing; English is its only language. Transformers.js resolves a
   model id to `https://huggingface.co/<id>/resolve/main/<file>`, so the engines name the repo and
   leave `env.remoteHost` alone. `docs/extension/models.md` says which model comes from which repo;
   `extension/src/lib/modelHosts.ts` holds the URL helpers; every host is declared in

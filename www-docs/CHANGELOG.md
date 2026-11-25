@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.2 — 2026-11-25
+
+- The install, privacy, new tab and troubleshooting guides, and the PDF Library and Image to Text docs, were updated: Kimtos makes no network request except the model downloads you start, from Hugging Face. The weather and trending cards, PDF import by URL and OCR languages other than English are gone
+
 ## 1.1.1 — 2026-07-27
 
 - Stop the fixed side rails from covering the footer

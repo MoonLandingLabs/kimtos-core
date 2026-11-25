@@ -179,14 +179,14 @@ requested at runtime only when the user turns on a feature that needs it. Justif
 item plainly in the listing anyway — a vague justification is what turns days into
 weeks.
 
-| Item                                     | Why we need it                                                                                                                                                                                                                                                                                     |
-| ---------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `host_permissions` (a NAMED host list)   | Fetch the key-free weather and trending-article feeds (Open-Meteo, DEV/HN/Lobsters); reach Hugging Face (`huggingface.co`, `*.hf.co`), which is where every on-device model file is served from. Concrete hosts only — no all-sites access.                                                        |
-| `optional_host_permissions: https://*/*` | Requested at RUNTIME, never at install: when the user enables **Grammit** or **Clipboard** (their content scripts run on the pages they use them on), and for **PDF import-by-URL** (which requests only the one origin being imported from). Released when the last of those apps is uninstalled. |
-| `scripting`                              | Registers the Grammit/Clipboard content scripts at runtime (once installed AND permitted) instead of declaring them for every site — so the base install requests no page access.                                                                                                                  |
-| `geolocation`                            | The optional weather card. Off unless the user enables it.                                                                                                                                                                                                                                         |
-| Microphone and camera (no permission)    | Nothing to justify: an extension has no manifest permission for either. The recording apps call `getUserMedia`, so Chrome asks the user at the moment they press Record. Nothing is captured in the background, and no audio or video leaves the device.                                           |
-| `'wasm-unsafe-eval'` in the CSP          | The on-device AI engines (ONNX Runtime, Tesseract, Transformers.js) are WebAssembly. This is the standard, documented way to run WASM in MV3 — no remote code is involved.                                                                                                                         |
+| Item                                     | Why we need it                                                                                                                                                                                                                                                                      |
+| ---------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `host_permissions` (a NAMED host list)   | Reach Hugging Face (`huggingface.co`, `*.hf.co`), which is where every on-device model file is served from, once, when the user starts a download. Concrete hosts only — no all-sites access.                                                                                       |
+| `optional_host_permissions: https://*/*` | Requested at RUNTIME, never at install: when the user enables **Grammit** or **Clipboard** (their content scripts run on the pages they use them on). Released when the last of those apps is uninstalled. It lets the extension read those pages; it makes no request to any host. |
+| `scripting`                              | Registers the Grammit/Clipboard content scripts at runtime (once installed AND permitted) instead of declaring them for every site — so the base install requests no page access.                                                                                                   |
+| `favicon`                                | The Tabs app shows each tab's icon from the browser's own icon cache, so no request goes to the site the tab belongs to.                                                                                                                                                            |
+| Microphone and camera (no permission)    | Nothing to justify: an extension has no manifest permission for either. The recording apps call `getUserMedia`, so Chrome asks the user at the moment they press Record. Nothing is captured in the background, and no audio or video leaves the device.                            |
+| `'wasm-unsafe-eval'` in the CSP          | The on-device AI engines (ONNX Runtime, Tesseract, Transformers.js) are WebAssembly. This is the standard, documented way to run WASM in MV3 — no remote code is involved.                                                                                                          |
 
 **The content scripts** — `writer.js` (Grammit: underlines spelling/grammar as you
 type on any site) and `clipboard.js` (Clipboard: captures what you copy so you can
@@ -223,8 +223,8 @@ answer is unusually good here, and it is the whole product claim:
   recordings, images, AI chats. It stays in the browser (IndexedDB) and is never
   transmitted.
 - **Collected:** nothing. There is no account, no sign-in and no Kimtos backend; the extension
-  sends no identifier, and the only requests are the optional weather and article feeds and the
-  model-file downloads, which carry no user content.
+  sends no identifier, and the only requests are the model-file downloads from Hugging Face that the user
+  starts, which carry no user content. Kimtos makes no network request except the model downloads you start, from Hugging Face.
 - **No analytics, no tracking, no ads.**
 
 Keep this consistent with the privacy page (`www/pages/privacy.vue`). A mismatch between the

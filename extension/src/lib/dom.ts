@@ -59,8 +59,9 @@ const HTML_ESCAPES: Record<string, string> = { '&': '&amp;', '<': '&lt;', '>': '
 export const escapeHtml = (s: unknown): string => String(s).replace(/[&<>]/g, (c) => HTML_ESCAPES[c] ?? c);
 
 // An image URL we are willing to put on an <img src>. We only ever show the user's own
-// pictures — object URLs, data URIs, or an https asset — so anything else (a `javascript:`
-// or other exotic scheme) is dropped rather than assigned. Defensive: an <img> does not
-// execute script, but this keeps an untrusted string from ever reaching the sink.
+// pictures — object URLs and data URIs — so anything else (a remote `https:` image, which would
+// be a request to an outside host, or a `javascript:` or other exotic scheme) is dropped rather than
+// assigned. Defensive: an <img> does not execute script, but this keeps an untrusted string from ever
+// reaching the sink.
 export const safeImgSrc = (src: unknown): string =>
-  typeof src === 'string' && /^(?:blob:|data:image\/|https?:\/\/)/i.test(src) ? src : '';
+  typeof src === 'string' && /^(?:blob:|data:image\/)/i.test(src) ? src : '';

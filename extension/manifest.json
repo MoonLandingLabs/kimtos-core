@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Kimtos - Your Private Workspace",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Turn every new tab into a private workspace: notes, tasks, PDFs, whiteboards and on-device AI. Everything stays in your browser.",
   "icons": {
     "16": "icons/icon16.png",
@@ -22,23 +22,16 @@
   },
   "permissions": [
     "storage",
-    "geolocation",
     "unlimitedStorage",
     "contextMenus",
     "sidePanel",
     "scripting",
     "activeTab",
-    "search"
+    "search",
+    "favicon"
   ],
   "optional_permissions": ["tabs", "tabGroups", "sessions"],
-  "host_permissions": [
-    "https://huggingface.co/*",
-    "https://*.hf.co/*",
-    "https://*.open-meteo.com/*",
-    "https://dev.to/*",
-    "https://hn.algolia.com/*",
-    "https://lobste.rs/*"
-  ],
+  "host_permissions": ["https://huggingface.co/*", "https://*.hf.co/*"],
   "optional_host_permissions": ["https://*/*"],
   "background": {
     "service_worker": "background.js"
@@ -73,6 +66,6 @@
     }
   },
   "content_security_policy": {
-    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'; img-src 'self' data: blob: https:; media-src 'self' blob:; connect-src 'self' https: data: blob:; worker-src 'self';"
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self' blob: data: https://huggingface.co https://*.hf.co; font-src 'self' data:; frame-src 'self' blob:; base-uri 'self'; worker-src 'self';"
   }
 }

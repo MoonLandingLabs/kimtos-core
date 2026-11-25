@@ -35,18 +35,13 @@ export interface Settings {
   dockScrollHint: boolean;
   dockPinned: string[];
   bgBlur: number;
-  homeReadit: boolean;
   /** Home cards the user has hidden: `{ [appId]: false }`. Absent = shown.
    *  Keyed by app id like `tipsSeen`, so an app that declares a `widget` gets its
    *  Settings toggle generated — there is no hand-maintained list to fall out of
    *  step with (#83). */
   homeWidgets: Record<string, boolean>;
-  homeWeather: boolean;
   homeFocus: boolean;
   homeTips: boolean;
-  weatherUnit: string;
-  weatherCoords: { lat: number; lon: number } | null;
-  weatherCache: { data: unknown; at: number } | null;
   focus: FocusState;
   pinnedBgId: string | null;
   lastBgId: string | null;
@@ -76,14 +71,9 @@ const DEFAULTS: Settings = {
   dockScrollHint: true, // nudge the dock on open when it overflows, to reveal more apps
   dockPinned: ['tabs'], // apps fixed on the left of the dock (right-click to pin more); KimtAI is fixed-centre
   bgBlur: 3,
-  homeReadit: true,
   homeWidgets: {}, // { [appId]: false } — only the cards the user turned off
-  homeWeather: false, // opt-in (the Tips card points users here)
   homeFocus: false, // opt-in
   homeTips: true,
-  weatherUnit: 'celsius',
-  weatherCoords: null, // { lat, lon } cached to avoid re-prompting
-  weatherCache: null, // { data, at } last fetched weather
   focus: { duration: 1500, running: false, endsAt: null, remaining: 1500 },
   pinnedBgId: null,
   lastBgId: null,
@@ -146,13 +136,13 @@ function rebuildCache(): void {
   };
 }
 
-// Fields that must NOT ride along in a backup: transient caches and the installed-app map.
+// Fields that must NOT ride along in a backup: the installed-app map.
 //
 // `installedAppsByUser` (and the legacy `installedApps`) are DEVICE-WIDE: the map is keyed by
 // workspace id, and a backup is scoped to ONE workspace's data (see dataStore.exportAll), so
 // shipping the map would embed other workspace ids in the file and restoring it would clobber
 // installs the snapshot predates (#406).
-const NON_PORTABLE = new Set<keyof Settings>(['weatherCache', 'installedApps', 'installedAppsByUser']);
+const NON_PORTABLE = new Set<keyof Settings>(['installedApps', 'installedAppsByUser']);
 /** The portable subset of settings (what goes into the DB mirror + backup). */
 export function portableSettings(s: Settings): Partial<Settings> {
   const out: Partial<Settings> = {};
@@ -312,7 +302,16 @@ export function workspaceIdFrom(loaded: Record<string, unknown>): string {
 }
 
 /** Per-user settings keys that no longer exist and are stripped from persisted workspaces. */
-const RETIRED_SETTINGS_KEYS = ['homeGrantAlert'];
+const RETIRED_SETTINGS_KEYS = [
+  'homeGrantAlert',
+  // The weather and trending-article cards (removed in 1.0.3). Dropping them also deletes the
+  // coordinates the weather card had cached.
+  'homeReadit',
+  'homeWeather',
+  'weatherUnit',
+  'weatherCoords',
+  'weatherCache',
+];
 /** Top-level keys that are not settings: the retired account and its tokens, the structure itself. */
 const RETIRED_KEYS = ['account', 'authTokens', 'workspaceId', 'workspaces'];
 

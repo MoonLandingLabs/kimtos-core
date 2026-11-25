@@ -4,9 +4,11 @@ kimtos is a **local-first** Chrome MV3 new-tab extension: everything you create 
 notes, todos, PDFs, chats — lives in your browser and never leaves the device.
 Kimtos v1 is **free and open source (MIT)** — the source is at
 [github.com/MoonLandingLabs/kimtos-core](https://github.com/MoonLandingLabs/kimtos-core). There is **no account and no Kimtos backend**: nothing is signed in, nothing is uploaded, and
-every app is free and runs in your browser. The only network requests are the optional weather
-and article feeds and the download of on-device model files from Hugging Face
-(`scripts/network-hosts.mjs` lists every host and is checked in CI). This doc describes how
+every app is free and runs in your browser. **Kimtos makes no network request except the model
+downloads you start, from Hugging Face.** That is an owner decision and CI enforces it: the
+manifest's `host_permissions` and its CSP `connect-src` may name Hugging Face and nothing else
+(`extension/src/build/manifestHosts.test.ts`), and `scripts/network-hosts.mjs` lists every host
+and is checked in CI. This doc describes how
 the extension works.
 
 ## Apps
@@ -259,9 +261,11 @@ keep that tab open and browse in _other_ tabs to keep the floating window around
 
 ## Manifest notes
 
-- `permissions`: `storage`, `geolocation`, `unlimitedStorage`, `contextMenus`,
+- `permissions`: `storage`, `unlimitedStorage`, `contextMenus`,
   `sidePanel`, `scripting` (registers the content scripts at runtime —
-  see below), `activeTab` and `search`.
+  see below), `activeTab`, `search` and `favicon` (the Tabs app shows a page's icon from
+  the browser's own icon cache through `chrome-extension://<id>/_favicon/`, so no request
+  goes to the site; `lib/favicon.ts`).
   **Every name here is checked in CI** by `scripts/check-manifest-permissions.mjs`
   against Chrome's documented list, because nothing else reads these keys and the
   browser is otherwise the first thing that validates one (#1335).
@@ -274,22 +278,23 @@ keep that tab open and browse in _other_ tabs to keep the floating window around
   popup and the side panel that cannot show one. What no prompt can do is overrule
   the OS — Windows and macOS can block Chrome's mic or camera above the browser —
   so `lib/devicePermission.ts` names the exact setting instead.
-- `host_permissions`: a NAMED list of the concrete hosts the extension always
-  fetches from — Hugging Face (`huggingface.co` and `*.hf.co`, where every model
-  file is served from), Open-Meteo, DEV/HN/Lobsters (the key-free feeds). A named list bypasses CORS for those fetches WITHOUT the "read and change
-  all your data on all websites" install warning that a broad `https://*/*` grant
-  carries (#637). It is a hand-list; the source of truth for the fetch hosts is
+- `host_permissions`: exactly two patterns, Hugging Face (`https://huggingface.co/*` and
+  `https://*.hf.co/*`, where every model file is served from, directly or by redirect to
+  `us.aws.cdn.hf.co` and its siblings). A named list bypasses CORS for those fetches WITHOUT
+  the "read and change all your data on all websites" install warning that a broad
+  `https://*/*` grant carries (#637). It is a hand-list; the source of truth for the fetch hosts is
   `scripts/network-hosts.mjs` — the data was split out of the checker in #678 so the
   manifest cross-check could read it — and `scripts/check-network-hosts.mjs` is what
-  enforces it. (jsDelivr, which serves the non-English OCR language packs, is NOT here: it
-  answers with `access-control-allow-origin: *`, so the fetch works without a grant.
-  The ONNX and OCR runtimes are self-hosted in the package. The model choices and
-  their sources are in [models.md](models.md).)
+  enforces it. The ONNX and OCR runtimes, and the English OCR data, are self-hosted in the
+  package and load nothing from a CDN. The model choices and their sources are in
+  [models.md](models.md).)
 - `optional_host_permissions`: `https://*/*` — the genuine "any site" access,
   requested at runtime on a user gesture and never at install: when the user
-  enables Grammit or Clipboard (their content scripts run on every page), and for
-  PDF import-by-URL (which requests only the origin being imported from). Released
-  when the last content-script app is uninstalled.
+  enables Grammit, Clipboard or FakeForm (their content scripts run on the pages the user
+  browses). It lets the extension read those pages; it is not a way to reach an outside
+  host, because the CSP `connect-src` below stops the extension's own pages from
+  connecting anywhere but Hugging Face. Released when the last content-script app is
+  uninstalled. A test pins this value.
 - The Grammit (`writer.js`) and Clipboard (`clipboard.js`) content scripts are NOT
   declared in the manifest. The background worker registers them with
   `chrome.scripting.registerContentScripts` once the app is installed AND the
@@ -298,7 +303,12 @@ keep that tab open and browse in _other_ tabs to keep the floating window around
   permission or install-set changes). Registration keys on installed + permitted only. On UPDATE, existing
   users keep the (now-optional) grant, so the reconcile re-registers their scripts
   with no interruption.
-- CSP allows `'wasm-unsafe-eval'` (for the WASM engines) and `worker-src 'self' blob:`.
+- CSP allows `'wasm-unsafe-eval'` (for the WASM engines) and `worker-src 'self'`. Its
+  `connect-src` is `'self' blob: data: https://huggingface.co https://*.hf.co`, and
+  `img-src` is `'self' data: blob:`, so an extension page cannot load an image from, or
+  connect to, any other host (a remote image in a note or in a model reply is simply
+  blocked). `font-src`, `frame-src` and `base-uri` are locked the same way.
+  `extension/src/build/manifestHosts.test.ts` fails if any of this widens.
 
 ## Tests
 

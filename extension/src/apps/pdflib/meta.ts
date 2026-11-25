@@ -8,7 +8,7 @@ export default defineMeta({
   marketing: {
     tech: 'PDF.js',
     desc: 'Read and annotate PDFs — highlights, notes, zoom, and last-page memory.',
-    points: ['Highlights & margin notes', 'Remembers your last page', 'Import by URL or upload'],
+    points: ['Highlights & margin notes', 'Remembers your last page', 'Upload PDFs from your computer'],
     featured: true,
   },
 });

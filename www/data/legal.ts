@@ -54,29 +54,15 @@ export const LEGAL_DRAFT = !LEGAL.published
 /**
  * The third parties your browser may contact, and the only thing each one sees. Kimtos itself
  * runs no server and receives nothing: these are public hosts that the extension talks to
- * DIRECTLY from your browser, for the one feature that needs each. The list is checked against
+ * DIRECTLY from your browser, and only for the one feature that needs it (the model downloads you start). The list is checked against
  * the extension's declared hosts by scripts/check-network-hosts.mjs.
  */
 export const SUBPROCESSORS: { name: string; purpose: string; sees: string }[] = [
   {
     name: 'Hugging Face',
-    purpose: 'Downloading the on-device AI model files, once (huggingface.co, and its download hosts under hf.co)',
+    purpose:
+      'Downloading the on-device AI model files, once, when you start the download (huggingface.co, and its download hosts under hf.co)',
     sees: 'Your IP address and which model file you asked for, like any file download. No account, no content.',
-  },
-  {
-    name: 'jsDelivr',
-    purpose: 'Downloading an OCR language pack other than English, once (cdn.jsdelivr.net)',
-    sees: 'Your IP address and the name of the language pack you asked for. No account, no image, no content.',
-  },
-  {
-    name: 'Open-Meteo',
-    purpose: 'The weather card, only if you turn it on',
-    sees: 'A city name or a rounded coordinate (about 110 m) and your IP address, to return the forecast.',
-  },
-  {
-    name: 'DEV, Hacker News (via Algolia) and Lobsters',
-    purpose: 'The trending-articles card, only if you turn it on',
-    sees: 'Your IP address and which public feed you asked for.',
   },
 ]
 

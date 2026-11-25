@@ -12,6 +12,22 @@ Write PR titles for users.
 
 <!-- releases below; newest first -->
 
+## v1.0.3 — 2026-11-25
+
+Kimtos now makes no network request except the AI model downloads you start, from Hugging Face.
+
+### Improved
+
+- Kimtos now makes no network request except the AI model downloads you start, from Hugging Face. Everything else stays in your browser
+- Image to Text reads English with its engine and language data built in, so it works offline and loads nothing from the internet
+- The Tabs app shows page icons from your browser's own icon cache instead of asking each site for them
+
+### Removed
+
+- The weather and trending-articles cards were removed from the home screen
+- Adding a PDF by URL was removed from PDF Library. Add PDFs by uploading them from your computer
+- The Image to Text language setting was removed, because only English is built in
+
 ## v1.0.2 — 2026-11-25
 
 Kimtos is now free and open source (MIT), with no account, no backend and no servers.

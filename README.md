@@ -69,10 +69,10 @@ make help        # every target
 
 ## Privacy
 
-Kimtos has no backend. The only network requests are the ones you can see: model files from
-Hugging Face (once, when you install a model), and a few optional cards that call public APIs
-you switch on yourself (weather, developer news). The full list of hosts is in
-[`scripts/network-hosts.mjs`](scripts/network-hosts.mjs) and is checked in CI.
+Kimtos has no backend. **Kimtos makes no network request except the model downloads you start, from
+Hugging Face.** Everything you create stays in your browser, and the extension's manifest and
+content-security policy allow no other host; a test fails if that ever changes. The full list of
+hosts is in [`scripts/network-hosts.mjs`](scripts/network-hosts.mjs) and is checked in CI.
 
 ## Contributing
 

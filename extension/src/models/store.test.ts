@@ -123,16 +123,6 @@ describe('mirrorPrefs: it still does its job', () => {
     assert.notEqual(await kv.get(GENERAL_KEY), undefined);
   });
 
-  test('the transient weather cache never reaches the mirror', async () => {
-    // portableSettings strips it; the mirror rides along in the Export file, so this matters.
-    const kv = fakeKv();
-    const s = { apps: {}, theme: 'dark', weatherCache: { data: { t: 1 }, at: 1 } };
-    await mirrorPrefs(s as unknown as Settings, kv);
-    const general = (await kv.get(GENERAL_KEY)) as Record<string, unknown>;
-    assert.equal(general.weatherCache, undefined, 'a cache must not be mirrored into the backup');
-    assert.equal(general.theme, 'dark', 'preferences still are');
-  });
-
   test('the per-user installed-app map never reaches the mirror (#406)', async () => {
     // installedAppsByUser is a DEVICE-WIDE map keyed by every user id on the profile. A backup
     // is one user's data, so mirroring it would leak co-users' account ids + installs and clobber

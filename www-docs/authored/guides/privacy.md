@@ -21,9 +21,8 @@ collect it. It is free and open source (MIT), so you can check this in the
 The complete, authoritative privacy policy is the Privacy page of the Kimtos marketing site; its
 source is [`www/pages/privacy.vue`]({{repoUrl}}/blob/main/www/pages/privacy.vue) in the repository.
 
-It is deliberately specific rather than boilerplate: it lists every third party involved, and **every** case where Kimtos touches the network —
-including the ones you might not expect, such as the weather card and the
-trending-article feed.
+It is deliberately specific rather than boilerplate: it lists every third party involved, and **every** case where Kimtos touches the network. There is one:
+**Kimtos makes no network request except the model downloads you start, from Hugging Face.**
 
 We keep one copy of that policy, so there is no chance of two versions
 drifting apart and one of them being wrong.

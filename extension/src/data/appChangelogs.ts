@@ -376,6 +376,13 @@ export const APP_CHANGELOGS: Record<string, AppRelease[]> = {
   ],
   pdflib: [
     {
+      version: '1.3.0',
+      date: '2026-11-25',
+      lines: [
+        'Adding a PDF by URL was removed, so PDF Library makes no network request. Upload PDFs from your computer instead; books you added by URL before stay in your library.',
+      ],
+    },
+    {
       version: '1.2.0',
       date: '2026-08-12',
       lines: [
@@ -452,6 +459,14 @@ export const APP_CHANGELOGS: Record<string, AppRelease[]> = {
   ],
   snaptext: [
     {
+      version: '1.1.0',
+      date: '2026-11-25',
+      lines: [
+        'The engine and English language data are built in, so Image to Text works offline and loads nothing from the internet.',
+        'The Language setting was removed: English is the only language. Other languages used to be downloaded from a public CDN.',
+      ],
+    },
+    {
       version: '1.0.3',
       date: '2026-07-23',
       lines: [
@@ -480,6 +495,13 @@ export const APP_CHANGELOGS: Record<string, AppRelease[]> = {
     },
   ],
   tabs: [
+    {
+      version: '1.0.3',
+      date: '2026-11-25',
+      lines: [
+        "Page icons come from your browser's own icon cache, so showing your tabs makes no request to the sites they belong to.",
+      ],
+    },
     {
       version: '1.0.2',
       date: '2026-07-22',

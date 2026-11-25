@@ -24,8 +24,10 @@ machine.
   `snaptext.txt` file.
 - **History sidebar** — every extraction is saved locally as a _scan_. Revisit a
   past run, re-copy its text, or batch-delete several at once with one-tap undo.
-- **Language choice** — defaults to English; set another Tesseract language code
-  (for example `ara`, `fra`, `deu`) in settings.
+- **English only** — the engine and the English language data are built into the
+  extension. There is no language setting, because another language would have to
+  be downloaded from a public CDN, and Kimtos makes no network request except the
+  model downloads you start.
 - **Layout choice** — the page is analysed automatically, so headings, columns
   and sidebars are all picked up; settings let you force a different reading if a
   particular image needs it.
@@ -36,8 +38,8 @@ Image to Text never sends your image anywhere:
 
 - **OCR runs in the browser** via a self-hosted Tesseract.js WebAssembly worker.
   The picture is read on the device and is not uploaded.
-- **English language data is bundled** with the extension, so English OCR works
-  fully offline with no download.
+- **The engine and the English language data are bundled** with the extension, so
+  OCR works fully offline. It makes no network request at all.
 - **History** (the extracted text plus the original image) is stored only in
   your browser, and is included in the suite's local backup. Uninstalling the app
   can erase it.

@@ -22,8 +22,9 @@ make www-build      # statically generate the marketing site into www/.output/pu
 make docs-build     # build the docs site into www-docs/dist
 ```
 
-- Models are not hosted by us: the extension downloads them from Hugging Face (and the non-English OCR
-  packs from jsDelivr) at runtime. See `docs/extension/models.md` and the on-device-models skill.
+- Models are not hosted by us: the extension downloads them from Hugging Face, when the user starts a
+  download. That is the ONLY network request Kimtos makes (OCR is bundled). See `docs/extension/models.md`
+  and the on-device-models skill.
 
 ## Release + changelog
 

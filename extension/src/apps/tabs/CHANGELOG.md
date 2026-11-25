@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.3 — 2026-11-25
+
+- Page icons come from your browser's own icon cache, so showing your tabs makes no request to the sites they belong to.
+
 ## 1.0.2 — 2026-07-22
 
 - Tabs closed with Select and Delete no longer reappear in the list once the undo window lapses.

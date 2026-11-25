@@ -52,7 +52,6 @@ Kimtos asks only when a feature genuinely needs it, and only for that feature.
 
 | Prompt         | Why                                        | If you say no                                                                                          |
 | -------------- | ------------------------------------------ | ------------------------------------------------------------------------------------------------------ |
-| **Location**   | The weather card                           | It reads _"Location unavailable"_. Nothing else changes.                                               |
 | **Your tabs**  | The Tabs app, to search and hibernate them | The app shows **Grant access to my tabs** until you allow it                                           |
 | **Screen**     | Video Recorder, to record your screen      | The Screen option switches itself off                                                                  |
 | **Camera**     | Video Recorder                             | _"Camera unavailable — check permissions."_                                                            |

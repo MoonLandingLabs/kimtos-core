@@ -1,6 +1,8 @@
 // In-browser OCR via Tesseract.js (WASM). Runs entirely on-device — the image
-// never leaves the browser. The engine + language data download on first use and
-// are cached by Tesseract.js, so later runs are fast and work offline.
+// never leaves the browser. The worker, the core and the English language data all ship inside
+// the extension (/ocr), so OCR makes no network request at all and works offline. English is the
+// only language: Tesseract.js would fetch any other pack from a public CDN, and Kimtos contacts
+// no host except the Hugging Face model downloads.
 //
 // `onProgress` receives a normalized `{ phase, label, ratio }` where phase is
 // 'download' (loading core/lang) or 'recognize'.
@@ -20,11 +22,16 @@ import {
   uncoveredBands,
 } from './ocrSmallText.js';
 
-// English is bundled (/ocr/eng.traineddata.gz) so OCR works fully offline with no download.
-// Every other language's pack comes from Tesseract.js's own default, the official
-// `@tesseract.js-data/<lang>` npm package on jsDelivr (version 4.0.0_best_int, gzip). Returning
-// undefined leaves that default in place; see lib/modelHosts.ts.
-const langPathFor = (lang: string): string | undefined => (lang === 'eng' ? '/ocr' : undefined);
+// The bundled files, copied into dist/ocr by the build (vite.config.ts VENDOR + public/ocr).
+// Every path is passed explicitly: Tesseract.js's own defaults point at cdn.jsdelivr.net.
+// `workerBlobURL: false` loads the worker file directly; MV3 CSP bans blob: workers.
+const LOCAL_OCR = {
+  workerPath: '/ocr/worker.min.js',
+  corePath: '/ocr/tesseract-core-simd-lstm.wasm.js',
+  langPath: '/ocr',
+  workerBlobURL: false,
+};
+const LANG = 'eng';
 
 interface TessLog {
   status?: string;
@@ -113,26 +120,15 @@ async function recoverSmallText(
 
 export async function recognizeText(
   file: Blob,
-  {
-    lang = 'eng',
-    layout,
-    onProgress,
-    signal,
-  }: { lang?: string; layout?: string; onProgress?: OnProgress; signal?: AbortSignal } = {},
+  { layout, onProgress, signal }: { layout?: string; onProgress?: OnProgress; signal?: AbortSignal } = {},
 ): Promise<string> {
   if (signal?.aborted) throw new DOMException('Aborted', 'AbortError');
   const { createWorker } = (await import('tesseract.js')) as unknown as { createWorker: CreateWorker };
   // Flipped once the main pass is done, so the progress line names the second phase
   // instead of restarting "Recognizing text" from zero for every strip.
   let recognizeLabel = 'Recognizing text';
-  const worker = await createWorker(lang, 1, {
-    // Self-hosted worker + core (copied to /ocr) — MV3 forbids loading the
-    // worker from a CDN. Root-relative paths resolve against the extension root.
-    // workerBlobURL:false loads the worker file directly; MV3 CSP bans blob: workers.
-    workerPath: '/ocr/worker.min.js',
-    corePath: '/ocr/tesseract-core-simd-lstm.wasm.js',
-    workerBlobURL: false,
-    ...(langPathFor(lang) ? { langPath: langPathFor(lang) } : {}),
+  const worker = await createWorker(LANG, 1, {
+    ...LOCAL_OCR,
     logger: (m: TessLog) => {
       const recognizing = (m.status || '').toLowerCase().includes('recogniz');
       onProgress?.({
@@ -176,13 +172,10 @@ export async function recognizeText(
 
 // Warm the OCR engine (compile WASM + load the bundled English data) so the
 // first real recognition is instant. Used by onboarding.
-export async function prefetchOcr(lang = 'eng', onProgress?: OnProgress): Promise<void> {
+export async function prefetchOcr(onProgress?: OnProgress): Promise<void> {
   const { createWorker } = (await import('tesseract.js')) as unknown as { createWorker: CreateWorker };
-  const worker = await createWorker(lang, 1, {
-    workerPath: '/ocr/worker.min.js',
-    corePath: '/ocr/tesseract-core-simd-lstm.wasm.js',
-    workerBlobURL: false,
-    ...(langPathFor(lang) ? { langPath: langPathFor(lang) } : {}),
+  const worker = await createWorker(LANG, 1, {
+    ...LOCAL_OCR,
     logger: (m: TessLog) =>
       onProgress?.({
         phase: 'download',
@@ -193,9 +186,9 @@ export async function prefetchOcr(lang = 'eng', onProgress?: OnProgress): Promis
   await worker.terminate();
 }
 
-// Free cached OCR language data (uninstall). English is bundled (nothing to
-// remove); other languages are cached by Tesseract.js in IndexedDB. Best-effort:
-// drop any tesseract-named databases (Chrome supports indexedDB.databases()).
+// Free cached OCR data (uninstall). English is bundled (nothing to remove); Tesseract.js also
+// caches the language file in IndexedDB. Best-effort: drop any tesseract-named databases
+// (Chrome supports indexedDB.databases()).
 export async function removeOcrCache(): Promise<void> {
   try {
     const dbs = (await indexedDB.databases?.()) || [];

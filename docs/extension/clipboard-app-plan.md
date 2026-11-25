@@ -236,7 +236,7 @@ picker command — the quick-paste chords live in the content script):
 
 ```jsonc
 {
-  "permissions": ["storage", "geolocation", "unlimitedStorage", "identity", "contextMenus", "sidePanel"], // + contextMenus, sidePanel
+  "permissions": ["storage", "unlimitedStorage", "identity", "contextMenus", "sidePanel"], // + contextMenus, sidePanel
   "background": { "service_worker": "background.js" }, // NEW
   "content_scripts": [
     { "matches": ["https://*/*"], "js": ["writer.js"], "run_at": "document_idle" },

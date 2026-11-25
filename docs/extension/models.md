@@ -1,17 +1,23 @@
 # On-device models and where they load from
 
 Kimtos runs every model in the browser. There is no Kimtos file server: each model file is
-downloaded once from a public host that already serves it with CORS, then cached. This page lists
+downloaded once, when you start the download, from Hugging Face, which already serves it with
+CORS, then cached.
+
+**Kimtos makes no network request except the model downloads you start, from Hugging Face.**
+The manifest and the CSP name no other host, and a test fails if that ever changes. OCR (Image to
+Text) ships its engine and English data inside the extension and downloads nothing.
+
+This page lists
 what loads from where, why, and what was evaluated and left alone. The host list itself is
 `scripts/network-hosts.mjs`; the URL helpers are `extension/src/lib/modelHosts.ts`.
 
 ## Hosts
 
-| Host                                           | Used for                         | Manifest grant                                   |
-| ---------------------------------------------- | -------------------------------- | ------------------------------------------------ |
-| `huggingface.co`                               | every model                      | `https://huggingface.co/*`                       |
-| `*.cdn.hf.co` (for example `us.aws.cdn.hf.co`) | large files, reached by redirect | `https://*.hf.co/*`                              |
-| `cdn.jsdelivr.net`                             | non-English OCR language packs   | none (it sends `access-control-allow-origin: *`) |
+| Host                                           | Used for                         | Manifest grant             |
+| ---------------------------------------------- | -------------------------------- | -------------------------- |
+| `huggingface.co`                               | every model                      | `https://huggingface.co/*` |
+| `*.cdn.hf.co` (for example `us.aws.cdn.hf.co`) | large files, reached by redirect | `https://*.hf.co/*`        |
 
 Hugging Face answers a large-file URL with a 302 to `us.aws.cdn.hf.co`, and its first response only
 allows the `https://huggingface.co` origin, so the manifest must grant both hosts. This was checked
@@ -21,21 +27,20 @@ with `curl -I` on 2026-11-22. Transformers.js resolves a model id to
 
 ## Models
 
-| App                   | Model (Hugging Face repo)                                         | Files loaded                                            | Download                 | Licence           |
-| --------------------- | ----------------------------------------------------------------- | ------------------------------------------------------- | ------------------------ | ----------------- |
-| Voice to Text         | `Xenova/whisper-tiny` (default), fp32                             | encoder 33 MB, merged decoder 119 MB                    | ~145 MB                  | Apache-2.0        |
-| Voice to Text         | `Xenova/whisper-base`, fp32                                       | encoder 83 MB, merged decoder 209 MB                    | ~280 MB                  | Apache-2.0        |
-| Voice to Text         | `Xenova/whisper-small`, q8 (new)                                  | `encoder_model_quantized` 92 MB, merged decoder 157 MB  | ~250 MB                  | Apache-2.0        |
-| Voice Studio          | `onnx-community/Kokoro-82M-v1.0-ONNX`, q8, plus `voices/<id>.bin` | `onnx/model_quantized.onnx`, about 0.5 MB per voice     | ~90 MB                   | Apache-2.0        |
-| KimtAI (default)      | `HuggingFaceTB/SmolLM2-360M-Instruct`, q4f16 (GPU) / q4 (CPU)     | one `onnx/model_*.onnx`                                 | ~300 MB                  | Apache-2.0        |
-| KimtAI                | `onnx-community/Qwen3-0.6B-ONNX` (new, replaces TinyLlama)        | `onnx/model_q4f16.onnx` 570 MB / `model_q4.onnx` 919 MB | ~570 MB GPU, ~920 MB CPU | Apache-2.0        |
-| KimtAI                | `HuggingFaceTB/SmolLM2-1.7B-Instruct`                             | one `onnx/model_*.onnx`                                 | ~1.4 GB                  | Apache-2.0        |
-| Grammit (optional)    | `Xenova/flan-t5-base` (default) or `-small`, q8                   | quantized encoder and merged decoder                    | ~250 MB / ~80 MB         | Apache-2.0        |
-| Thoth search          | `Xenova/all-MiniLM-L6-v2`, q8                                     | `onnx/model_quantized.onnx`                             | about 25 megabytes       | Apache-2.0        |
-| Denoise               | `kimtos-labs/denoiser-dfn3` (DeepFilterNet3, torchDF export)      | `denoiser_model.onnx`, 16,104,687 bytes                 | ~16 MB                   | MIT or Apache-2.0 |
-| Snaptext, non-English | `@tesseract.js-data/<lang>` 4.0.0_best_int on jsDelivr            | `<lang>.traineddata.gz`, 0.7 to 3 MB each               | 0.7 to 3 MB              | Apache-2.0        |
+| App                | Model (Hugging Face repo)                                         | Files loaded                                            | Download                 | Licence           |
+| ------------------ | ----------------------------------------------------------------- | ------------------------------------------------------- | ------------------------ | ----------------- |
+| Voice to Text      | `Xenova/whisper-tiny` (default), fp32                             | encoder 33 MB, merged decoder 119 MB                    | ~145 MB                  | Apache-2.0        |
+| Voice to Text      | `Xenova/whisper-base`, fp32                                       | encoder 83 MB, merged decoder 209 MB                    | ~280 MB                  | Apache-2.0        |
+| Voice to Text      | `Xenova/whisper-small`, q8 (new)                                  | `encoder_model_quantized` 92 MB, merged decoder 157 MB  | ~250 MB                  | Apache-2.0        |
+| Voice Studio       | `onnx-community/Kokoro-82M-v1.0-ONNX`, q8, plus `voices/<id>.bin` | `onnx/model_quantized.onnx`, about 0.5 MB per voice     | ~90 MB                   | Apache-2.0        |
+| KimtAI (default)   | `HuggingFaceTB/SmolLM2-360M-Instruct`, q4f16 (GPU) / q4 (CPU)     | one `onnx/model_*.onnx`                                 | ~300 MB                  | Apache-2.0        |
+| KimtAI             | `onnx-community/Qwen3-0.6B-ONNX` (new, replaces TinyLlama)        | `onnx/model_q4f16.onnx` 570 MB / `model_q4.onnx` 919 MB | ~570 MB GPU, ~920 MB CPU | Apache-2.0        |
+| KimtAI             | `HuggingFaceTB/SmolLM2-1.7B-Instruct`                             | one `onnx/model_*.onnx`                                 | ~1.4 GB                  | Apache-2.0        |
+| Grammit (optional) | `Xenova/flan-t5-base` (default) or `-small`, q8                   | quantized encoder and merged decoder                    | ~250 MB / ~80 MB         | Apache-2.0        |
+| Thoth search       | `Xenova/all-MiniLM-L6-v2`, q8                                     | `onnx/model_quantized.onnx`                             | about 25 megabytes       | Apache-2.0        |
+| Denoise            | `kimtos-labs/denoiser-dfn3` (DeepFilterNet3, torchDF export)      | `denoiser_model.onnx`, 16,104,687 bytes                 | ~16 MB                   | MIT or Apache-2.0 |
 
-Sizes for Whisper, Qwen3 and the Tesseract packs are the byte sizes Hugging Face and jsDelivr report
+Sizes for Whisper and Qwen3 are the byte sizes Hugging Face reports
 for the exact files above (2026-11-22). The others are the figures already shown in the app.
 Every repo was confirmed to exist, be ungated, and serve each listed file (HTTP 200 on
 `/resolve/main/...`). English OCR data is bundled and loads nothing.
@@ -53,7 +58,8 @@ Qwen3 0.6B). Because cached files are keyed by URL, everyone downloads their mod
 ## What changed and why
 
 - Hosts. The CDN and the `kimtos-labs/*` mirror are gone from the code. Models load from the original
-  Hugging Face repos, the OCR packs from the Tesseract.js default (jsDelivr). The manifest grants no Kimtos-operated host.
+  Hugging Face repos. The manifest grants no Kimtos-operated host. The non-English OCR language packs
+  (jsDelivr) were removed in 1.0.3, so OCR is English only and fully bundled.
 - Whisper Small added. Whisper Small reports clearly lower word error rates than Base in the
   [Whisper paper](https://arxiv.org/abs/2212.04356) (the model card lists the sizes: 39M, 74M, 244M
   parameters for tiny, base, small). Its fp32 export is about 1 GB, so it loads the int8 (`q8`) export,
@@ -94,5 +100,5 @@ Qwen3 0.6B). Because cached files are keyed by URL, everyone downloads their mod
   CI and still produced garbage in the browser; Qwen3 0.6B has not been through that check.
 - Kokoro, FLAN-T5, MiniLM and the SmolLM2 models were not run at all in this pass; only their
   Hugging Face file paths were checked.
-- The Denoise graph, Tesseract language packs and the voice `.bin` files were checked for existence
+- The Denoise graph and the voice `.bin` files were checked for existence
   and size only.

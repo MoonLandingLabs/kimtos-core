@@ -20,21 +20,16 @@
       </div>
 
       <div v-reveal class="verify-exceptions">
-        <h3>The only times Kimtos uses the network</h3>
+        <h3>The only time Kimtos uses the network</h3>
         <p class="lede">
-          We would rather list them than pretend there are none — an undisclosed call would damage the claim far more
-          than an honest one.
+          Kimtos makes no network request except the model downloads you start, from Hugging Face. We would rather say
+          so plainly than pretend there are none.
         </p>
         <ul>
           <li>
             <strong>Open source</strong> — there is no Kimtos server to call. The full source (MIT licensed) is on
             GitHub, so you can read exactly what runs.
           </li>
-          <li>
-            <strong>Weather and trending-article cards</strong> — if you turn them on, they fetch from public feeds
-            (Open-Meteo and developer news).
-          </li>
-          <li><strong>Importing a PDF by URL</strong> — fetches the file from an address you paste. You start it.</li>
           <li>
             <strong>One-time model downloads</strong> — a model file is fetched once from Hugging Face, then cached.
             After that it works fully offline.

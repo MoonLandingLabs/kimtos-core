@@ -1,7 +1,7 @@
 {
   "name": "@kimtos/www",
   "private": true,
-  "description": "The Kimtos marketing site \u2014 fully static (nuxt generate). Free and open source (MIT); no accounts, no backend.",
+  "description": "The Kimtos marketing site — fully static (nuxt generate). Free and open source (MIT); no accounts, no backend.",
   "type": "module",
   "scripts": {
     "gen:apps": "node scripts/gen-apps.mjs",
@@ -37,5 +37,5 @@
     "vue-tsc": "^3.3.14"
   },
   "license": "MIT",
-  "version": "1.2.0"
+  "version": "1.2.1"
 }

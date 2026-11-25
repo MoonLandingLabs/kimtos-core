@@ -11,7 +11,7 @@ export interface Faq {
 export const FAQ: Faq[] = [
   {
     q: 'Is my data really private?',
-    a: 'Yes. The AI models run inside your browser tab — there’s no Kimtos server that sees your notes, audio, images or chats. The only network calls are optional (weather, importing a PDF by URL) and the one-time model download from Hugging Face. Kimtos has no accounts and no backend, so there is nothing for us to collect.',
+    a: 'Yes. The AI models run inside your browser tab — there’s no Kimtos server that sees your notes, audio, images or chats. Kimtos makes no network request except the AI model downloads you start, from Hugging Face. Kimtos has no accounts and no backend, so there is nothing for us to collect.',
   },
   {
     q: 'Is Kimtos free?',

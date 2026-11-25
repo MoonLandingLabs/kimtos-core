@@ -63,6 +63,32 @@ describe('loading an old persisted blob', () => {
     assert.deepEqual(disk.installedAppsByUser, { u1: ['grammit'] });
   });
 
+  test('the settings of the removed weather and trending cards are dropped, including cached coordinates', async () => {
+    fake = installChrome({
+      kimtos: {
+        installedAppsByUser: { local: ['notes'] },
+        workspaces: {
+          local: {
+            theme: 'dark',
+            homeReadit: true,
+            homeWeather: true,
+            weatherUnit: 'fahrenheit',
+            weatherCoords: { lat: 1, lon: 2 },
+            weatherCache: { data: {}, at: 1 },
+          },
+        },
+      },
+    });
+    const { store } = await import('./store.js');
+    await store.init();
+    for (const k of ['homeReadit', 'homeWeather', 'weatherUnit', 'weatherCoords', 'weatherCache']) {
+      assert.equal(k in store.get(), false, `${k} is gone from the live store`);
+    }
+    assert.equal(store.get('theme'), 'dark', 'other settings are untouched');
+    const disk = await readDisk();
+    assert.deepEqual(Object.keys(disk.workspaces.local), ['theme'], 'and from disk');
+  });
+
   test('a signed-out or fresh profile stays on the local workspace', async () => {
     fake = installChrome({
       kimtos: {

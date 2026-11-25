@@ -107,20 +107,17 @@ const APP_MODELS: Record<string, ModelEntry> = {
     },
   },
 
-  // Image to Text — English is bundled (no download); other languages are fetched
-  // at install and when the language setting changes, so OCR never downloads
-  // mid-use.
+  // Image to Text — the engine and English data are bundled in the extension: this only warms
+  // the engine up, from local files, so nothing is downloaded.
   snaptext: {
     key: 'ocr',
-    size: 'language data',
+    size: 'bundled',
     download: async (onProgress) => {
-      const langVal = getAppValue('snaptext', 'language');
-      const lang = typeof langVal === 'string' ? langVal : 'eng';
       const { prefetchOcr } = await import('./engines/ocr.js');
-      await prefetchOcr(lang, onProgress);
+      await prefetchOcr(onProgress);
     },
-    // The engine owns its own network and takes no signal, so a Stop here would report
-    // success while the download continued. No button until it can (#1304).
+    // The warm-up takes no signal, so a Stop here would report success while it continued.
+    // No button until it can (#1304).
     cancellable: false,
     remove: async () => {
       const { removeOcrCache } = await import('./engines/ocr.js');

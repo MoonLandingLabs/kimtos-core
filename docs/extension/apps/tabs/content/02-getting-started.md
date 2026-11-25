@@ -28,7 +28,8 @@ rather than on every keystroke.
 
 With the search box empty, tabs are grouped by window, with the focused window
 ("This window") first and a per-window tab count. Tabs that belong to a tab
-group appear under a colored group chip. Each row shows the favicon (or a
+group appear under a colored group chip. Each row shows the favicon (read from the
+browser's own icon cache, so no request goes to the site; or a
 per-domain monogram tile when no favicon is usable), the title, and a tidied
 URL, plus badges marking pinned (`Pinned`), audible (`♪`), and hibernated
 (`Asleep`) tabs.

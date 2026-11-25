@@ -1,6 +1,5 @@
 // Local handlers for PDF Library: book CRUD, annotations, and PDF blobs.
-// Import-by-URL fetches the PDF client side — MV3 host_permissions let the
-// extension bypass CORS.
+// PDFs come in only as files the user picks: nothing here makes a network request.
 import { register } from '../../lib/localRouter.js';
 import { dataStore as db } from '../../lib/dataStore.js';
 import { isPdf } from '../../lib/fileType.js';
@@ -30,55 +29,9 @@ interface Annotation {
 }
 
 const blobKey = (id: string): string => `pdf:${id}`;
-// Both import paths (by URL and by upload) reject the same size, with the same words.
-const tooBig = (): Error => new Error(`File is larger than the ${megabytes(PDF_MAX_BYTES)} limit.`);
 const guardSize = (buffer: ArrayBuffer): void => {
-  if (buffer.byteLength > PDF_MAX_BYTES) throw tooBig();
+  if (buffer.byteLength > PDF_MAX_BYTES) throw new Error(`File is larger than the ${megabytes(PDF_MAX_BYTES)} limit.`);
 };
-
-/**
- * Read a response body, refusing it the moment it passes the limit.
- *
- * The URL is the user's, and it used to be read whole — `await res.arrayBuffer()` — and only THEN
- * measured. So the cap was enforced against a buffer already in memory: a URL pointing at
- * something enormous could exhaust the tab before `guardSize` ever ran (#1304). A declared
- * `Content-Length` is refused before a byte is read; a body that declares nothing, or lies about
- * it, is cut off as it arrives.
- */
-async function readCapped(res: Response): Promise<ArrayBuffer> {
-  const declared = Number(res.headers.get('content-length'));
-  if (Number.isFinite(declared) && declared > PDF_MAX_BYTES) throw tooBig();
-  // No stream to read (a mocked or opaque response): fall back to the whole body, which the
-  // declared length above has already vouched for as far as anything can.
-  if (!res.body) {
-    const buffer = await res.arrayBuffer();
-    guardSize(buffer);
-    return buffer;
-  }
-  const reader = res.body.getReader();
-  const chunks: Uint8Array[] = [];
-  let total = 0;
-  try {
-    for (;;) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      if (!value) continue;
-      total += value.byteLength;
-      if (total > PDF_MAX_BYTES) throw tooBig();
-      chunks.push(value);
-    }
-  } finally {
-    // Stop the transfer on the way out, whether that was the end of the body or the cap.
-    await reader.cancel().catch(() => {});
-  }
-  const out = new Uint8Array(total);
-  let at = 0;
-  for (const chunk of chunks) {
-    out.set(chunk, at);
-    at += chunk.byteLength;
-  }
-  return out.buffer;
-}
 
 // Unread first, then newest.
 const byReadThenNew = (a: Book, b: Book): number =>
@@ -87,29 +40,6 @@ const byReadThenNew = (a: Book, b: Book): number =>
 register('GET', 'books', async () => ({
   books: ((await db.list('books')) as unknown as Book[]).sort(byReadThenNew),
 }));
-
-register('POST', 'books', async ({ body }) => {
-  const b = (body || {}) as { url?: string; title?: string };
-  const url = (b.url || '').trim();
-  if (!url) throw new Error('A URL is required.');
-  let buffer: ArrayBuffer;
-  try {
-    const res = await fetch(url);
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    buffer = await readCapped(res);
-  } catch (err) {
-    const msg = err instanceof Error ? err.message : String(err);
-    // The size refusal is about the FILE, not about the download: wrapping it in "Couldn't
-    // download that PDF" would blame the network for a limit we chose.
-    if (msg.includes('limit')) throw err;
-    throw new Error(`Couldn't download that PDF: ${msg}`, { cause: err });
-  }
-  if (!isPdf(buffer)) throw new Error("That URL doesn't point to a PDF file.");
-  const title = (b.title || '').trim() || url.split('/').pop() || 'Untitled';
-  const book = await db.put('books', { title, url, source: 'url', read: false, added: Date.now(), lastPage: 1 });
-  await db.putBlob(blobKey(book.id), new Blob([buffer], { type: 'application/pdf' }));
-  return book;
-});
 
 register('POST', 'books/upload', async ({ form }) => {
   const file = form?.get('file');

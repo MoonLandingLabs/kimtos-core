@@ -57,19 +57,16 @@ blur**.
 Optional cards above the dock. Each is switched on or off in **Settings ▸ Preferences**,
 under **Home screen**:
 
-| Card                 | What it shows                                                                        | Setting                |
-| -------------------- | ------------------------------------------------------------------------------------ | ---------------------- |
-| **Trending**         | One article from DEV, Hacker News or Lobsters. Click the circular arrow for another. | **Pin Readit**         |
-| **Today**            | Up to five open tasks, overdue first. Tick one to complete it.                       | **Pin today's tasks**  |
-| **Continue reading** | Your most recent PDFs — click to resume.                                             | **Pin last read book** |
-| **Notes**            | Recent collections, and a shortcut to make a new one.                                | **Pin notes**          |
-| **Weather**          | Local conditions. Asks your browser for your location the first time.                | **Pin weather**        |
-| **Focus**            | A Pomodoro timer — 25, 15 or 5 minutes. Keeps running across new tabs.               | **Pin focus timer**    |
-| **Tips**             | The rotating hint line under the dock.                                               | **Show tips**          |
+| Card                 | What it shows                                                          | Setting                |
+| -------------------- | ---------------------------------------------------------------------- | ---------------------- |
+| **Today**            | Up to five open tasks, overdue first. Tick one to complete it.         | **Pin today's tasks**  |
+| **Continue reading** | Your most recent PDFs — click to resume.                               | **Pin last read book** |
+| **Notes**            | Recent collections, and a shortcut to make a new one.                  | **Pin notes**          |
+| **Focus**            | A Pomodoro timer — 25, 15 or 5 minutes. Keeps running across new tabs. | **Pin focus timer**    |
+| **Tips**             | The rotating hint line under the dock.                                 | **Show tips**          |
 
 Two things worth knowing:
 
-- The setting is called **Pin Readit**, but the card is titled **Trending**. Same thing.
 - **A card with nothing to show hides itself.** Turn on **Pin notes** before you have
   written any notes and you will see nothing — that is the card waiting, not a bug.
 

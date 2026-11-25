@@ -4,7 +4,6 @@
 
 import './pdflib.css';
 import { getApi, jsonApi, callApi } from '../../lib/api.js';
-import { requestAllSites } from '../../lib/hostPermission.js';
 import { createListWidget } from '../../components/widgetCard.js';
 import { dataStore } from '../../lib/dataStore.js';
 import { createBulkSelect } from '../../components/bulkSelect.js';
@@ -66,22 +65,6 @@ const app = {
 
   // KimtAI agent tools.
   tools: [
-    {
-      name: 'add_pdf',
-      description: 'Add a PDF to the library by URL (it is downloaded and stored on-device).',
-      parameters: {
-        type: 'object',
-        properties: { url: { type: 'string' }, title: { type: 'string' } },
-        required: ['url'],
-      },
-      run: async (args: Record<string, unknown>) => {
-        const book = (await jsonApi('POST', 'books', {
-          url: String(args.url || ''),
-          title: args.title,
-        })) as Book;
-        return { ok: true, result: `Added "${book.title}" to the library.`, summary: `added "${book.title}"` };
-      },
-    },
     {
       name: 'list_pdfs',
       description: 'List the PDFs in the library (with their id).',
@@ -296,18 +279,11 @@ const app = {
       const unread = books.filter((b) => !b.read).length;
       header.append(el('span', 'pdf-count', unread ? `${unread} unread` : 'all read'));
 
-      // Add: import by URL or upload a file.
-      const form = el('form', 'pdf-add');
+      // Add: upload a PDF from the computer.
+      const form = el('div', 'pdf-add');
       const title = el('input', 'input');
       title.placeholder = 'Title (optional)';
-      const row = el('div', 'pdf-add-row');
-      const url = el('input', 'input');
-      url.placeholder = 'Paste a PDF URL to import';
-      const importBtn = el('button', 'button-primary');
-      importBtn.type = 'submit';
-      importBtn.textContent = 'Import';
-      row.append(url, importBtn);
-      form.append(title, row);
+      form.append(title);
 
       const uploadRow = el('div', 'pdf-upload-row');
       const file = el('input');
@@ -334,25 +310,6 @@ const app = {
         status.hidden = false;
       };
 
-      form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const u = url.value.trim();
-        if (!u) return;
-        // Importing from an arbitrary URL fetches cross-origin (and may follow a redirect to
-        // another host), so it needs the all-sites host permission (#637). Request it here, on
-        // this submit (a user gesture) — a no-op if it's already granted; declined -> don't import.
-        if (!(await requestAllSites())) {
-          fail('Permission to fetch from other sites is needed to import a PDF by URL.');
-          return;
-        }
-        busy('Importing…');
-        try {
-          const book = (await jsonApi('POST', 'books', { title: title.value.trim(), url: u })) as Book;
-          openReader(book);
-        } catch (err) {
-          fail(err instanceof Error ? err.message : String(err));
-        }
-      });
       file.addEventListener('change', async () => {
         const f = file.files?.[0];
         if (!f) return;

@@ -1,7 +1,7 @@
 // The name a downloaded book lands under.
 //
-// Two cases are easy to get wrong and both are visible to the user: a URL import's
-// title is the last path segment, so it usually already carries ".pdf" and would
+// Two cases are easy to get wrong and both are visible to the user: a book added by an older
+// version from a URL is titled by the last path segment, so it usually already carries ".pdf" and would
 // otherwise be saved as "paper.pdf.pdf"; and a title is free text, so it can carry
 // characters that are illegal in a filename on Windows or macOS.
 

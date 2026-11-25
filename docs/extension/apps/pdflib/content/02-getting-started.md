@@ -5,14 +5,13 @@ first, with a form at the top for adding your first book.
 
 ## Adding books
 
-There are two ways to add a PDF, both from the top of the list:
+Add a PDF from the top of the list: click **Upload a PDF from your computer** and
+pick a file. There is no import from a URL, because Kimtos makes no network
+request except the model downloads you start; save the PDF to your computer
+first, then upload it.
 
-- **Import by URL** — paste a link to a PDF into the _"Paste a PDF URL to
-  import"_ field and click **Import**. The file is downloaded and stored locally.
-- **Upload a file** — click **Upload a PDF from your computer** and pick a file.
-
-A **Title** field above both is optional. If you leave it blank, the title is
-taken from the file name (or the last part of the URL). Either way, as soon as
+A **Title** field above the button is optional. If you leave it blank, the title is
+taken from the file name. Either way, as soon as
 the book is added it opens straight into the reader. Files are capped at **{{pdfMaxSize}}**,
 and non-PDF files are rejected.
 
@@ -23,7 +22,7 @@ and non-PDF files are rejected.
 - **Mark read / unread** — tick the checkbox on a book's row. The dock badge
   (the unread count) updates accordingly.
 - **Open** — click a book to open it in the reader. Each row shows its source
-  (the host for URL imports, or _"Uploaded PDF"_) and, if you have read past the
+  (_"Uploaded PDF"_, or the site name for a book an older version imported by URL) and, if you have read past the
   first page, the page you left off on.
 - **Download** — the download arrow on a row saves that book's PDF back to your
   computer. It is the file you imported or uploaded, byte for byte; the book stays

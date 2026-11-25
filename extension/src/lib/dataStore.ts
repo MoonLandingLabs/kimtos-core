@@ -33,14 +33,11 @@ let activeWorkspace: string = LOCAL_WORKSPACE;
  *  - `kimtai:downloaded` / `kimtai:speed` — model download tracking + per-device speed
  *    benchmark. Kept global so a model cached under one workspace is never re-offered or
  *    re-downloaded for another (#406).
- *  - `readit:cache` — a shared cache of public news, not user data. (Its sibling
- *    `readit:served`, the seen-articles set, is deliberately NOT here — it stays
- *    per-workspace.)
  *
  *  The `settings:*` mirror is now PER-USER (#472) — settings became per-workspace in
  *  chrome.storage, so the mirror follows. `migrateSettingsMirror` removes the old global
  *  mirror keys left by pre-#472 installs. */
-const GLOBAL_KV_EXACT = new Set(['kimtai:downloaded', 'kimtai:speed', 'readit:cache']);
+const GLOBAL_KV_EXACT = new Set(['kimtai:downloaded', 'kimtai:speed']);
 
 /** True for a kv key that stays device-global (excluded from per-user namespacing). */
 export function isGlobalKvKey(key: string): boolean {

@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.2.1 — 2026-11-25
+
+- The privacy page, terms, FAQ and privacy summary now say that Kimtos makes no network request except the AI model downloads you start, from Hugging Face
+- The weather, trending-article and PDF-by-URL network cases were removed from the privacy page and the list of third parties
+
 ## 1.2.0 — 2026-07-27
 
 - Give the extension a session model, and run the apps in one tab

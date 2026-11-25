@@ -32,7 +32,7 @@ import { NETWORK_HOSTS } from './network-hosts.mjs';
 const PRIVACY = `
   <li><strong>Your account</strong> — when you sign in.</li>
   <li>Every model is served from our own <strong>models.example.test</strong>.</li>
-  <li>The weather and trending-article cards fetch from Open-Meteo.</li>
+  <li>The status card fetches from Acme Status.</li>
 `;
 const SUBPROCESSORS = ['Acme Hosting', 'Resend', 'ipapi.co'];
 
@@ -355,13 +355,13 @@ describe('what the checker can see', () => {
     // value, and apps/index.ts globs every app's index. An opener is ordinary inside a string.
     const src = [
       "const ALL_SITES = { origins: ['https://*/*'] };",
-      "const feed = 'https://dev.to/api/articles';",
+      "const feed = 'https://feed.example.test/api/articles';",
       "import.meta.glob('./apps/*/index.ts');",
-      "const other = 'https://lobste.rs/hottest.json';",
+      "const other = 'https://other.example.test/hottest.json';",
     ].join('\n');
     const out = stripComments(src);
-    assert.match(out, /dev\.to/, 'a host after an all-https pattern went invisible');
-    assert.match(out, /lobste\.rs/, 'a host after a glob went invisible');
+    assert.match(out, /feed\.example\.test/, 'a host after an all-https pattern went invisible');
+    assert.match(out, /other\.example\.test/, 'a host after a glob went invisible');
   });
 
   test('a real block comment is still stripped', () => {

@@ -102,11 +102,6 @@ function personalization(state: Settings, onChange: ChangeFn): HTMLElement {
   return panel;
 }
 
-const UNITS: Option[] = [
-  { value: 'celsius', label: 'Celsius (°C)' },
-  { value: 'fahrenheit', label: 'Fahrenheit (°F)' },
-];
-
 const THEMES: Option[] = [
   { value: 'system', label: 'System' },
   { value: 'light', label: 'Light' },
@@ -144,17 +139,7 @@ function preferences(state: Settings, onChange: ChangeFn): HTMLElement {
       'When you have more apps than fit, briefly nudge the dock on open to show there’s more to scroll',
       toggle(state.dockScrollHint, (v) => onChange({ dockScrollHint: v })),
     ),
-    field(
-      'Temperature',
-      'Units for the weather card',
-      select(UNITS, state.weatherUnit, (v) => onChange({ weatherUnit: v })),
-    ),
     groupTitle('Home screen'),
-    field(
-      'Pin Readit',
-      'Show a trending article on the home',
-      toggle(state.homeReadit, (v) => onChange({ homeReadit: v })),
-    ),
     // One toggle per installed app that declares a home card. Generated, not listed:
     // declaring `widget` is what creates the toggle, so a card can never ship with no
     // way to turn it off (#83). Absent from `homeWidgets` means shown.
@@ -169,11 +154,6 @@ function preferences(state: Settings, onChange: ChangeFn): HTMLElement {
           ),
         ),
       ),
-    field(
-      'Pin weather',
-      'Show local weather on the home',
-      toggle(state.homeWeather, (v) => onChange({ homeWeather: v })),
-    ),
     field(
       'Pin focus timer',
       'A Pomodoro timer on the home',

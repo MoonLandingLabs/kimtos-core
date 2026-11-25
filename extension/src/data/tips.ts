@@ -3,7 +3,7 @@
 export const tips: string[] = [
   'Save folders, files, and uploads on your device with KimtFS.',
   'KimtManager shows every background job — and stops any of it.',
-  'Enable a weather card or focus timer in Settings → Preferences.',
+  'Pin a focus timer to the home in Settings → Preferences.',
   'The dock nudges on open to reveal more apps — turn it off in Settings → Preferences.',
   'Right-click a dock app to open it, or pin it to the fixed left of the dock.',
   'Favorite a wallpaper (★) in Settings so it won’t rotate.',

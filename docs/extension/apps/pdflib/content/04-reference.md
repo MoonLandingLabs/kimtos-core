@@ -40,8 +40,7 @@ Appears when you select text in a page, or when you click an existing highlight.
 
 | Control             | Action                                                                 |
 | ------------------- | ---------------------------------------------------------------------- |
-| Title field         | Optional name; falls back to the file name or URL.                     |
-| Import              | Add a PDF from a pasted URL.                                           |
+| Title field         | Optional name; falls back to the file name.                            |
 | Upload a PDF        | Add a PDF file from your computer.                                     |
 | All / Unread / Read | Filter the list.                                                       |
 | Read checkbox       | Mark a book read / unread (updates the dock badge).                    |

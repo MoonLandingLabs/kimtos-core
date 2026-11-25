@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.0 — 2026-11-25
+
+- The engine and English language data are built in, so Image to Text works offline and loads nothing from the internet.
+- The Language setting was removed: English is the only language. Other languages used to be downloaded from a public CDN.
+
 ## 1.0.3 — 2026-07-23
 
 - Small text on a busy page — a slide footer under a big headline, a caption, fine print — is no longer silently dropped: the parts the first read misses are found, enlarged and read on their own, then placed back where they appear on the page

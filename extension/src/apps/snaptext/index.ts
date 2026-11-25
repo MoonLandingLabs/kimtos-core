@@ -36,7 +36,7 @@ export default createMediaTextApp({
         if (!att)
           return { ok: false, result: 'No image is attached — ask the user to attach one.', summary: 'no image' };
         const { recognizeText } = await import('../../lib/engines/ocr.js');
-        const opts = { lang: 'eng', onProgress: ctx.onProgress };
+        const opts = { onProgress: ctx.onProgress };
         const text = await recognizeText(att.blob, opts); // layout omitted → automatic
         return { ok: true, result: text || '(no text found)', summary: `read ${text.length} chars` };
       },
@@ -48,7 +48,7 @@ export default createMediaTextApp({
   mediaFirst: false, // show the extracted text first, the image preview below
 
   intro: 'Upload, drop, or paste an image and pull the text out of it.',
-  note: 'Runs entirely in your browser — the image never leaves your device. The OCR model downloads once and is then cached for offline use.',
+  note: 'Runs entirely in your browser — the image never leaves your device. The OCR engine and English language data are built into Kimtos, so it works offline. English is the only language.',
   actionLabel: 'Extract text',
   processingHeading: 'Reading the image…',
   resultLabel: 'Extracted text',
@@ -56,14 +56,6 @@ export default createMediaTextApp({
   downloadName: 'snaptext.txt',
 
   settings: [
-    {
-      key: 'language',
-      label: 'Language',
-      hint: 'Tesseract code: eng, ara, fra, deu… (English is built in; other languages download when you set them)',
-      type: 'text',
-      default: 'eng',
-      affectsDownload: true, // non-English data is fetched on change, not at use time
-    },
     {
       key: 'layout',
       label: 'Layout',
@@ -85,9 +77,8 @@ export default createMediaTextApp({
 
   run: async (data, cfg, { onProgress, signal }) => {
     const { recognizeText } = await import('../../lib/engines/ocr.js');
-    const lang = typeof cfg.language === 'string' && cfg.language ? cfg.language : 'eng';
     const layout = typeof cfg.layout === 'string' ? cfg.layout : DEFAULT_LAYOUT;
     if (!data?.blob) return '';
-    return recognizeText(data.blob, { lang, layout, onProgress, signal });
+    return recognizeText(data.blob, { layout, onProgress, signal });
   },
 });

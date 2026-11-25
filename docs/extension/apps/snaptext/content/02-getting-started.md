@@ -21,9 +21,9 @@ filename, and size. Hover the preview and click the zoom button to open it
 ## Extract the text
 
 Click **Extract text**. A progress bar shows the engine's steps — loading the
-core/language data, then _Recognizing text_ — under the heading
+bundled engine, then _Recognizing text_ — under the heading
 **Reading the image…**. The first run compiles the OCR engine; afterwards it is
-cached and much faster.
+much faster.
 
 ## View the result
 
@@ -53,13 +53,12 @@ text plus the source image), newest first.
 - **Delete several** — click **Select**, tick the scans (or drag across them),
   then **Delete (N)**. A toast lets you undo for a few seconds.
 
-## Language settings
+## Language
 
-Image to Text recognizes **English** by default. To read another script, open
-the app's settings and change the **Language** field to a Tesseract language
-code — for example `ara` (Arabic), `fra` (French), or `deu` (German). English
-data ships with the app; other languages are downloaded on first use and then
-cached.
+Image to Text recognizes **English**. The engine and the English data are built
+into Kimtos, so it works offline. Other languages are not offered: they would
+have to be downloaded from a public CDN, and Kimtos makes no network request
+except the model downloads you start.
 
 ## Layout settings
 

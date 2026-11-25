@@ -64,9 +64,10 @@ useHead({
 
     <h2>When your browser talks to the network</h2>
     <p>
-      A local-first app is not an offline app, and we would rather list every exception than imply there are none.
-      Kimtos makes a network request in these cases, and only these. Every one is made directly from your browser to a
-      public host; none of them goes through a Kimtos server, because there isn't one:
+      <strong>Kimtos makes no network request except the model downloads you start, from Hugging Face.</strong> The
+      extension is built so that it cannot reach any other host, and it is open source, so you can check. Everything
+      below is either that download or something your browser does when you ask it to; none of it goes through a Kimtos
+      server, because there isn't one:
     </p>
     <ul>
       <li>
@@ -77,22 +78,9 @@ useHead({
         file download. Nothing you have written or recorded is sent.
       </li>
       <li>
-        <strong>An OCR language other than English</strong> — SnapText has English built in and needs no download. If
-        you set any other language, that language's data file is fetched once from <strong>jsDelivr</strong>
-        (cdn.jsdelivr.net), a public npm file host, and then cached. Your image is never sent anywhere — only the name
-        of the language pack is requested.
-      </li>
-      <li>
-        <strong>The weather and trending-article cards</strong> — if you have them enabled on your home screen, they
-        fetch from <strong>Open-Meteo</strong> (api.open-meteo.com and geocoding-api.open-meteo.com) and from public
-        developer feeds (DEV, Hacker News, Lobsters). The weather card sends a city name or a coordinate rounded to
-        about 110 metres, so Open-Meteo can return a forecast.
-      </li>
-      <li>
         <strong>The search bar</strong> — typing a search on the new-tab page sends that query to whichever search
         engine you have chosen in your browser, exactly as a normal search box would.
       </li>
-      <li><strong>Importing a PDF by URL</strong> — fetches the file from the address you gave it.</li>
       <li>
         <strong>Links you click</strong> — the Documentation link, the Chrome Web Store link, and "Report an issue",
         which opens a pre-filled issue on GitHub in a new tab. You read and send that text yourself; the extension sends

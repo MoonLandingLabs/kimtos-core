@@ -18,8 +18,6 @@ const IDS = [
   'clock',
   'dock-tip',
   'home-focus',
-  'home-readit',
-  'home-weather',
   'home-widgets',
   'rate-btn',
   'release-btn',

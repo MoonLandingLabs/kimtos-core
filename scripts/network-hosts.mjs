@@ -41,8 +41,8 @@
 //
 //   sends: 'nothing'      — no user data at all: our own docs link, a placeholder string, a
 //                           dev-only path the shipped extension never reaches.
-//          'metadata'     — the request itself reveals something (which model file, which feed,
-//                           a coordinate rounded to ~110m, the extension version) but carries nothing the user authored.
+//          'metadata'     — the request itself reveals something (which model file is being downloaded) but
+//                           carries nothing the user authored.
 //          'user-content' — text or media the user wrote or chose: a chat-derived search query,
 //                           a document, a recording. THIS is what "your data never leaves your
 //                           browser" is about, and it is the level web search would sit at.
@@ -65,12 +65,15 @@
 // `told: 'NOT TOLD'` is no longer a value. There is no undisclosed host in this list, and that
 // invariant is now enforced by scripts/check-network-hosts.mjs rather than asserted in a comment.
 
-// Every on-device AI model — Whisper, Kokoro, the KimtAI chat models, FLAN-T5, MiniLM and
-// Denoise's weights — is downloaded from Hugging Face. There is no Kimtos file host: the project
-// runs no infrastructure. Hugging Face answers a file URL with a redirect to its CDN
-// (`*.cdn.hf.co`), so that host is declared too. The non-English OCR language packs come from
-// jsDelivr (the official @tesseract.js-data npm packages). Which model comes from which repo, and
-// why, is in docs/extension/models.md.
+// Kimtos makes no network request except the AI model downloads the user starts, from Hugging
+// Face. Every on-device AI model — Whisper, Kokoro, the KimtAI chat models, FLAN-T5, MiniLM and
+// Denoise's weights — is downloaded from there. There is no Kimtos file host: the project runs no
+// infrastructure. Hugging Face answers a file URL with a redirect to its CDN (`*.cdn.hf.co`), so
+// that host is declared too. OCR (Tesseract) ships inside the extension and loads nothing. Which
+// model comes from which repo, and why, is in docs/extension/models.md.
+//
+// This is an owner decision, enforced: extension/src/build/manifestHosts.test.ts fails if the
+// manifest's host_permissions or its CSP connect-src ever names anything but these two hosts.
 export const NETWORK_HOSTS = [
   {
     host: 'huggingface.co',
@@ -116,75 +119,6 @@ export const NETWORK_HOSTS = [
     sends: 'nothing',
     told: 'n/a (user-initiated tab open; the user reviews the pre-filled text on GitHub before sending)',
   },
-  // jsDelivr serves the non-English Tesseract language packs (Tesseract.js's own default,
-  // `@tesseract.js-data/<lang>`), fetched by the OCR worker once per language and cached. The dev
-  // build also loads the onnxruntime-web wasm from it (denoise.worker; PROD self-hosts that).
-  // It answers with `access-control-allow-origin: *`, so the fetch needs no manifest grant
-  // (`corsOpen`), unlike Hugging Face, whose redirect response only allows its own origin.
-  {
-    host: 'cdn.jsdelivr.net',
-    kind: 'fetch',
-    corsOpen: true,
-    why: 'Non-English OCR language packs (Tesseract.js default); also the dev-only ORT wasm fallback',
-    sends: 'metadata',
-    told: 'privacy.vue',
-    saidAs: 'An OCR language other than English',
-  },
-  // The weather card sends a coordinate, which is the user's location and not nothing — but it is
-  // rounded to ~3 decimals (~110m) before it leaves (weather.local.ts), it is a device signal
-  // rather than anything the user authored, and the privacy page names it. That is `metadata`.
-  {
-    host: 'api.open-meteo.com',
-    kind: 'fetch',
-    why: 'The weather card, if enabled',
-    sends: 'metadata',
-    told: 'privacy.vue',
-    saidAs: 'The weather and trending-article cards',
-  },
-  {
-    host: 'geocoding-api.open-meteo.com',
-    kind: 'fetch',
-    why: 'Resolving the city for the weather card',
-    sends: 'metadata',
-    told: 'privacy.vue',
-    saidAs: 'The weather and trending-article cards',
-  },
-  // The three feeds carry nothing of the user's INTO the request — but a request is still a
-  // request, and which feeds a browser pulls is a signal about its owner. `metadata`, disclosed.
-  {
-    host: 'dev.to',
-    kind: 'fetch',
-    why: 'The trending-articles card, if enabled',
-    sends: 'metadata',
-    told: 'privacy.vue',
-    saidAs: 'DEV, Hacker News, Lobsters',
-  },
-  // The HN feed is fetched from ALGOLIA, which is HN's own search API but a distinct third party.
-  // The privacy page says "Hacker News"; the host is hn.algolia.com. Naming it here is the point.
-  {
-    host: 'hn.algolia.com',
-    kind: 'fetch',
-    why: 'The trending-articles card (Hacker News), if enabled',
-    sends: 'metadata',
-    told: 'privacy.vue',
-    saidAs: 'DEV, Hacker News, Lobsters',
-  },
-  {
-    host: 'lobste.rs',
-    kind: 'fetch',
-    why: 'The trending-articles card, if enabled',
-    sends: 'metadata',
-    told: 'privacy.vue',
-    saidAs: 'DEV, Hacker News, Lobsters',
-  },
-  {
-    host: 'news.ycombinator.com',
-    kind: 'text',
-    why: 'The link an HN story points at; never fetched',
-    sends: 'nothing',
-    told: 'n/a (a link target rendered in the card; the extension never requests it)',
-  },
-
   // The new-tab search bar reaches NO named host of ours: it submits through
   // `chrome.search.query`, so the destination is whichever provider the user set in their
   // browser, and we neither choose nor can enumerate it. Google/DuckDuckGo/DevDocs used to

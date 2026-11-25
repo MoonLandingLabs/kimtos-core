@@ -48,10 +48,9 @@ useHead({
 
     <h2>Third-party services</h2>
     <p>
-      A few features contact public third-party hosts directly from your browser when you use them — Hugging Face
-      (huggingface.co and its hf.co download hosts) for model downloads, jsDelivr for non-English OCR language packs,
-      and Open-Meteo and public developer feeds for the optional cards, as listed in the Privacy policy. Those services
-      are not operated by us and are subject to their own terms.
+      The only third-party host Kimtos contacts is Hugging Face (huggingface.co and its hf.co download hosts), directly
+      from your browser, for the AI model downloads you start, as listed in the Privacy policy. That service is not
+      operated by us and is subject to its own terms.
     </p>
 
     <h2>Fair use</h2>

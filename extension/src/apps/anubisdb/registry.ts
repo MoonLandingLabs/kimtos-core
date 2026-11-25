@@ -54,6 +54,7 @@ const PREFIX_OWNER: Record<string, string> = {
   model: 'kimtai',
   chat: 'kimtai',
   notes: 'notes',
+  // Leftover keys of the removed weather and trending-article cards stay listed as system data.
   readit: 'system',
   weather: 'system',
 };

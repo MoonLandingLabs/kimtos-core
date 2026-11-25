@@ -53,10 +53,14 @@ async function loadSession(): Promise<{ ort: Ort; session: OrtSession }> {
       wasm: '/ort/ort-wasm-simd-threaded.wasm',
     };
   } else {
-    // Dev: onnxruntime-web has no working default wasm path under Vite — the request
-    // falls back to index.html ("expected magic word …"). Load it from a CDN, pinned
-    // to the installed version.
-    ort.env.wasm.wasmPaths = 'https://cdn.jsdelivr.net/npm/onnxruntime-web@1.26.0-dev.20260416-b7804b056c/dist/';
+    // Dev: onnxruntime-web has no working default wasm path under Vite — the request falls back
+    // to index.html ("expected magic word …"). Serve both files from the installed package
+    // through the dev server, so even the dev build contacts no CDN.
+    const [{ default: mjs }, { default: wasm }] = await Promise.all([
+      import('onnxruntime-web/ort-wasm-simd-threaded.mjs?url'),
+      import('onnxruntime-web/ort-wasm-simd-threaded.wasm?url'),
+    ]);
+    ort.env.wasm.wasmPaths = { mjs, wasm };
   }
   const bytes = await fetchModelFile(MODEL_URL, MODEL_CACHE, report);
   const session = await ort.InferenceSession.create(bytes, { executionProviders: ['wasm'] });

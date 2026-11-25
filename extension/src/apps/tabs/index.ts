@@ -11,6 +11,7 @@ import { showSnackbar } from '../../components/snackbar.js';
 import { createBulkSelect } from '../../components/bulkSelect.js';
 import { TRASH } from '../../components/icons.js';
 import { fuzzyScore } from '../../lib/fuzzy.js';
+import { faviconUrl } from '../../lib/favicon.js';
 import { createPopover } from '../../components/popover.js';
 import appMeta from './meta.js';
 import {
@@ -749,12 +750,12 @@ function checkbox(checked: boolean, onToggle: (on: boolean) => void): HTMLElemen
 }
 
 function favicon(t: { favIconUrl?: string; url?: string; title?: string }): HTMLElement {
-  // Only https/data favicons: the extension CSP blocks http: images (mixed
-  // content), so an http favicon would just log a CSP error — use the monogram.
-  const usable = !!t.favIconUrl && /^(https:|data:)/.test(t.favIconUrl);
-  if (!usable) return monogramTile(t.url, t.title);
+  // The browser's own favicon cache (lib/favicon.ts): no request to the tab's site. Pages
+  // with no cached icon, and non-web pages, get the monogram.
+  const src = faviconUrl(t.url);
+  if (!src) return monogramTile(t.url, t.title);
   const img = el('img', 'tabs-favicon') as HTMLImageElement;
-  img.src = t.favIconUrl as string;
+  img.src = src;
   img.loading = 'lazy';
   img.decoding = 'async';
   // Fall back to a monogram tile (the app-icon pattern) if the favicon fails.

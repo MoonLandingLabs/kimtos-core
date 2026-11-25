@@ -12,8 +12,12 @@
 //   - An UNUSED grant is a common Chrome Web Store rejection reason, and it contradicts the
 //     "your data never leaves your browser" positioning while nothing visibly breaks.
 //
-// Only required `host_permissions` is checked. `optional_host_permissions` is the all-hosts
-// grant the user approves per-feature at runtime (#637/#648) and is deliberately broad.
+// The OWNER DECISION this file now enforces, last in the file: Kimtos makes no network request
+// except the AI model downloads the user starts, from Hugging Face. So `host_permissions` and
+// the CSP `connect-src` may name Hugging Face and nothing else, and `img-src` may name no host at
+// all. `optional_host_permissions` is the all-sites grant the user approves per-feature at
+// runtime (#637/#648) so that content scripts can run on the pages they browse; it lets the
+// extension READ those pages, it is not a route to any outside host, and it is pinned below.
 //
 // The declared list is now complete for config-derived hosts too: check-network-hosts.mjs
 // resolves the @kimtos/config DEFAULTS URLs and requires each one the extension uses to be
@@ -28,6 +32,8 @@ import { NETWORK_HOSTS, prodFetchHosts, prodGrantHosts } from '../../../scripts/
 
 const manifest = JSON.parse(readFileSync(new URL('../../manifest.json', import.meta.url), 'utf8')) as {
   host_permissions?: string[];
+  optional_host_permissions?: string[];
+  content_security_policy?: { extension_pages?: string };
 };
 
 const grants = manifest.host_permissions ?? [];
@@ -90,5 +96,55 @@ describe('manifest host_permissions match the declared fetch hosts (#678)', () =
       `these hosts are declared as navigation/text — the extension never fetches them — but the ` +
         `manifest grants them access through a pattern no fetch host needs: ${wronglyGranted.join(', ')}.`,
     );
+  });
+});
+
+// ---------------------------------------------------------------------------------------------
+// The lockdown. These do not read NETWORK_HOSTS on purpose: a regression that adds a host to the
+// manifest AND to the declared list would sail through the cross-checks above, and this is the
+// test that must fail then.
+// ---------------------------------------------------------------------------------------------
+
+const HUGGING_FACE_GRANTS = ['https://huggingface.co/*', 'https://*.hf.co/*'];
+const HUGGING_FACE_ORIGINS = ['https://huggingface.co', 'https://*.hf.co'];
+
+/** The sources of one CSP directive, e.g. `connect-src`. Empty when the directive is absent. */
+function directive(csp: string, name: string): string[] {
+  const part = csp
+    .split(';')
+    .map((d) => d.trim())
+    .find((d) => d === name || d.startsWith(`${name} `));
+  return part ? part.split(/\s+/).slice(1) : [];
+}
+
+describe('Kimtos contacts no host but Hugging Face (owner decision)', () => {
+  const csp = manifest.content_security_policy?.extension_pages ?? '';
+
+  test('host_permissions is exactly the two Hugging Face patterns', () => {
+    assert.deepEqual([...grants].sort(), [...HUGGING_FACE_GRANTS].sort());
+  });
+
+  test('optional_host_permissions is absent, or only the all-sites grant content scripts need', () => {
+    // Grammit, Clipboard and FakeForm run content scripts on the pages the user is browsing; Chrome
+    // only registers those with a host grant. Nothing here lets the extension itself fetch an
+    // outside host: the CSP connect-src below is what stops that.
+    assert.deepEqual(manifest.optional_host_permissions ?? [], ['https://*/*']);
+  });
+
+  test('connect-src is self, blob:, data: and the Hugging Face hosts only', () => {
+    const sources = directive(csp, 'connect-src');
+    assert.ok(sources.length > 0, 'the CSP declares no connect-src, so connections are unrestricted');
+    assert.deepEqual([...sources].sort(), ["'self'", 'blob:', 'data:', ...HUGGING_FACE_ORIGINS].sort());
+  });
+
+  test('img-src, media-src and frame-src name no host at all', () => {
+    assert.deepEqual([...directive(csp, 'img-src')].sort(), ["'self'", 'blob:', 'data:']);
+    assert.deepEqual([...directive(csp, 'media-src')].sort(), ["'self'", 'blob:']);
+    assert.deepEqual([...directive(csp, 'frame-src')].sort(), ["'self'", 'blob:']);
+  });
+
+  test('no bare scheme or wildcard source, and no origin but Hugging Face, anywhere in the CSP', () => {
+    const origins = csp.split(/[\s;]+/).filter((t) => /^(https?:|wss?:|\*)/.test(t));
+    assert.deepEqual(origins.sort(), [...HUGGING_FACE_ORIGINS].sort(), `unexpected CSP sources: ${origins.join(' ')}`);
   });
 });

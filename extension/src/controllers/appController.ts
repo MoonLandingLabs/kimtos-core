@@ -9,8 +9,6 @@ import { createDialog } from '../components/dialog.js';
 import { createAppLauncher } from '../components/appLauncher.js';
 import { renderClock, renderSubtitle } from '../views/clock.js';
 import { renderSearch, isUrlLike, toUrl } from '../views/searchBar.js';
-import { renderReadit } from '../views/readit.js';
-import { renderWeather } from '../views/weather.js';
 import { renderFocus, stopFocus } from '../views/focusTimer.js';
 import { renderDockTip, stopDockTip } from '../views/tips.js';
 import { maybeShowReviewNudge, openReviewPage } from '../views/reviewNudge.js';
@@ -177,14 +175,6 @@ export async function startApp(): Promise<void> {
   }
 
   // Pinned home features (not dock apps); each can be toggled off in Settings.
-  function applyReadit(): void {
-    if (store.get('homeReadit')) renderReadit($('home-readit'));
-    else $('home-readit').replaceChildren();
-  }
-  function applyWeather(): void {
-    if (store.get('homeWeather')) renderWeather($('home-weather'));
-    else $('home-weather').replaceChildren();
-  }
   function applyFocus(): void {
     if (store.get('homeFocus')) {
       renderFocus($('home-focus'));
@@ -456,8 +446,6 @@ export async function startApp(): Promise<void> {
   });
 
   refreshHome();
-  applyReadit();
-  applyWeather();
   applyFocus();
   applyTips();
 
@@ -482,9 +470,7 @@ export async function startApp(): Promise<void> {
       // re-picks the wallpaper — for a change made HERE or on any other surface.
       if ('name' in patch || 'clock24h' in patch) renderTime();
       if ('homeLayout' in patch) renderSearchBar();
-      if ('homeReadit' in patch) applyReadit();
       if ('homeWidgets' in patch) refreshHome();
-      if ('homeWeather' in patch || 'weatherUnit' in patch) applyWeather();
       if ('homeFocus' in patch) applyFocus();
       if ('homeTips' in patch) applyTips();
     },

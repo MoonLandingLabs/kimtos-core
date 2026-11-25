@@ -19,12 +19,10 @@ websites"_. That sounds alarming, so it is worth being precise about why it asks
 
 - The **Clipboard** app watches for copy events on pages, so it can offer you your
   clipboard history.
-- Importing a **PDF by URL**, and the **weather** and **trending article** cards, fetch
-  from other sites directly.
 - The **Grammit** writing checker underlines mistakes in text boxes on the web.
 
 Chrome has no way to ask for "some websites, sometimes", so it asks for all of them. None
-of what you write is uploaded — see [Privacy](./privacy).
+of what you write is uploaded: **Kimtos makes no network request except the model downloads you start, from Hugging Face.** See [Privacy](./privacy).
 
 ## The first time you open it
 
@@ -48,12 +46,12 @@ right). Nothing you choose here is permanent.
 
 ## What you are looking at
 
-|                    |                                                                      |
-| ------------------ | -------------------------------------------------------------------- |
-| **The dock**       | Your installed apps, along the bottom. Click one to open it.         |
-| **The search bar** | Focused automatically — just start typing.                           |
-| **The home cards** | Weather, today's tasks, a trending article, and so on. All optional. |
-| **Top right**      | Release notes, the **App Store**, and **Settings** (the gear).       |
+|                    |                                                                                 |
+| ------------------ | ------------------------------------------------------------------------------- |
+| **The dock**       | Your installed apps, along the bottom. Click one to open it.                    |
+| **The search bar** | Focused automatically — just start typing.                                      |
+| **The home cards** | Today's tasks, your recent PDFs, notes, a focus timer, and so on. All optional. |
+| **Top right**      | Release notes, the **App Store**, and **Settings** (the gear).                  |
 
 **Settings** is the gear button, top right.
 
