@@ -728,9 +728,11 @@ const app = {
 
   render(body: HTMLElement) {
     const root = el('div', 'devtools');
+    const shell = el('div', 'dk-shell'); // the row/column the narrow-window query reflows (a container cannot restyle itself)
     const side = el('div', 'dk-sidebar');
     const host = el('div', 'dk-host');
-    root.append(side, host);
+    shell.append(side, host);
+    root.append(shell);
     body.replaceChildren(root);
 
     // With 14 tools across 5 groups, the rail was the only way in and you had to

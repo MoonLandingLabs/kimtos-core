@@ -360,6 +360,9 @@
   flex: 1;
   min-height: 0;
   overflow: auto;
+  /* Lets the rows below drop their size/kind columns by the list's OWN width, so a narrow
+     window (or a narrowed sidebar split) keeps the name readable instead of squeezing it. */
+  container-type: inline-size;
 }
 .kimtfs-list:focus-visible {
   outline: 2px solid var(--accent);
@@ -444,6 +447,15 @@
 }
 .kimtfs-l-size {
   font-variant-numeric: tabular-nums;
+}
+@container (max-width: 600px) {
+  .kimtfs-lrow {
+    grid-template-columns: minmax(0, 1fr) 110px;
+  }
+  .kimtfs-lrow .kimtfs-l-size,
+  .kimtfs-lrow .kimtfs-l-kind {
+    display: none;
+  }
 }
 .kimtfs-list .kimtfs-lrow:not(.kimtfs-lhead):hover {
   background: var(--surface-2);

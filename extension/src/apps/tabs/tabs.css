@@ -17,6 +17,7 @@
 }
 .tabs-bar {
   display: flex;
+  flex-wrap: wrap; /* a narrow window wraps the count + buttons under the search instead of squeezing it */
   align-items: center;
   gap: 10px;
   padding-bottom: 12px;
@@ -24,7 +25,7 @@
 }
 .tabs-searchwrap {
   position: relative;
-  flex: 1;
+  flex: 1 1 180px;
   display: flex;
   align-items: center;
 }

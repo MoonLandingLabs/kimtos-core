@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.4 — 2026-11-25
+
+- Resizes cleanly with the window and keeps all content reachable
+
 ## 1.1.3 — 2026-07-27
 
 - Make the in-page surfaces follow the Appearance setting

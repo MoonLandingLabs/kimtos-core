@@ -13,6 +13,11 @@ export interface ChangelogEntry {
 /** Newest first. */
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '1.0.5',
+    date: '2026-11-25',
+    body: '### Fixed\n\n- Dialogs, including Settings, now resize with the window and keep their content visible\n- Windows you resized return to your size after the browser window shrinks and grows back\n- PDF Library, Voice Studio, KimtFS, AnubisDB, DevTools, Calculator, Clipboard, Tabs and Tasks reflow at narrow widths instead of cutting content off\n- Message and confirmation dialogs always fit the window and scroll when their content is long\n- Opening an app from a link no longer breaks the app switcher',
+  },
+  {
     version: '1.0.4',
     date: '2026-11-25',
     body: "### Improved\n\n- Installing Kimtos no longer shows a permission warning: tab icons are now requested together with the Tabs app's other optional permissions, only when you open it",

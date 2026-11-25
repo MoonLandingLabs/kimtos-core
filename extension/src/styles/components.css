@@ -114,22 +114,6 @@
   }
 }
 
-@media (max-width: 560px) {
-  .todo-layout {
-    flex-direction: column;
-    height: auto;
-  }
-  .todo-sidebar {
-    flex-direction: row;
-    flex-wrap: wrap;
-    flex-basis: auto;
-    margin: 0 0 12px;
-    padding: 0 0 12px;
-    border-right: none;
-    border-bottom: 1px solid var(--hairline);
-  }
-}
-
 /* Release notes (fetched from GitHub, rendered from Markdown) */
 /* Search box sticks to the top of the scrolling dialog body while you scroll.
    Opaque background masks the changelog scrolling beneath it. */
@@ -346,6 +330,7 @@
   flex: 0 0 auto;
   width: 220px; /* overridden inline; drag-resizable */
   min-width: 200px;
+  max-width: 70%; /* a width dragged wide never outlives a smaller window: the main pane keeps 30% */
   display: flex;
   flex-direction: column;
   padding-right: 12px;
@@ -513,6 +498,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 8px;
+  flex-wrap: wrap; /* a narrow sidebar wraps Delete under Select all instead of clipping it */
   padding: 6px 4px 8px;
 }
 
@@ -627,6 +613,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
+  flex-wrap: wrap;
   padding: 2px 2px 8px;
 }
 
@@ -1319,6 +1306,15 @@
   color: var(--text-secondary);
 }
 
+/* Below ~1000px the dock (capped to the viewport) spans past the bottom corner controls and the
+   credit, which would sit behind it (and under the tip line). Lift the whole cluster above them, unless the
+   window is so short that the lifted dock would land on the search box (there the controls stay as before). */
+@media (max-width: 1000px) and (min-height: 600px) {
+  .dock-cluster {
+    bottom: 76px;
+  }
+}
+
 @media (max-width: 720px) {
   .app-dock {
     gap: 4px;
@@ -1881,4 +1877,62 @@
 .task-act:hover {
   color: var(--text);
   border-color: var(--text-secondary);
+}
+
+/* ---- Modal prompts (confirm / prompt / picker / info / uninstall) — resize safety ----
+   The overlays are a centred grid with 24px padding. Without a cap the card grew past the
+   viewport on a short or narrow window and the top and bottom were cut off with no way to
+   scroll. The card now never exceeds the overlay's content box and scrolls internally, the
+   long text wraps, and the padding tightens on a phone. Block appended here (not in the
+   shared shell.css rules) so it layers over them. */
+.confirm-overlay,
+.prompt-overlay {
+  box-sizing: border-box;
+  overflow: hidden;
+  /* A bare `place-items: center` grid sizes its single column to the card's content, so a
+     long unbroken line pushed the card wider than the viewport. */
+  grid-template-columns: minmax(0, 1fr);
+}
+.confirm-card,
+.prompt-card {
+  box-sizing: border-box;
+  min-width: 0;
+  justify-self: center;
+  max-height: calc(100dvh - 48px);
+  overflow-x: hidden;
+  overflow-y: auto;
+  overflow-wrap: anywhere;
+}
+.confirm-actions,
+.prompt-actions {
+  flex-wrap: wrap;
+  flex: 0 0 auto;
+}
+/* The picker list and the help body scroll on their own, so the card keeps title and
+   actions in view; their old fixed vh caps are replaced by a share of the card. */
+.picker-dialog .picker-list,
+.info-dialog .info-dialog-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: none;
+  overflow-y: auto;
+}
+.picker-dialog,
+.info-dialog {
+  overflow-y: hidden;
+}
+.confirm-check,
+.prompt-toggle {
+  min-width: 0;
+}
+@media (max-width: 480px) {
+  .confirm-overlay,
+  .prompt-overlay {
+    padding: 12px;
+  }
+  .confirm-card,
+  .prompt-card {
+    max-height: calc(100dvh - 24px);
+    padding: 16px;
+  }
 }

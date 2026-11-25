@@ -201,7 +201,10 @@ They are intentionally declarative/shared so a new app is a few lines, not a rew
    full width, so a descriptor does **not** declare a `dialog` size/maximizable — that
    field is gone. (Utility dialogs — Settings, Release notes, the App Store detail —
    are `appDialog: false` and still pass their own `size`; only the shared "utility"
-   size `lg` is used there, per #499. Those are not app windows.)
+   size `lg` is used there, per #499. Those are not app windows.) Every window, app or
+   utility, **re-fits the viewport on every browser resize, open and restore** (one
+   `refit()` in `createDialog`): a sized window keeps its requested size squeezed into
+   the viewport and grows back, an unmoved one re-centres, a moved one is clamped on-screen.
 
    **The app root fills the window body in EVERY state — mounted included, not only
    maximized.** `appsController` tags an app's single body root with `.app-root`, and

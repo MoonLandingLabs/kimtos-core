@@ -249,3 +249,117 @@ describe('createDialog full-screen control', () => {
     assert.deepEqual(requested, [], 'and a click on it asks for nothing');
   });
 });
+
+// Fitting the viewport. happy-dom has no layout, so `offsetWidth`/`offsetHeight` are stubbed from the
+// inline size (what the browser would compute for a window with an explicit width/height), and
+// `innerWidth`/`innerHeight` are driven by hand before dispatching `resize`.
+describe('createDialog viewport fitting', () => {
+  const setViewport = (w: number, h: number): void => {
+    const win = window as unknown as { innerWidth: number; innerHeight: number };
+    win.innerWidth = w;
+    win.innerHeight = h;
+  };
+  const resize = (w: number, h: number): void => {
+    setViewport(w, h);
+    window.dispatchEvent(new globalThis.Event('resize'));
+  };
+  /** A window the user sized to `w` x `h` at (left, top), as a restored session would. */
+  const sizedDialog = (w: number, h: number, left = 100, top = 60, appDialog = true) => {
+    const dialog = createDialog({ size: appDialog ? 'app' : 'lg', appDialog });
+    Object.defineProperty(dialog.el, 'offsetWidth', { get: () => parseFloat(dialog.el.style.width) || 720 });
+    Object.defineProperty(dialog.el, 'offsetHeight', { get: () => parseFloat(dialog.el.style.height) || 620 });
+    dialog.applyGeometry({ left, top, width: w, height: h, maximized: false });
+    dialog.open();
+    return dialog;
+  };
+
+  beforeEach(() => {
+    env = installDom();
+    setViewport(1280, 800);
+  });
+  afterEach(() => {
+    env.cleanup();
+  });
+
+  test('a sized window shrinks into a smaller viewport and stays on-screen', () => {
+    const { el } = sizedDialog(900, 600, 300, 150);
+    resize(600, 500);
+    assert.equal(parseFloat(el.style.width), 584, 'width is squeezed to the viewport minus the 8px margins');
+    assert.equal(parseFloat(el.style.height), 484);
+    assert.ok(parseFloat(el.style.left) + parseFloat(el.style.width) <= 600, 'right edge inside the viewport');
+    assert.ok(parseFloat(el.style.top) + parseFloat(el.style.height) <= 500, 'bottom edge inside the viewport');
+  });
+
+  test('a sized window grows back to the size the user chose when the viewport grows again', () => {
+    // It used to keep the smallest size it had ever been squeezed to, because the resize handler
+    // read the current (already clamped) offsetWidth as the size to keep.
+    const { el } = sizedDialog(900, 600, 100, 60);
+    resize(600, 500);
+    resize(1280, 800);
+    assert.equal(parseFloat(el.style.width), 900);
+    assert.equal(parseFloat(el.style.height), 600);
+  });
+
+  test('a window the user never moved is re-centred when the viewport changes', () => {
+    const dialog = createDialog({ size: 'lg', appDialog: false });
+    Object.defineProperty(dialog.el, 'offsetWidth', { get: () => 400 });
+    Object.defineProperty(dialog.el, 'offsetHeight', { get: () => 300 });
+    dialog.open();
+    resize(800, 600);
+    assert.equal(parseFloat(dialog.el.style.left), 200);
+    assert.equal(parseFloat(dialog.el.style.top), 150);
+    resize(500, 400);
+    assert.equal(parseFloat(dialog.el.style.left), 50, 'centred again on the new viewport, not left hanging');
+    assert.equal(parseFloat(dialog.el.style.top), 50);
+  });
+
+  test('a window the user moved is clamped, not re-centred', () => {
+    const { el } = sizedDialog(400, 400, 700, 300);
+    resize(600, 500);
+    assert.equal(parseFloat(el.style.left), 200, 'pulled back so the whole window fits');
+    assert.equal(parseFloat(el.style.top), 100);
+  });
+
+  test('restoring from maximize re-fits to a viewport that shrank while maximized', () => {
+    // The remembered position belongs to the old viewport and the resize handler skips a maximized
+    // window, so restore itself has to re-fit or the window comes back hanging off-screen.
+    const { el } = sizedDialog(500, 400, 700, 300);
+    (el.querySelector('.window-max') as HTMLButtonElement).click();
+    assert.ok(el.classList.contains('is-max'));
+    resize(600, 500);
+    (el.querySelector('.window-max') as HTMLButtonElement).click();
+    assert.ok(!el.classList.contains('is-max'));
+    assert.equal(parseFloat(el.style.left), 100, 'left clamped to 600 - 500');
+    assert.equal(parseFloat(el.style.top), 100, 'top clamped to 500 - 400');
+  });
+
+  test('maximize and restore leave the inline size and position untouched', () => {
+    const { el } = sizedDialog(500, 400, 120, 80);
+    const max = el.querySelector('.window-max') as HTMLButtonElement;
+    max.click();
+    assert.equal(el.style.width, '500px', 'the sized width is kept for the restore');
+    max.click();
+    assert.equal(el.style.width, '500px');
+    assert.equal(el.style.height, '400px');
+    assert.equal(el.style.left, '120px');
+    assert.equal(el.style.top, '80px');
+  });
+
+  test('a window re-opened after the viewport shrank while it was hidden is re-fitted', () => {
+    const dialog = sizedDialog(900, 600, 300, 150);
+    dialog.minimize();
+    // `hide` flips `hidden` after the fade; force it, as the timer would.
+    dialog.el.hidden = true;
+    setViewport(600, 500);
+    dialog.open();
+    assert.equal(parseFloat(dialog.el.style.width), 584);
+    assert.ok(parseFloat(dialog.el.style.left) + parseFloat(dialog.el.style.width) <= 600);
+  });
+
+  test('destroy detaches the resize listener', () => {
+    const dialog = sizedDialog(900, 600, 100, 60);
+    dialog.destroy();
+    resize(600, 500);
+    assert.equal(parseFloat(dialog.el.style.width), 900, 'a destroyed window no longer reacts to the viewport');
+  });
+});

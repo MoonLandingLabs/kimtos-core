@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.5 — 2026-11-25
+
+- Resizes cleanly with the window and keeps all content reachable
+
 ## 1.0.4 — 2026-11-25
 
 - Tab icons are requested with the Tabs app's other optional permissions when you open it, so installing Kimtos shows no icon-reading warning.

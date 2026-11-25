@@ -15,12 +15,22 @@ export interface AppRelease {
 export const APP_CHANGELOGS: Record<string, AppRelease[]> = {
   anubisdb: [
     {
+      version: '1.0.1',
+      date: '2026-11-25',
+      lines: ['Resizes cleanly with the window and keeps all content reachable'],
+    },
+    {
       version: '1.0.0',
       date: '2026-07-07',
       lines: ['Initial release.'],
     },
   ],
   calculator: [
+    {
+      version: '1.2.1',
+      date: '2026-11-25',
+      lines: ['Resizes cleanly with the window and keeps all content reachable'],
+    },
     {
       version: '1.2.0',
       date: '2026-07-21',
@@ -38,6 +48,11 @@ export const APP_CHANGELOGS: Record<string, AppRelease[]> = {
     },
   ],
   clipboard: [
+    {
+      version: '1.1.4',
+      date: '2026-11-25',
+      lines: ['Resizes cleanly with the window and keeps all content reachable'],
+    },
     {
       version: '1.1.3',
       date: '2026-07-27',
@@ -107,6 +122,11 @@ export const APP_CHANGELOGS: Record<string, AppRelease[]> = {
     },
   ],
   devtools: [
+    {
+      version: '1.0.2',
+      date: '2026-11-25',
+      lines: ['Resizes cleanly with the window and keeps all content reachable'],
+    },
     {
       version: '1.0.1',
       date: '2026-07-22',
@@ -238,6 +258,11 @@ export const APP_CHANGELOGS: Record<string, AppRelease[]> = {
     },
   ],
   kimtfs: [
+    {
+      version: '1.6.1',
+      date: '2026-11-25',
+      lines: ['Resizes cleanly with the window and keeps all content reachable'],
+    },
     {
       version: '1.6.0',
       date: '2026-07-25',
@@ -376,6 +401,13 @@ export const APP_CHANGELOGS: Record<string, AppRelease[]> = {
   ],
   pdflib: [
     {
+      version: '1.3.1',
+      date: '2026-11-25',
+      lines: [
+        'The reader refits the page to the window when you resize or maximize it, until you pick a zoom yourself.',
+      ],
+    },
+    {
       version: '1.3.0',
       date: '2026-11-25',
       lines: [
@@ -496,6 +528,11 @@ export const APP_CHANGELOGS: Record<string, AppRelease[]> = {
   ],
   tabs: [
     {
+      version: '1.0.5',
+      date: '2026-11-25',
+      lines: ['Resizes cleanly with the window and keeps all content reachable'],
+    },
+    {
       version: '1.0.4',
       date: '2026-11-25',
       lines: [
@@ -529,6 +566,11 @@ export const APP_CHANGELOGS: Record<string, AppRelease[]> = {
     },
   ],
   tasks: [
+    {
+      version: '1.1.1',
+      date: '2026-11-25',
+      lines: ['Resizes cleanly with the window and keeps all content reachable'],
+    },
     {
       version: '1.1.0',
       date: '2026-07-27',
@@ -652,6 +694,11 @@ export const APP_CHANGELOGS: Record<string, AppRelease[]> = {
     },
   ],
   voicestudio: [
+    {
+      version: '1.2.1',
+      date: '2026-11-25',
+      lines: ['Resizes cleanly with the window and keeps all content reachable'],
+    },
     {
       version: '1.2.0',
       date: '2026-07-27',

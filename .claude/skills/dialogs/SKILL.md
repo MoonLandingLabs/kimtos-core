@@ -44,7 +44,8 @@ The rest of this skill is about the **window** pattern (`createDialog`).
   on click. This is what an installed app opens in (`appsController`). **Every app
   window mounts at the ONE uniform size — you do not pick one** (see below).
 - **`appDialog: false` — a static utility dialog.** Centered, fixed size, not
-  draggable or resizable. This is Settings, the App Store, the app launcher, the
+  draggable or resizable by the user (deliberately: a panel is not a workspace) — but fully
+  viewport-responsive: it re-centres and re-fits on every viewport change and maximizes. This is Settings, the App Store, the app launcher, the
   Report-an-issue form, app detail, release notes — anything that is a panel, not an
   app. It still keeps the minimize/maximize/close chrome for consistency.
 
@@ -85,6 +86,18 @@ overflow-y: auto` scroll region — long content scrolls inside `body`. For an *
   empty state must center in the _visible_ window, not in an overflowing pane below the
   fold. (That was #1089: NotaBoard's empty-state CTA sat below the fold because its root
   grew past the mounted window.)
+- **A window re-fits whenever the viewport changes — you write no resize code.**
+  `createDialog` owns one `refit()` (browser `resize`, open, and restore-from-maximize all
+  call it). A manually sized window keeps the size the user _asked for_ and is squeezed into
+  the viewport minus an 8px margin, then grows back to it when the viewport grows (it never
+  stays at the smallest size it was squeezed to); a window the user never moved is re-centred;
+  a moved one is clamped fully on-screen. Maximize and restore never rewrite the inline
+  size/position, and restore re-fits first, so a viewport that shrank while maximized cannot
+  bring the window back half off-screen. Never read `offsetWidth` back as "the size to keep",
+  and never add a per-dialog resize listener or fixed px height. A utility-dialog body or
+  inner shell that needs a full-height layout takes it from a definite, viewport-capped
+  dialog height plus `flex: 1; min-height: 0` — a content block with its own `vh`/`px` height
+  that is shorter than the dialog leaves a dark empty band under it (Settings did).
 - **Maximize is full-screen and responsive.** `.dialog.is-max` fills the viewport; the
   same stretch carries the layout, so a maximized app must reflow, not assume a wider
   fixed layout. Test both the mounted (720×620) and maximized states — the guarantee

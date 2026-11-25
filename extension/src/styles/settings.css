@@ -1,0 +1,64 @@
+/* Settings dialog — resize behaviour.
+
+   The base Settings rules (sidebar, cards, rows) live in shell.css. This file only
+   owns how the dialog FILLS its window, so the content tracks the window at every
+   size (viewport resize, maximize, phone width) instead of keeping a height of its
+   own and leaving an empty band under it.
+
+   The window gets a definite, viewport-capped height; the body becomes a flex
+   column; the shell stretches into it; and the only things that scroll are the
+   sidebar and the content pane inside the shell. */
+.settings-dialog {
+  height: min(600px, 88vh);
+}
+
+.settings-dialog .dialog-body {
+  display: flex;
+  flex-direction: column;
+  max-height: none;
+  overflow: hidden;
+}
+
+.settings-dialog .settings-shell {
+  flex: 1 1 auto;
+  min-height: 0;
+  height: auto;
+  max-height: none;
+}
+
+/* The wallpaper gallery used to cap itself at 46vh and scroll on its own; inside
+   Settings the content pane already scrolls, so the gallery grows with the window
+   and one scrollbar serves the whole pane. */
+.settings-dialog .wp-grid {
+  max-height: none;
+  overflow: visible;
+}
+
+/* The pane never scrolls sideways: long values wrap, and a row that cannot fit
+   beside its control stacks (see the narrow rules below). */
+.settings-dialog .settings-main {
+  min-height: 0; /* in the stacked (narrow) layout this is what lets the pane scroll */
+}
+
+.settings-dialog .settings-scroll {
+  min-height: 0;
+  min-width: 0;
+  overflow-x: hidden;
+}
+
+.settings-dialog .field-text {
+  min-width: 0;
+}
+
+/* Narrow window: the sidebar becomes a horizontal rail (shell.css) — keep its search
+   box a usable fixed width in that row instead of collapsing to a sliver. */
+@media (max-width: 560px) {
+  .settings-dialog .settings-search {
+    flex: 0 0 150px;
+    width: 150px;
+    margin-bottom: 0;
+  }
+  .settings-dialog .settings-nav-item {
+    min-height: 36px;
+  }
+}

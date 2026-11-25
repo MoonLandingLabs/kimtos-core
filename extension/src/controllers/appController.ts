@@ -1,3 +1,4 @@
+import '../styles/release.css';
 import { syncPipTheme } from '../lib/pip.js';
 import { applyTheme, followTheme } from '../lib/theme.js';
 import { syncCsConfigToDb, watchCsConfig } from '../lib/csConfigMirror.js';
@@ -191,6 +192,10 @@ export async function startApp(): Promise<void> {
     }
   }
 
+  // Declared before the controller: it can call `onWindowsChange` while it is still being created
+  // (a `#app=` deep link opens a window at once), before the switcher exists. A `const` here threw
+  // "Cannot access 'refreshSwitcher' before initialization" and the switcher was never built.
+  let refreshSwitcher: () => void = () => {};
   const apps_ = createAppsController({
     dockEl: $('app-dock'),
     onAfterClose: refreshHome,
@@ -211,7 +216,7 @@ export async function startApp(): Promise<void> {
   });
   // The count has to follow reality without the panel being open — a minimized app that is working
   // is exactly the case with no other visible sign.
-  const refreshSwitcher = (): void => void switcher.refresh();
+  refreshSwitcher = (): void => void switcher.refresh();
 
   // Single-instance + session restore (#1172). Exactly one new-tab page runs the apps, and that
   // page brings back the windows the user left. A second page is offered the two choices that make

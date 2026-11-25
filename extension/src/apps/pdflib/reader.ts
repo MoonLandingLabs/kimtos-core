@@ -208,6 +208,9 @@ export function createReader({ container, book, onBack }: { container: HTMLEleme
   }
 
   // --- layout ---
+  // True until the reader picks a zoom (a saved one or a click): the page then tracks the
+  // window width, so a resize or maximize refits it instead of leaving it clipped.
+  let autoFit = !book.zoom;
   function defaultScale(): number {
     const fitWidth = view.clientWidth - 40; // padding + scrollbar headroom
     return clamp(Math.min(1, fitWidth / base1.width), ZOOM_MIN, ZOOM_MAX);
@@ -235,6 +238,7 @@ export function createReader({ container, book, onBack }: { container: HTMLEleme
     const next = clamp(scale * factor, ZOOM_MIN, ZOOM_MAX);
     if (next === scale) return;
     scale = next;
+    autoFit = false; // a deliberate zoom stops the fit-to-width following the window
     applyZoom();
     saveZoom(scale);
   }
@@ -753,6 +757,14 @@ export function createReader({ container, book, onBack }: { container: HTMLEleme
     if (resizeTimer) clearTimeout(resizeTimer);
     resizeTimer = setTimeout(() => {
       if (!pdf || view.clientWidth === 0) return;
+      if (autoFit && pageEls.length) {
+        const fit = defaultScale();
+        if (fit !== scale) {
+          scale = fit;
+          applyZoom();
+          return;
+        }
+      }
       measure();
       updateCurrent();
     }, 150);

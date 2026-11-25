@@ -25,6 +25,18 @@ export function createResizer({
   onResize,
 }: ResizerOptions): HTMLElement {
   const resizer = el('div', 'pane-resizer');
+  // A width the user dragged to must not outlive a smaller window: when the layout shrinks
+  // (viewport resize, un-maximize, dragging the dialog edge) pull the pane back so the rest of
+  // the layout keeps its `reserve`. The remembered width (onResize) is left alone, so growing the
+  // window again is free to give it back on the next drag; a layout that is not laid out (0 wide,
+  // display: none) or a pane with no inline width (overlay mode) is skipped.
+  const clamp = (): void => {
+    const total = layout.clientWidth;
+    if (total <= 0 || !pane.style.width) return;
+    const max = Math.max(min, total - reserve);
+    if (parseFloat(pane.style.width) > max) pane.style.width = `${max}px`;
+  };
+  if (typeof ResizeObserver !== 'undefined') new ResizeObserver(clamp).observe(layout);
   resizer.addEventListener('pointerdown', (e) => {
     if (!enabled()) return;
     e.preventDefault();
@@ -39,13 +51,19 @@ export function createResizer({
       onResize?.(w);
     };
     const up = (): void => {
-      resizer.releasePointerCapture(e.pointerId);
+      try {
+        resizer.releasePointerCapture(e.pointerId);
+      } catch {
+        /* capture already gone (pointercancel) */
+      }
       layout.classList.remove('is-resizing');
       resizer.removeEventListener('pointermove', move);
       resizer.removeEventListener('pointerup', up);
+      resizer.removeEventListener('pointercancel', up);
     };
     resizer.addEventListener('pointermove', move);
     resizer.addEventListener('pointerup', up);
+    resizer.addEventListener('pointercancel', up);
   });
   return resizer;
 }

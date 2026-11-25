@@ -5,10 +5,14 @@
    DevTools (devtools)
    --------------------------------------------------------------------------- */
 .devtools {
-  display: flex;
   height: 100%; /* shell flex-fills the app root in every window state (#1089) */
   font-size: 13px;
   color: var(--text);
+  container-type: inline-size; /* the narrow layout follows the WINDOW width, not the viewport */
+}
+.dk-shell {
+  display: flex;
+  height: 100%;
 }
 .dk-sidebar {
   flex: 0 0 176px;
@@ -302,4 +306,47 @@
 }
 .dk-diff-line.is-del {
   background: color-mix(in srgb, var(--danger) 15%, transparent);
+}
+
+/* Narrow window: the tool list becomes a horizontal rail above the tool, and the two-column
+   fields stack, so the input/output boxes keep a readable width instead of a ~60px sliver. */
+@container (max-width: 560px) {
+  .dk-shell {
+    flex-direction: column;
+  }
+  .devtools .dk-sidebar {
+    flex: 0 0 auto;
+    flex-direction: row;
+    align-items: center;
+    gap: 6px;
+    margin: 0 0 12px;
+    padding: 0 0 10px;
+    overflow: auto hidden;
+    border-right: none;
+    border-bottom: 1px solid var(--hairline);
+  }
+  .devtools .dk-search {
+    position: static;
+    flex: 0 0 150px;
+    width: 150px;
+    margin: 0;
+  }
+  .devtools .dk-nav {
+    flex-direction: row;
+    align-items: center;
+    gap: 2px;
+  }
+  .devtools .dk-cat {
+    display: none;
+  }
+  .devtools .dk-tool-btn {
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
+  .devtools .dk-grid {
+    grid-template-columns: 1fr;
+  }
+  .devtools .dk-textarea {
+    min-height: 160px;
+  }
 }

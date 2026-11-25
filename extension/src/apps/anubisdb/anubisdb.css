@@ -11,6 +11,7 @@
   height: 100%; /* shell flex-fills the app root in every window state (#1089) */
   font-size: 13px;
   color: var(--text);
+  container-type: inline-size; /* the narrow layout follows the WINDOW width, not the viewport */
 }
 .anubis-bar {
   display: flex;
@@ -669,4 +670,37 @@
 .anubis-ws-size {
   font-size: 11px;
   color: var(--text-secondary);
+}
+
+/* Narrow window (dragged small, or a phone-width viewport): the app list becomes a
+   horizontal rail above the detail, and the whole console scrolls instead of squeezing
+   the detail pane to nothing between the rail and the model-storage footer. */
+@container (max-width: 560px) {
+  .anubis {
+    overflow-y: auto;
+  }
+  .anubis-body {
+    flex: 1 0 auto;
+    flex-direction: column;
+  }
+  .anubis-apps {
+    flex: 0 0 auto;
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: visible;
+    padding: 0 0 6px;
+  }
+  .anubis-app {
+    flex: 0 0 auto;
+  }
+  .anubis-detail {
+    flex: 1 0 auto;
+    overflow-y: visible;
+  }
+  .anubis-detail-head {
+    flex-wrap: wrap;
+  }
+  .anubis-bar-actions {
+    margin-left: 0;
+  }
 }

@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.6.1 — 2026-11-25
+
+- Resizes cleanly with the window and keeps all content reachable
+
 ## 1.6.0 — 2026-07-25
 
 - Preview video files with the app's themed player instead of the raw browser controls, and stop playback when you leave the file

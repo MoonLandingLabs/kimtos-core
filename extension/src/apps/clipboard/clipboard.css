@@ -8,17 +8,19 @@
   position: relative;
   font: var(--font);
   color: var(--text);
+  container-type: inline-size; /* the narrow layout follows the WINDOW width, not the viewport */
 }
 
 /* toolbar */
 .clip-toolbar {
   display: flex;
+  flex-wrap: wrap; /* a narrow window wraps the buttons under the search instead of squeezing it */
   gap: 8px;
   align-items: center;
   padding: 4px 2px 8px;
 }
 .clip-search {
-  flex: 1;
+  flex: 1 1 150px;
   min-width: 0;
   height: 34px;
   padding: 0 12px;
@@ -345,4 +347,17 @@
 .clip-flash.show {
   opacity: 1;
   transform: translateX(-50%) translateY(0);
+}
+
+/* Narrow window: the row actions drop under the text and stay visible, so the clip text keeps its
+   width and the actions are reachable without a hover. */
+@container (max-width: 480px) {
+  .clip-row {
+    flex-wrap: wrap;
+  }
+  .clip-actions {
+    flex: 1 0 100%;
+    justify-content: flex-end;
+    opacity: 1;
+  }
 }

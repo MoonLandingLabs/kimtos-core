@@ -194,6 +194,11 @@ export function createDialog({
   let sized = false;
   let moved = false;
   let prev: { left: string; top: string } | null = null;
+  // The size the user ASKED for (drag-resize or a restored session). The inline width/height are
+  // only ever that size squeezed into the current viewport, so a window shrunk by a small browser
+  // window grows back when the window does, instead of staying at the smallest size it ever hit.
+  let wantW = 0;
+  let wantH = 0;
 
   const raise = (): void => {
     el.style.zIndex = String(appDialog ? ++zTop : ++zTopStatic);
@@ -212,6 +217,9 @@ export function createDialog({
       center();
       placed = true;
     }
+    // The viewport may have changed while this window was hidden (a minimized window gets no
+    // `resize` handling), so re-fit it to the screen it is about to appear on.
+    refit();
     raise();
     requestAnimationFrame(() => el.classList.add('is-open'));
   }
@@ -267,6 +275,9 @@ export function createDialog({
         el.style.left = prev.left;
         el.style.top = prev.top;
       }
+      // The viewport can have shrunk (or the display changed) while maximized, and the remembered
+      // position and size belong to the old one: re-fit before the user sees the restored window.
+      refit();
     }
     maxBtn.innerHTML = maxed ? ICON.restore : ICON.max;
     maxBtn.title = maxed ? 'Restore' : 'Maximize';
@@ -365,6 +376,11 @@ export function createDialog({
         top = clamp(r.top + dy, 8, bottom0 - MIN_H);
         h = bottom0 - top;
       }
+      // Dragging a west/north edge moves the window, so it now has a position of its own and must
+      // not be re-centred by a later viewport resize.
+      if (dir.includes('w') || dir.includes('n')) moved = true;
+      wantW = w;
+      wantH = h;
       el.style.left = `${left}px`;
       el.style.top = `${top}px`;
       el.style.width = `${w}px`;
@@ -382,19 +398,30 @@ export function createDialog({
   handles.forEach((h) => h.addEventListener('pointerdown', startResize));
 
   function clampIntoView(): void {
-    el.style.left = `${clamp(parseFloat(el.style.left) || 0, 0, window.innerWidth - el.offsetWidth)}px`;
-    el.style.top = `${clamp(parseFloat(el.style.top) || 0, 0, window.innerHeight - el.offsetHeight)}px`;
+    el.style.left = `${clamp(parseFloat(el.style.left) || 0, 0, Math.max(0, window.innerWidth - el.offsetWidth))}px`;
+    el.style.top = `${clamp(parseFloat(el.style.top) || 0, 0, Math.max(0, window.innerHeight - el.offsetHeight))}px`;
   }
 
-  // Keep a moved/resized window within the viewport when the browser resizes.
-  window.addEventListener('resize', () => {
+  /** Fit the window to the CURRENT viewport. The one place that decides what a viewport change does,
+   *  called on every browser resize, on open (the viewport may have changed while hidden) and on
+   *  restore from maximize: a manually sized window is its requested size squeezed into the
+   *  viewport (and back out when it grows), and a window the user never moved is re-centred, so a
+   *  narrower or shorter window never leaves it hanging off the edge or half off-screen. */
+  function refit(): void {
     if (el.hidden || maxed) return;
     if (sized) {
-      el.style.width = `${Math.min(el.offsetWidth, window.innerWidth - 16)}px`;
-      el.style.height = `${Math.min(el.offsetHeight, window.innerHeight - 16)}px`;
+      const maxW = Math.max(1, window.innerWidth - 16);
+      const maxH = Math.max(1, window.innerHeight - 16);
+      el.style.width = `${Math.min(wantW || el.offsetWidth, maxW)}px`;
+      el.style.height = `${Math.min(wantH || el.offsetHeight, maxH)}px`;
     }
-    clampIntoView();
-  });
+    if (placed && !moved && !sized) center();
+    else clampIntoView();
+  }
+
+  // Keep the window within the viewport when the browser resizes.
+  const onWindowResize = (): void => refit();
+  window.addEventListener('resize', onWindowResize);
 
   // When the window's own content changes its size (e.g. opening the PDF reader
   // makes the dialog taller), re-center it if the user hasn't positioned it
@@ -440,6 +467,8 @@ export function createDialog({
       if (typeof g.width === 'number' && typeof g.height === 'number') {
         el.style.width = `${clamp(g.width, MIN_W, Math.max(MIN_W, window.innerWidth - 16))}px`;
         el.style.height = `${clamp(g.height, MIN_H, Math.max(MIN_H, window.innerHeight - 16))}px`;
+        wantW = g.width;
+        wantH = g.height;
         sized = true;
         el.classList.add('is-sized');
       }
@@ -478,6 +507,8 @@ export function createDialog({
      *  long as the page — but a listener with no way off is how a component starts leaking. */
     destroy: () => {
       document.removeEventListener('fullscreenchange', syncFullscreen);
+      window.removeEventListener('resize', onWindowResize);
+      selfRO.disconnect();
     },
   };
 }

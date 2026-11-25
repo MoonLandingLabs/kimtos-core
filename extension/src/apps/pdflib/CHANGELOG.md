@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.1 — 2026-11-25
+
+- The reader refits the page to the window when you resize or maximize it, until you pick a zoom yourself.
+
 ## 1.3.0 — 2026-11-25
 
 - Adding a PDF by URL was removed, so PDF Library makes no network request. Upload PDFs from your computer instead; books you added by URL before stay in your library.

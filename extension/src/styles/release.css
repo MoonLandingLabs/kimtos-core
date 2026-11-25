@@ -1,0 +1,25 @@
+/* Release notes dialog — resize behaviour. The base rules live in components.css;
+   this keeps rendered changelog content inside the window at any width. */
+.release-dialog .release-head {
+  flex-wrap: wrap;
+  row-gap: 4px;
+}
+
+.release-dialog .release-body {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+/* Code blocks and tables scroll sideways inside themselves rather than widening
+   the dialog or being cut off. */
+.release-dialog .release-body pre,
+.release-dialog .release-body table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.release-dialog .release-body img {
+  max-width: 100%;
+  height: auto;
+}

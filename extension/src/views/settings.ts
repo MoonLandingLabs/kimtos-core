@@ -1,3 +1,4 @@
+import '../styles/settings.css';
 import { DEFAULTS } from '@kimtos/config';
 import { VERSION } from '../data/releaseNotes.js';
 import { apps } from '../apps/index.js';
@@ -704,6 +705,8 @@ export function renderSettings(
     if (search.value) search.value = '';
     for (const b of nav.children)
       (b as HTMLElement).classList.toggle('is-active', (b as HTMLElement).dataset.tab === tab.id);
+    // On a narrow window the sidebar is a scrolling rail: keep the open section in view.
+    nav.querySelector<HTMLElement>('.is-active')?.scrollIntoView?.({ block: 'nearest', inline: 'nearest' });
     title.textContent = tab.label;
     scroll.replaceChildren(renderPanel(tab));
     scroll.scrollTop = 0;

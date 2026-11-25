@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.1 — 2026-11-25
+
+- Resizes cleanly with the window and keeps all content reachable
+
 ## 1.2.0 — 2026-07-27
 
 - Give the extension a session model, and run the apps in one tab

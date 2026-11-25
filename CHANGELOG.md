@@ -12,6 +12,16 @@ Write PR titles for users.
 
 <!-- releases below; newest first -->
 
+## v1.0.5 — 2026-11-25
+
+### Fixed
+
+- Dialogs, including Settings, now resize with the window and keep their content visible
+- Windows you resized return to your size after the browser window shrinks and grows back
+- PDF Library, Voice Studio, KimtFS, AnubisDB, DevTools, Calculator, Clipboard, Tabs and Tasks reflow at narrow widths instead of cutting content off
+- Message and confirmation dialogs always fit the window and scroll when their content is long
+- Opening an app from a link no longer breaks the app switcher
+
 ## v1.0.4 — 2026-11-25
 
 ### Improved
