@@ -27,6 +27,12 @@ updates:
       - dependency-name: typescript
         update-types:
           - version-update:semver-major
+      # vitepress-plugin-mermaid only supports mermaid 10 or 11 (peer dependency), so
+      # mermaid 12 cannot be installed with the docs site. Remove once the plugin
+      # supports it.
+      - dependency-name: mermaid
+        update-types:
+          - version-update:semver-major
 
   # GitHub Actions used by the workflows
   - package-ecosystem: github-actions
