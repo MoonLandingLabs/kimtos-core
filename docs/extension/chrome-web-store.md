@@ -124,7 +124,7 @@ MORE APPS, ADDED FROM THE BUILT-IN APP STORE
 - Clipboard: everything you copy, saved on your device and searchable
 - NotaBoard: a whiteboard for sketches and diagrams
 - Thoth: a private knowledge base over your notes, PDFs and boards, with cited answers
-- Video Recorder, Voice Studio, Denoise, Rewordit, Retouch and FakeForm
+- Plus tools to record your screen or camera, clean up audio, rewrite text, touch up photos and fill test forms
 
 ON-DEVICE AI
 AI models are downloaded once, when you choose to install one, from Hugging Face, and then run
