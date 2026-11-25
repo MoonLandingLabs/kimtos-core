@@ -1,4 +1,4 @@
-// KimtOS background service worker — added for the Clipboard app (the extension
+// Kimtos background service worker — added for the Clipboard app (the extension
 // had none before). Content scripts can't reach the extension's IndexedDB, so
 // this always-available context receives captured copies and persists them via
 // the shared dataStore, serves the history to the in-page picker, and owns the
@@ -270,13 +270,13 @@ function installClipboardMenus(): void {
     // Open the in-page picker to paste a past clip — discoverable without the hotkey.
     chrome.contextMenus.create({
       id: 'clip-open-picker',
-      title: 'Paste from KimtOS Clipboard…',
+      title: 'Paste from Kimtos Clipboard…',
       contexts: ['editable', 'page'],
     });
     // Open the side panel (persistent history beside the tab).
     chrome.contextMenus.create({
       id: 'clip-open-panel',
-      title: 'Open KimtOS Clipboard panel',
+      title: 'Open Kimtos Clipboard panel',
       contexts: ['page', 'editable'],
     });
   }
@@ -296,7 +296,7 @@ function installFakeFormMenus(): void {
 }
 
 // Clipboard's menu items must not exist for a user who hasn't installed it — otherwise
-// "KimtOS Clipboard" sits in the right-click menu of every website they visit. Chrome keeps
+// "Kimtos Clipboard" sits in the right-click menu of every website they visit. Chrome keeps
 // created menus until we remove them, so the set is re-synced on every store change rather than
 // only at install time.
 async function syncMenus(): Promise<void> {
@@ -385,8 +385,8 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
 // without the clearing, and the clearing strands the click without the listener.
 // `manifestAction.test.ts` asserts both halves for exactly that reason.
 //
-// It does the same `chrome.tabs.create({})` as the popup's primary "Open KimtOS" row, which the
-// `chrome_url_overrides.newtab` override makes the KimtOS home.
+// It does the same `chrome.tabs.create({})` as the popup's primary "Open Kimtos" row, which the
+// `chrome_url_overrides.newtab` override makes the Kimtos home.
 chrome.action.onClicked.addListener(() => {
   void chrome.tabs.create({});
 });

@@ -22,7 +22,7 @@ const UNSUPPORTED_ARCHIVE_EXTS = ['7z', 'rar', 'xz', 'zst', 'bz2'] as const;
 /** Thrown when the archive is a real format we deliberately do not bundle a decompressor for. */
 export class UnsupportedArchiveError extends Error {
   constructor(readonly ext: string) {
-    super(`KimtOS can’t open .${ext} archives yet.`);
+    super(`Kimtos can’t open .${ext} archives yet.`);
     this.name = 'UnsupportedArchiveError';
   }
 }

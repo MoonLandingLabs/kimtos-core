@@ -52,13 +52,13 @@ describe('the "desktop app" roadmap item is retired everywhere it was public (#1
   test('the FAQ answer no longer promises a native desktop app', () => {
     const faq = read('../data/faq.ts')
     assert.doesNotMatch(faq, /desktop app/i)
-    assert.match(faq, /KimtOS Browser/)
+    assert.match(faq, /Kimtos Browser/)
   })
 
-  test('the availability tile is KimtOS Browser, not a desktop app', () => {
+  test('the availability tile is Kimtos Browser, not a desktop app', () => {
     const avail = read('../components/AvailableOn.vue')
     assert.doesNotMatch(avail, /desktop app/i)
-    assert.match(avail, /KimtOS Browser/)
+    assert.match(avail, /Kimtos Browser/)
     assert.match(avail, /to="\/vision"/)
   })
 })

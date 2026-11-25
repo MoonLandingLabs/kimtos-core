@@ -1,4 +1,4 @@
-// KimtOS documentation — VitePress site config.
+// Kimtos documentation — VitePress site config.
 //
 // Content is generated into ../content by scripts/build-content.mjs (a pre-build
 // hook), sourced from the repo's /docs Markdown — so this config only wires the
@@ -12,18 +12,18 @@ import { readApps } from '../scripts/build-content.mjs';
 
 const apps = readApps();
 
-// KimtOS v1 is free and open source (MIT). The repository is also where bugs are reported.
+// Kimtos v1 is free and open source (MIT). The repository is also where bugs are reported.
 const REPO_URL = 'https://github.com/MoonLandingLabs/kimtos-core';
 const ISSUES_URL = `${REPO_URL}/issues`;
 
 export default withMermaid(
   defineConfig({
     lang: 'en-US',
-    title: 'KimtOS',
-    // Pages read "<Page> — KimtOS Documentation"; the home page overrides this to
-    // "KimtOS — Documentation" in its own frontmatter (content/index.md).
-    titleTemplate: ':title — KimtOS Documentation',
-    description: 'KimtOS documentation — a local-first, on-device app suite for your new tab.',
+    title: 'Kimtos',
+    // Pages read "<Page> — Kimtos Documentation"; the home page overrides this to
+    // "Kimtos — Documentation" in its own frontmatter (content/index.md).
+    titleTemplate: ':title — Kimtos Documentation',
+    description: 'Kimtos documentation — a local-first, on-device app suite for your new tab.',
 
     srcDir: './content',
     outDir: './dist',
@@ -90,8 +90,8 @@ export default withMermaid(
       ['link', { rel: 'alternate icon', href: '/favicon.ico' }],
       ['meta', { name: 'theme-color', content: '#3b82f6' }],
       ['meta', { property: 'og:type', content: 'website' }],
-      ['meta', { property: 'og:title', content: 'KimtOS Documentation' }],
-      ['meta', { property: 'og:site_name', content: 'KimtOS' }],
+      ['meta', { property: 'og:title', content: 'Kimtos Documentation' }],
+      ['meta', { property: 'og:site_name', content: 'Kimtos' }],
     ],
 
     themeConfig: {
@@ -100,7 +100,7 @@ export default withMermaid(
       nav: [
         { text: 'Guides', link: '/guides/install', activeMatch: '/guides/' },
         { text: 'Apps', link: '/apps/', activeMatch: '/apps/' },
-        // KimtOS v1 is open source (MIT). The nav renders on every page, so the source and the
+        // Kimtos v1 is open source (MIT). The nav renders on every page, so the source and the
         // issue tracker are reachable wherever a reader gets stuck.
         { text: 'GitHub', link: REPO_URL },
       ],
@@ -114,7 +114,7 @@ export default withMermaid(
           text: 'Guides',
           collapsed: false,
           items: [
-            { text: 'Install KimtOS', link: '/guides/install' },
+            { text: 'Install Kimtos', link: '/guides/install' },
             { text: 'The new tab', link: '/guides/the-new-tab' },
             { text: 'Your data', link: '/guides/your-data' },
             { text: 'Privacy', link: '/guides/privacy' },

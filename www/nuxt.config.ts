@@ -5,12 +5,12 @@ import { DEFAULT_THEME, THEME_COLORS, THEME_KEY, THEME_MODES } from './composabl
 // social image is a site-relative path, and there is no canonical URL, og:url or sitemap.
 const OG_IMAGE = '/assets/screenshot-newtab.png'
 const DESC =
-  'KimtOS turns every new browser tab into a private workspace — notes, PDFs, a whiteboard, ' +
+  'Kimtos turns every new browser tab into a private workspace — notes, PDFs, a whiteboard, ' +
   'voice-to-text, on-device AI and more. Everything runs in your browser; nothing is uploaded. ' +
   'Free and open source (MIT), with no accounts and no servers.'
 
 // kimtos marketing site. Fully STATIC (`nuxt generate`): no runtime server, no backend and no
-// accounts. KimtOS v1 is free and open source (MIT); every page is prerendered.
+// accounts. Kimtos v1 is free and open source (MIT); every page is prerendered.
 export default defineNuxtConfig({
   compatibilityDate: '2025-01-01',
   devtools: { enabled: false },
@@ -23,7 +23,7 @@ export default defineNuxtConfig({
     head: {
       htmlAttrs: { lang: 'en' },
       bodyAttrs: { id: 'top' },
-      title: 'KimtOS — the private new-tab workspace',
+      title: 'Kimtos — the private new-tab workspace',
       titleTemplate: '%s',
       meta: [
         { charset: 'UTF-8' },
@@ -34,7 +34,7 @@ export default defineNuxtConfig({
           content:
             'new tab, browser extension, private browser tools, on-device AI, notes, PDF reader, voice to text, whiteboard, Chrome extension, productivity, privacy',
         },
-        { name: 'author', content: 'KimtOS' },
+        { name: 'author', content: 'Kimtos' },
         {
           name: 'robots',
           content: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
@@ -46,8 +46,8 @@ export default defineNuxtConfig({
         { name: 'theme-color', content: THEME_COLORS[DEFAULT_THEME] },
         // Open Graph (Facebook, LinkedIn, Slack, iMessage, …)
         { property: 'og:type', content: 'website' },
-        { property: 'og:site_name', content: 'KimtOS' },
-        { property: 'og:title', content: 'KimtOS — the private new-tab workspace' },
+        { property: 'og:site_name', content: 'Kimtos' },
+        { property: 'og:title', content: 'Kimtos — the private new-tab workspace' },
         { property: 'og:description', content: DESC },
         // No og:url: the site has no fixed origin. Title/description/image are site-wide defaults.
         { property: 'og:image', content: OG_IMAGE },
@@ -55,11 +55,11 @@ export default defineNuxtConfig({
         { property: 'og:image:height', content: '900' },
         {
           property: 'og:image:alt',
-          content: 'A KimtOS new tab — a clock, a search bar, and a dock of on-device tools.',
+          content: 'A Kimtos new tab — a clock, a search bar, and a dock of on-device tools.',
         },
         // Twitter / X large-image card
         { name: 'twitter:card', content: 'summary_large_image' },
-        { name: 'twitter:title', content: 'KimtOS — the private new-tab workspace' },
+        { name: 'twitter:title', content: 'Kimtos — the private new-tab workspace' },
         { name: 'twitter:description', content: DESC },
         { name: 'twitter:image', content: OG_IMAGE },
       ],

@@ -16,7 +16,7 @@ description: >-
 # kimtos — using @kimtos/icons from any surface
 
 `@kimtos/icons` is the **single source of truth** for the whole brand: the app
-glyphs, the accent→gradient formula, and the KimtOS mark. Every surface —
+glyphs, the accent→gradient formula, and the Kimtos mark. Every surface —
 `www`, the `extension` (dock/App Store/onboarding + the
 content-script toast), and the generated `docs` site — renders the SAME logo,
 favicon, and app tiles from it. Inline SVG only: nothing is ever fetched, so it
@@ -51,9 +51,9 @@ import { brandMarkSvg } from '@kimtos/icons';
 const brandMark = brandMarkSvg(28);
 </script>
 <template>
-  <a class="brand" aria-label="KimtOS">
+  <a class="brand" aria-label="Kimtos">
     <span class="brand-logo" v-html="brandMark" />
-    <span class="brand-name">KimtOS</span>
+    <span class="brand-name">Kimtos</span>
   </a>
 </template>
 ```

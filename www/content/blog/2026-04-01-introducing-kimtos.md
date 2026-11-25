@@ -1,15 +1,15 @@
 ---
 title: A new tab that belongs to you
-dek: KimtOS turns the emptiest page in your browser into a workspace that runs entirely on your machine.
+dek: Kimtos turns the emptiest page in your browser into a workspace that runs entirely on your machine.
 date: 2026-04-01
-author: The KimtOS team
+author: The Kimtos team
 ---
 
 Open a new tab and look at what you get. A search box, some thumbnails of sites you have
 already been to, and an advertisement for something the browser would like you to try. It is
 the page you see more often than any other, and almost nothing about it is yours.
 
-KimtOS replaces it. Today it becomes a workspace: a clock, a wallpaper, and a dock of small
+Kimtos replaces it. Today it becomes a workspace: a clock, a wallpaper, and a dock of small
 tools that open in a window over it — notes, tasks, a PDF library, a whiteboard, a clipboard
 history, voice-to-text, a calculator, a file browser. The things you actually reach for
 between one task and the next.
@@ -48,8 +48,8 @@ We would rather ship the version of that sentence that is true.
 
 ## Free
 
-Every KimtOS app is free, for everyone, and the project is open source. No account is needed;
-signing in is optional and only lets us count how many people use KimtOS.
+Every Kimtos app is free, for everyone, and the project is open source. No account is needed;
+signing in is optional and only lets us count how many people use Kimtos.
 
 ## Where it goes next
 
@@ -57,5 +57,5 @@ The list of apps will grow, and so will the number of places you can reach them 
 will not change is the rule at the top: whatever we add has to work without asking you to
 hand over the thing you were working on.
 
-[Install KimtOS](https://chromewebstore.google.com/detail/kimtos/cmjagcogohpnfkladbfhgijofbcmedip)
+[Install Kimtos](https://chromewebstore.google.com/detail/kimtos/cmjagcogohpnfkladbfhgijofbcmedip)
 and open a new tab.

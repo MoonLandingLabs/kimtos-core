@@ -15,7 +15,7 @@ app catalog in `www/data/apps.ts`), so the tiles and glyphs are the actual produ
 > **The store shows at most 5 screenshots per listing** (1280×800 or 640×400 —
 > developer.chrome.com/docs/webstore/images). This repo carries eight so the strongest set
 > can be chosen per campaign; you upload five in the dashboard. A recommended live five, to
-> "catch every user": **1 hero, 7 multi-window multitasking, 3 App Store, 8 why-KimtOS, and
+> "catch every user": **1 hero, 7 multi-window multitasking, 3 App Store, 8 why-Kimtos, and
 > one of 2 Notes / 6 two-tools** — a home, a breadth shot, a depth shot, the multitasking
 > wow, and the privacy hook.
 
@@ -46,7 +46,7 @@ which is what the store requires (it rejects alpha and wrong sizes).
 | `screenshot-5-files.png`     | 1280×800 | REAL capture — KimtFS, the on-device file system       |
 | `screenshot-6-tools.png`     | 1280×800 | REAL capture — Voice to Text + Image to Text, tiled    |
 | `screenshot-7-multitask.png` | 1280×800 | REAL capture — DevTools + Tasks + Calculator, three up |
-| `screenshot-8-privacy.png`   | 1280×800 | Designed — why KimtOS / how it works / privacy         |
+| `screenshot-8-privacy.png`   | 1280×800 | Designed — why Kimtos / how it works / privacy         |
 | `promo-small-440x280.png`    | 440×280  | Small promo tile                                       |
 | `promo-marquee-1400x560.png` | 1400×560 | Marquee promo tile                                     |
 

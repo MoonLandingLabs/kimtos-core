@@ -61,7 +61,7 @@ background worker, and every tab's content script:
   500). When you exceed it, the oldest non-favorite clips are evicted.
 - **Never capture from** — a comma-separated list of hosts to exclude; a copy on
   a matching site is ignored.
-- **Show a note on the page when I copy** — toggles the small "Saved to KimtOS
+- **Show a note on the page when I copy** — toggles the small "Saved to Kimtos
   Clipboard" toast that appears on the page after a captured copy.
 - **Also capture copied images** — off by default; when on, copying an image
   file saves it as an image clip (subject to the 5 MB cap).
@@ -72,7 +72,7 @@ Password fields are always skipped regardless of these settings.
 
 You do not need to switch to the kimtos tab to reuse a clip. On any https page:
 
-- **Open the picker** — press `Alt+Shift+V`, choose **Paste from KimtOS
+- **Open the picker** — press `Alt+Shift+V`, choose **Paste from Kimtos
   Clipboard…** from the right-click menu, or click the small kimtos button that
   appears at the corner of a focused text field. A search overlay opens; type to
   filter, use **↑ ↓** to move, **Enter** to paste, **Esc** to close. The clip is
@@ -83,7 +83,7 @@ You do not need to switch to the kimtos tab to reuse a clip. On any https page:
 - **Save a selection explicitly** — right-click a selection and choose **Save
   selection to Clipboard History**. This is deliberate, so it bypasses the
   monitor toggle and exclusions.
-- **Open the side panel** — right-click and choose **Open KimtOS Clipboard
+- **Open the side panel** — right-click and choose **Open Kimtos Clipboard
   panel** to keep the history open beside the tab.
 
 The `Alt+Shift+V` shortcut is editable at `chrome://extensions/shortcuts`.

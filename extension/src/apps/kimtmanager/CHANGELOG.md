@@ -6,4 +6,4 @@
 
 ## 1.0.0 — 2026-07-26
 
-- Initial release. See every job KimtOS is running in the background — model downloads with live progress, work that outlived the tab that started it, and every open or minimized app — and stop any of it.
+- Initial release. See every job Kimtos is running in the background — model downloads with live progress, work that outlived the tab that started it, and every open or minimized app — and stop any of it.

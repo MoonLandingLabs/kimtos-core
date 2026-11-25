@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Something in KimtOS does not work
+about: Something in Kimtos does not work
 labels: bug
 ---
 

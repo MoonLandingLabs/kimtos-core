@@ -2,8 +2,8 @@
 
 kimtos is a **local-first** Chrome MV3 new-tab extension: everything you create —
 notes, todos, PDFs, chats — lives in your browser and never leaves the device.
-KimtOS v1 is **free and open source (MIT)** — the source is at
-[github.com/MoonLandingLabs/kimtos-core](https://github.com/MoonLandingLabs/kimtos-core). There is **no account and no KimtOS backend**: nothing is signed in, nothing is uploaded, and
+Kimtos v1 is **free and open source (MIT)** — the source is at
+[github.com/MoonLandingLabs/kimtos-core](https://github.com/MoonLandingLabs/kimtos-core). There is **no account and no Kimtos backend**: nothing is signed in, nothing is uploaded, and
 every app is free and runs in your browser. The only network requests are the optional weather
 and article feeds and the download of on-device model files from Hugging Face
 (`scripts/network-hosts.mjs` lists every host and is checked in CI). This doc describes how

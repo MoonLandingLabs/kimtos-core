@@ -1,4 +1,4 @@
-// KimtOS Clipboard — the Chrome side-panel host. Mounts the SAME clipboard app
+// Kimtos Clipboard — the Chrome side-panel host. Mounts the SAME clipboard app
 // UI (render + local routes + dataStore) into a standalone extension page pinned
 // beside any tab. Reuses the full style bundle (base/shell/components + the app's
 // own CSS via its import) and mirrors the new-tab theme.
@@ -20,7 +20,7 @@ function notInstalledNotice(): HTMLElement {
   const box = el('div', 'panel-notice');
   box.append(
     el('h3', 'panel-notice-title', 'Clipboard isn’t installed'),
-    el('p', 'panel-notice-body', 'Add it from the App Store on your KimtOS new tab, then reopen this panel.'),
+    el('p', 'panel-notice-body', 'Add it from the App Store on your Kimtos new tab, then reopen this panel.'),
   );
   return box;
 }

@@ -4,14 +4,14 @@
 // The generated pages (the app pages' scaffolding) read their facts from the source
 // directly, so they cannot drift. The hand-written pages were copied verbatim, so every
 // fact they stated by hand was a second copy waiting to go stale — and it did: the install
-// guide still told readers KimtOS was not on the Chrome Web Store months after the listing
+// guide still told readers Kimtos was not on the Chrome Web Store months after the listing
 // went live (#1009), because nothing failed when the fact flipped, and the handbooks restated
 // the size caps the apps enforce (#1043).
 //
 // So a hand-written page states such a fact ONCE, as a named token, and this pass fills it in
 // from the single source at build time.
 //
-//   Open the [KimtOS listing]({{chromeWebStoreUrl}}) on the Chrome Web Store.
+//   Open the [Kimtos listing]({{chromeWebStoreUrl}}) on the Chrome Web Store.
 //
 // Rules:
 //   - The token name must be in the map the caller passes. An UNKNOWN token fails the build —

@@ -1,4 +1,4 @@
-// KimtOS v1 is free and open source (MIT), and has no accounts, backend or servers. The facts the
+// Kimtos v1 is free and open source (MIT), and has no accounts, backend or servers. The facts the
 // extension states about that live here, so Settings -> About and "Report an issue" cannot drift
 // apart. The repository URL is the one the Chrome Web Store listing and the website point at.
 

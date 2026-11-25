@@ -2,10 +2,10 @@
 title: We benchmarked our own AI, and it failed
 dek: The model we ship picked the right tool once in six attempts. Here is the number, what it cost us to look, and what we are doing about it.
 date: 2026-08-17
-author: The KimtOS team
+author: The Kimtos team
 ---
 
-Every app in KimtOS declares a set of tools. Tasks can list your tasks and create one. Notes
+Every app in Kimtos declares a set of tools. Tasks can list your tasks and create one. Notes
 can search your notes. Clipboard can list what you copied. They are described in the format an
 AI assistant expects, and they have been sitting there, unused, since the day we shipped.
 

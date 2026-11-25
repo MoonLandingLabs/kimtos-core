@@ -21,7 +21,7 @@ const fmt = published.toLocaleDateString('en-GB', {
 })
 
 useSeoMeta({
-  title: `${post.title} · KimtOS`,
+  title: `${post.title} · Kimtos`,
   description: post.dek,
   ogType: 'article',
   ogTitle: post.title,
@@ -48,7 +48,7 @@ useHead({
         datePublished: published.toISOString(),
         dateModified: published.toISOString(),
         author: { '@type': 'Organization', name: post.author },
-        publisher: { '@type': 'Organization', name: 'KimtOS' },
+        publisher: { '@type': 'Organization', name: 'Kimtos' },
         image,
       }),
     },

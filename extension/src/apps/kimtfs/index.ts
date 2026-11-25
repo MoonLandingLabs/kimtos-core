@@ -1138,7 +1138,7 @@ export default {
         archive = await openArchive(node.name, bytes);
       } catch (err) {
         const msg =
-          err instanceof UnsupportedArchiveError ? err.message : 'This does not look like an archive KimtOS can open.';
+          err instanceof UnsupportedArchiveError ? err.message : 'This does not look like an archive Kimtos can open.';
         host.append(el('p', 'kimtfs-filemeta', msg));
         return;
       }
@@ -1219,7 +1219,7 @@ export default {
         ) as HTMLButtonElement;
         space.type = 'button';
         space.title =
-          'Everything this browser stores for KimtOS — models and every app. Open AnubisDB for the breakdown.';
+          'Everything this browser stores for Kimtos — models and every app. Open AnubisDB for the breakdown.';
         space.addEventListener('click', () => openApp?.('anubisdb'));
         statusBar.append(space);
       } catch {

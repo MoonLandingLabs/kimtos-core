@@ -1,6 +1,6 @@
 # On-device models and where they load from
 
-KimtOS runs every model in the browser. There is no KimtOS file server: each model file is
+Kimtos runs every model in the browser. There is no Kimtos file server: each model file is
 downloaded once from a public host that already serves it with CORS, then cached. This page lists
 what loads from where, why, and what was evaluated and left alone. The host list itself is
 `scripts/network-hosts.mjs`; the URL helpers are `extension/src/lib/modelHosts.ts`.
@@ -53,7 +53,7 @@ Qwen3 0.6B). Because cached files are keyed by URL, everyone downloads their mod
 ## What changed and why
 
 - Hosts. The CDN and the `kimtos-labs/*` mirror are gone from the code. Models load from the original
-  Hugging Face repos, the OCR packs from the Tesseract.js default (jsDelivr). The manifest grants no KimtOS-operated host.
+  Hugging Face repos, the OCR packs from the Tesseract.js default (jsDelivr). The manifest grants no Kimtos-operated host.
 - Whisper Small added. Whisper Small reports clearly lower word error rates than Base in the
   [Whisper paper](https://arxiv.org/abs/2212.04356) (the model card lists the sizes: 39M, 74M, 244M
   parameters for tiny, base, small). Its fp32 export is about 1 GB, so it loads the int8 (`q8`) export,

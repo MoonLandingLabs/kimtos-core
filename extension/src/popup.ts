@@ -1,7 +1,7 @@
 // The toolbar popup — what you can do on THIS page, right now (#1110).
 //
 // Clicking the pinned icon used to open a new tab and nothing else, spending the one moment the
-// user is looking at a page and reaching for KimtOS on navigating away from it. Now it opens a
+// user is looking at a page and reaching for Kimtos on navigating away from it. Now it opens a
 // short menu of the page actions that already ship: FakeForm's fills, Clipboard's paste. Those
 // were only reachable through keyboard shortcuts nobody finds, so this is a discoverability
 // surface — it invokes the same handlers the shortcuts do (lib/pageActions.ts explains the
@@ -12,7 +12,7 @@
 //   - It only shows what is actionable RIGHT NOW. Not installed, or the page
 //     cannot host it -> the row is absent, never greyed out. The whole decision is the pure
 //     `pageActionsFor` in lib/pageActions.ts, which is where the tests are.
-//   - "Open KimtOS" stays one click. It is the primary row and it does exactly what the old
+//   - "Open Kimtos" stays one click. It is the primary row and it does exactly what the old
 //     `chrome.action.onClicked` listener did.
 //
 // Every row shows its real bound shortcut, read from `chrome.commands.getAll()` rather than the
@@ -102,7 +102,7 @@ function openKimtosRow(): HTMLElement {
   row.setAttribute('role', 'menuitem');
   const mark = el('span', 'popup-mark');
   mark.innerHTML = brandMarkSvg(20);
-  row.append(mark, el('span', 'popup-row-label', 'Open KimtOS'));
+  row.append(mark, el('span', 'popup-row-label', 'Open Kimtos'));
   row.addEventListener('click', () => {
     void chrome.tabs.create({}).then(() => window.close());
   });
@@ -117,7 +117,7 @@ function grantRow(onGranted: () => void): HTMLElement {
   const button = el('button', 'popup-row popup-grant');
   button.type = 'button';
   button.setAttribute('role', 'menuitem');
-  button.append(el('span', 'popup-row-label', 'Allow KimtOS on websites'));
+  button.append(el('span', 'popup-row-label', 'Allow Kimtos on websites'));
   button.addEventListener('click', () => {
     void requestAllSites().then((granted) => {
       if (granted) onGranted();
@@ -161,7 +161,7 @@ function bindMenuKeys(root: HTMLElement): void {
 /** Run an action through the service worker — the same path the keyboard shortcut takes. */
 async function runAction(action: PageAction, tabId: number | undefined, onFail: (message: string) => void) {
   if (tabId == null) {
-    onFail('KimtOS could not reach this tab.');
+    onFail('Kimtos could not reach this tab.');
     return;
   }
   try {
@@ -171,9 +171,9 @@ async function runAction(action: PageAction, tabId: number | undefined, onFail: 
       tabId,
     })) as { ok?: boolean } | undefined;
     if (reply?.ok) window.close();
-    else onFail(`KimtOS could not run “${action.label}” on this page.`);
+    else onFail(`Kimtos could not run “${action.label}” on this page.`);
   } catch {
-    onFail(`KimtOS could not run “${action.label}” on this page.`);
+    onFail(`Kimtos could not run “${action.label}” on this page.`);
   }
 }
 
@@ -195,7 +195,7 @@ function paint(root: HTMLElement, { model, keys, tab, repaint, focusFirst }: Pai
 
   const menu = el('div', 'popup-menu');
   menu.setAttribute('role', 'menu');
-  menu.setAttribute('aria-label', 'KimtOS');
+  menu.setAttribute('aria-label', 'Kimtos');
   menu.append(openKimtosRow());
 
   // One error line, reused: a second failure replaces the first rather than stacking.

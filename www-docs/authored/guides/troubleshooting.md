@@ -48,7 +48,7 @@ No app _requires_ WebGPU. Everything works without it.
 
 ## It asked for a permission
 
-KimtOS asks only when a feature genuinely needs it, and only for that feature.
+Kimtos asks only when a feature genuinely needs it, and only for that feature.
 
 | Prompt         | Why                                        | If you say no                                                                                          |
 | -------------- | ------------------------------------------ | ------------------------------------------------------------------------------------------------------ |
@@ -67,19 +67,19 @@ KimtOS asks only when a feature genuinely needs it, and only for that feature.
 | One note page     | {{noteMaxChars}} characters (a counter appears as you approach it) |
 | Clipboard history | Configurable; very large text and images are skipped               |
 
-Beyond those, KimtOS asks Chrome for unlimited storage, so your library size is bounded by
+Beyond those, Kimtos asks Chrome for unlimited storage, so your library size is bounded by
 your disk, not by us.
 
 ## Odd things that are not bugs
 
-**The tab reloaded by itself.** After KimtOS updates, an open new tab refreshes once to
+**The tab reloaded by itself.** After Kimtos updates, an open new tab refreshes once to
 pick up the new version.
 
 **A home card I turned on is not showing.** Cards hide themselves when they have nothing
 to show. Add a note and the Notes card appears.
 
 **The Clipboard side panel says it is not installed.** Install Clipboard from the App
-Store on the KimtOS new tab, then reopen the panel.
+Store on the Kimtos new tab, then reopen the panel.
 
 **My wallpaper changed.** Wallpapers follow your light/dark theme unless you **★
 Favorite** one to pin it.
@@ -90,7 +90,7 @@ Favorite** one to pin it.
 
 - **Settings ▸ About ▸ Report an issue**, which opens a pre-filled issue on the public
   [GitHub issue tracker]({{issuesUrl}}) for you to review and send. There is no support desk or
-  chat: KimtOS v1 is free, open-source software with no servers.
+  chat: Kimtos v1 is free, open-source software with no servers.
 
 If an app is misbehaving, uninstalling and reinstalling it from the App Store is safe:
 your data is kept unless you explicitly tick the box to erase it. See

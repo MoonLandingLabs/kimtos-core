@@ -4,7 +4,7 @@
       <div v-reveal class="split-lead">
         <h2>We can’t see your data.<br />Neither can anyone else.</h2>
         <p>
-          Most “AI” tools quietly ship your notes and recordings to a server. KimtOS does the opposite: the models run
+          Most “AI” tools quietly ship your notes and recordings to a server. Kimtos does the opposite: the models run
           inside your browser tab with WebAssembly and WebGPU. There’s no backend to leak, subpoena, or get breached —
           because there isn’t one.
         </p>

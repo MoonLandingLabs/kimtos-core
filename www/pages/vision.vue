@@ -4,21 +4,21 @@ import { brandMarkSvg } from '@kimtos/icons'
 import { APP_WORDS } from '~/data/apps'
 import { REPO_URL } from '~/data/site'
 
-// The KimtOS logo at hero size — the browser is KimtOS, so its page carries the KimtOS
+// The Kimtos logo at hero size — the browser is Kimtos, so its page carries the Kimtos
 // mark (#1115). Same shared source as the availability strip, so there is one mark, not two.
 const browserMark = brandMarkSvg(72)
 
-// The extension's Chrome Web Store listing — the ONE config fact (#1007). KimtOS is
+// The extension's Chrome Web Store listing — the ONE config fact (#1007). Kimtos is
 // real and on Chrome today; the vision does not replace that, it grows out of it.
 const storeUrl = DEFAULTS.chromeWebStoreUrl
 
 useHead({
-  title: 'Vision · KimtOS',
+  title: 'Vision · Kimtos',
   meta: [
     {
       name: 'description',
       content:
-        'Where KimtOS is heading: a productivity browser with every local-first tool built in, ' +
+        'Where Kimtos is heading: a productivity browser with every local-first tool built in, ' +
         'MCP tools across every app, and a Personal Intelligence Workspace that runs on your own machine.',
     },
   ],
@@ -37,13 +37,13 @@ const steps = [
   {
     title: 'An extension is a guest',
     body: `An extension lives inside rules another browser sets — what it may reach, how deeply it may
-      integrate, when it is allowed to run. KimtOS does a great deal within those rules, but they are
+      integrate, when it is allowed to run. Kimtos does a great deal within those rules, but they are
       still someone else's. Owning the browser ends the guest status: the tools stop being a layer on
       top of the surface and become the surface.`,
   },
   {
     title: 'Apps as tools, not islands',
-    body: `Every KimtOS app already declares its actions as MCP-shaped tools. Today those declarations
+    body: `Every Kimtos app already declares its actions as MCP-shaped tools. Today those declarations
       are dormant, but the shape is deliberate: the goal is to make each app addressable as a set of
       tools across the whole browser, so notes, tasks, PDFs and the rest stop being isolated windows
       and start being building blocks a piece of work can compose.`,
@@ -61,13 +61,13 @@ const steps = [
   <main class="vision">
     <section class="vision-hero">
       <span class="vision-mark" aria-hidden="true" v-html="browserMark" />
-      <p class="vision-kicker">Where KimtOS is heading</p>
+      <p class="vision-kicker">Where Kimtos is heading</p>
       <h1>
         A browser,
         <span class="vision-hl">not an extension.</span>
       </h1>
       <p class="vision-lede">
-        KimtOS began as a new tab: a set of local-first tools that open the moment you need them. The tools kept getting
+        Kimtos began as a new tab: a set of local-first tools that open the moment you need them. The tools kept getting
         better, and the shape they wanted kept getting clearer. The destination is a browser — one built around the work
         you do, with the tools inside it rather than bolted on.
       </p>
@@ -84,7 +84,7 @@ const steps = [
         its own server.
       </p>
       <p>
-        KimtOS already gathers {{ APP_WORDS.total }} of those tools into one place, on your machine. The
+        Kimtos already gathers {{ APP_WORDS.total }} of those tools into one place, on your machine. The
         <strong>productivity browser</strong> is where that idea stops being an add-on and becomes the thing itself:
         notes, tasks, PDFs, clipboard, whiteboard, transcription and on-device AI, native to the browser you already
         live in.
@@ -119,7 +119,7 @@ const steps = [
         </p>
         <p>
           This is a vision page, and we mean the word. There is no date here, no waitlist, no half-built thing dressed
-          up as shipped. KimtOS is real and on Chrome today; KimtOS Browser is where a local-first workspace leads if we
+          up as shipped. Kimtos is real and on Chrome today; Kimtos Browser is where a local-first workspace leads if we
           keep pulling the thread. When there is something to try, you will be the first to know.
         </p>
         <div class="vision-cta">

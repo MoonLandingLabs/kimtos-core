@@ -367,7 +367,7 @@ function renderPanel(): void {
   }
   const foot = document.createElement('div');
   foot.className = 'foot';
-  foot.innerHTML = `${BRAND_MARK}<span>Powered by <span class="dh">KimtOS</span></span>`;
+  foot.innerHTML = `${BRAND_MARK}<span>Powered by <span class="dh">Kimtos</span></span>`;
   nodes.push(foot);
   panel.replaceChildren(...nodes);
 }

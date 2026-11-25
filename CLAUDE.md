@@ -1,8 +1,8 @@
 # CLAUDE.md
 
-**KimtOS v1 is free and open source (MIT) and has no accounts, no backend and no servers.** It is a Chrome
+**Kimtos v1 is free and open source (MIT) and has no accounts, no backend and no servers.** It is a Chrome
 extension that runs entirely in the browser, plus a static marketing site (`www/`) and a static docs site
-(`www-docs/`). Never add an account, sign-in, server call to a KimtOS-operated host, telemetry, or a
+(`www-docs/`). Never add an account, sign-in, server call to a Kimtos-operated host, telemetry, or a
 backend; the owner has ruled these out for v1.
 
 Project notes for AI assistants and maintainers. See `docs/extension/architecture.md` for how
@@ -447,7 +447,7 @@ twice, and a review-checklist item is the minimum bar until something enforces i
 
 - [x] **Model hosting + licences — DONE. Keep it that way.**
 
-  KimtOS runs **no file host**. Every on-device model is downloaded once, in the browser, from a
+  Kimtos runs **no file host**. Every on-device model is downloaded once, in the browser, from a
   public host that already serves it with CORS: **Hugging Face** (`huggingface.co`, with large files
   redirected to `*.hf.co`) for Whisper, Kokoro, the KimtAI chat models, FLAN-T5, MiniLM and Denoise's
   DeepFilterNet weight (`kimtos-labs/denoiser-dfn3`), and **jsDelivr** (`cdn.jsdelivr.net`, the

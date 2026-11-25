@@ -2,7 +2,7 @@
 // what is declared there must match what the privacy page tells users. This script is the
 // enforcement half; that file is the list.
 //
-// "KimtOS makes a network request in these cases, and only these" is a claim on a legal page of
+// "Kimtos makes a network request in these cases, and only these" is a claim on a legal page of
 // a commercial site (www/pages/privacy.vue). It has now been wrong twice: the README's copy of
 // the list omitted the AI's DuckDuckGo search (#54), and the privacy page's copy omitted the
 // Tesseract language CDN and a first-party model CDN while listing a GitHub version check that does not

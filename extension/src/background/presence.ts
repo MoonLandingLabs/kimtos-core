@@ -55,7 +55,7 @@ export async function claim(
   //
   // The same-tab test is what makes a reload work, and leaving it out is worse than it sounds: a
   // reload is a new page id in the same tab, so the record its previous life left behind would read
-  // as a live rival and the page would be told "KimtOS is already open in another tab" — pointing
+  // as a live rival and the page would be told "Kimtos is already open in another tab" — pointing
   // at itself. Coming back after a reload is the entire feature; it cannot be the one case that
   // locks the user out.
   const sameTab = held?.tabId !== undefined && held.tabId === tabId;

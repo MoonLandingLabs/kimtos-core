@@ -39,9 +39,9 @@ onMounted(() => {
          all four of these carry `router-link-active` at once. Nothing styles that
          class today, which is why it is invisible — do not add a rule for it
          expecting per-section highlighting, because you will light up all four. -->
-    <NuxtLink class="brand" to="/#top" aria-label="KimtOS">
+    <NuxtLink class="brand" to="/#top" aria-label="Kimtos">
       <span class="brand-logo" v-html="brandMark" />
-      <span class="brand-name">KimtOS</span>
+      <span class="brand-name">Kimtos</span>
     </NuxtLink>
     <nav class="nav-links" aria-label="Primary">
       <NuxtLink to="/#apps">Apps</NuxtLink>

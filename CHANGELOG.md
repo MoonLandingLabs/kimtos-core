@@ -1,6 +1,6 @@
 # Changelog
 
-What shipped, in each version, written for the people using KimtOS.
+What shipped, in each version, written for the people using Kimtos.
 
 This file is the **source of truth** for the in-app _Release notes_ dialog: it is
 compiled into the extension at build time (`extension/src/data/changelog.ts`), so the
@@ -12,12 +12,31 @@ Write PR titles for users.
 
 <!-- releases below; newest first -->
 
+## v1.0.2 — 2026-11-25
+
+Kimtos is now free and open source (MIT), with no account, no backend and no servers.
+
+### New
+
+- Kimtos is open source, with the full code on GitHub under the MIT license
+- Every app is free, with no account, plan or payment of any kind
+
+### Improved
+
+- The product name is now simply Kimtos
+- Update marked, highlight.js, pdfjs, onnxruntime-web and other dependencies
+
+### Fixed
+
+- Video Recorder opens on your camera instead of asking to share your screen, and a refused screen-share prompt no longer shows an error
+- Video Recorder keeps the cleaned-up audio in sync with the video on recordings longer than 25 minutes
+
 ## v1.0.1 — 2026-07-27
 
 ### New
 
 - Give the extension a session model, and run the apps in one tab
-- Open KimtOS directly when the toolbar popup would be empty
+- Open Kimtos directly when the toolbar popup would be empty
 
 ### Improved
 
@@ -41,7 +60,7 @@ Write PR titles for users.
 
 ## v1.0.0 — 2026-07-25
 
-KimtOS's first stable release. It is the work of over 1,360 commits since the
+Kimtos's first stable release. It is the work of over 1,360 commits since the
 project's first commit on 2026-06-06, more than 570 merged pull requests and over
 520 closed issues, organized through the 0.6.0 and 0.7.0 development milestones.
 
@@ -60,8 +79,8 @@ project's first commit on 2026-06-06, more than 570 merged pull requests and ove
 - Email the user when they cancel or resume Pro
 - Detect two live Dodo subscriptions from one signup (#876)
 - Welcome offer dialog for logged-out visitors after ~2 minutes
-- Replace the desktop-app roadmap item with KimtOS Browser, add a Vision page
-- Use the KimtOS logo for the KimtOS Browser mark
+- Replace the desktop-app roadmap item with Kimtos Browser, add a Vision page
+- Use the Kimtos logo for the Kimtos Browser mark
 
 ### Improved
 

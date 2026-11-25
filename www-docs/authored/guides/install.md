@@ -1,18 +1,18 @@
 ---
-title: Install KimtOS
+title: Install Kimtos
 ---
 
-# Install KimtOS
+# Install Kimtos
 
-KimtOS replaces the new-tab page in Chrome with a private workspace. It is a browser
+Kimtos replaces the new-tab page in Chrome with a private workspace. It is a browser
 extension — there is nothing to install on your computer, and no account required to
 start.
 
 ## Install
 
-1. Open the [KimtOS listing on the Chrome Web Store]({{chromeWebStoreUrl}}).
+1. Open the [Kimtos listing on the Chrome Web Store]({{chromeWebStoreUrl}}).
 2. Click **Add to Chrome**, then **Add extension** when Chrome asks.
-3. Open a new tab. That is KimtOS.
+3. Open a new tab. That is Kimtos.
 
 Chrome will warn you that the extension can _"read and change all your data on all
 websites"_. That sounds alarming, so it is worth being precise about why it asks:

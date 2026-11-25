@@ -7,7 +7,7 @@
 ## 1.1.5 — 2026-07-26
 
 - The suggestions panel and the field badge follow your Appearance setting, not just your
-  operating system's - pinning KimtOS to Light or Dark now reaches them on every site.
+  operating system's - pinning Kimtos to Light or Dark now reaches them on every site.
 
 ## 1.1.4 — 2026-07-23
 

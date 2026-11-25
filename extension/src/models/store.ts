@@ -53,7 +53,7 @@ export interface Settings {
   hiddenBgIds: string[];
   onboarded: boolean;
   pipNoteSeen: boolean;
-  /** The once-a-day "rate KimtOS on the Chrome Web Store" reminder (see views/reviewNudge.ts):
+  /** The once-a-day "rate Kimtos on the Chrome Web Store" reminder (see views/reviewNudge.ts):
    *  when it last ran, and whether the user switched it off — by ticking "Never show this
    *  again" or by going to the store to rate (either way, the ask is answered). */
   reviewNudge: { lastAt: number; off: boolean };
@@ -102,7 +102,7 @@ const useChromeStorage = typeof chrome !== 'undefined' && Boolean(chrome.storage
 // --- workspace (#472) ------------------------------------------------------
 //
 // There are no accounts: everything lives in this browser, under ONE workspace id. It is `local`
-// on a fresh install. A profile that once signed in to a KimtOS account keeps that account's id
+// on a fresh install. A profile that once signed in to a Kimtos account keeps that account's id
 // as its workspace id (see `workspaceIdFrom`), so the data it already wrote — settings, installed
 // apps, notes, files, content-script config — stays under the very key it was stored under and
 // nothing has to be moved. The id is never shown or sent anywhere.

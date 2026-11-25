@@ -1,4 +1,4 @@
-// The once-a-day "rate KimtOS" reminder, plus the shared open-the-review-page action
+// The once-a-day "rate Kimtos" reminder, plus the shared open-the-review-page action
 // behind every rate affordance (the top-bar button, Settings ▸ About, and this dialog).
 //
 // The extension is live on the Chrome Web Store, and reviews are how new users find it —
@@ -71,7 +71,7 @@ function showReviewNudge(): void {
 
   card.append(
     stars,
-    el('h2', 'prompt-title', 'Enjoying KimtOS?'),
+    el('h2', 'prompt-title', 'Enjoying Kimtos?'),
     el(
       'p',
       'prompt-label',
@@ -87,7 +87,7 @@ function showReviewNudge(): void {
 
   const actions = el('div', 'prompt-actions');
   const later = el('button', 'button-secondary', 'Maybe later');
-  const rate = el('button', 'button-primary', 'Rate KimtOS');
+  const rate = el('button', 'button-primary', 'Rate Kimtos');
   actions.append(later, rate);
   card.append(actions);
   overlay.append(card);

@@ -61,7 +61,7 @@ interface ChromeLike {
 const localArea = (): LocalArea | null => (globalThis as { chrome?: ChromeLike }).chrome?.storage?.local ?? null;
 
 /** The workspace id from a `kimtos` storage blob: `'local'`, or the id a profile that once had a
- *  KimtOS account kept (models/store.ts writes it as `workspaceId`; there are no accounts any
+ *  Kimtos account kept (models/store.ts writes it as `workspaceId`; there are no accounts any
  *  more). This is the one place content-script-side code resolves the workspace, so per-workspace
  *  chrome.storage keys — installed apps, clipboard capture, grammit-anywhere — all pick the same
  *  partition. Pure; takes the blob a caller already read, so it adds no extra chrome.storage

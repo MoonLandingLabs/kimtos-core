@@ -1,9 +1,9 @@
 # Third-party notices
 
-KimtOS is built on open-source software (its own terms are in `LICENSE`).
-The components below are included in the KimtOS extension and remain under their
+Kimtos is built on open-source software (its own terms are in `LICENSE`).
+The components below are included in the Kimtos extension and remain under their
 own licences, reproduced here as those licences require. **Nothing in this file is
-covered by the KimtOS licence.**
+covered by the Kimtos licence.**
 
 This list is **generated from the shipped bundle** — it is the set of packages whose
 code actually reaches a user, not the wider build-time dependency tree. Regenerate it
@@ -28,8 +28,8 @@ with `node scripts/gen-third-party-notices.mjs` whenever the dependencies change
 
 # On-device models
 
-KimtOS also downloads model weights to run its AI features on the user’s device.
-Those weights are **not ours**, are not covered by the KimtOS licence, and their
+Kimtos also downloads model weights to run its AI features on the user’s device.
+Those weights are **not ours**, are not covered by the Kimtos licence, and their
 terms are reproduced below — MIT and Apache-2.0 both require the notice to travel
 with what we distribute, and we distribute these to every user who installs the app.
 
@@ -165,7 +165,7 @@ Used by: Voice Studio (text to speech, all voices)
 
 Apache-2.0 permits commercial use and redistribution with the notice preserved. This covers the weights AND the ~50 speaker style vectors (voices/*.bin) the app downloads, which are published in the same repo under the same licence.
 
-The model is trained on eSpeak-NG IPA, but eSpeak-NG itself is GPL-3.0 and is NOT part of KimtOS: the phonemes come from the CMU Pronouncing Dictionary instead (below, and #1092). Kokoro consumes IPA; nothing about its licence obliges us to use a copyleft frontend to produce it.
+The model is trained on eSpeak-NG IPA, but eSpeak-NG itself is GPL-3.0 and is NOT part of Kimtos: the phonemes come from the CMU Pronouncing Dictionary instead (below, and #1092). Kokoro consumes IPA; nothing about its licence obliges us to use a copyleft frontend to produce it.
 
 ## CMU Pronouncing Dictionary (voice/lexicon.txt.gz)
 
@@ -175,7 +175,7 @@ Used by: Voice Studio (the grapheme-to-phoneme frontend)
 
 Voice Studio's pronunciation dictionary (extension/public/voice/lexicon.txt.gz, 126,037 words) is generated from cmudict by scripts/gen-voice-lexicon.mjs, from a digest-pinned commit. cmudict is BSD-2-Clause: redistribution in binary form is permitted provided the copyright notice, the list of conditions and the disclaimer are reproduced "in the documentation and/or other materials provided with the distribution" — this file is that material, and it must travel with any regenerated dictionary.
 
-It exists because the obvious frontend does not qualify. The `phonemizer` npm package declares itself Apache-2.0, but that covers only its JS wrapper: what it bundles is an Emscripten build of eSpeak-NG and its espeak-ng-data, which are GPL-3.0-or-later. Conveying that inside an MIT-licensed extension is a copyleft conflict, so it was removed and replaced with this dictionary plus letter-to-sound rules we wrote (#1092). No eSpeak-NG code or data ships in KimtOS.
+It exists because the obvious frontend does not qualify. The `phonemizer` npm package declares itself Apache-2.0, but that covers only its JS wrapper: what it bundles is an Emscripten build of eSpeak-NG and its espeak-ng-data, which are GPL-3.0-or-later. Conveying that inside an MIT-licensed extension is a copyleft conflict, so it was removed and replaced with this dictionary plus letter-to-sound rules we wrote (#1092). No eSpeak-NG code or data ships in Kimtos.
 
 The BSD-2-Clause notice, reproduced as that licence requires:
 

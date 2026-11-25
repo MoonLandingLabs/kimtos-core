@@ -1,4 +1,4 @@
-// KimtOS Clipboard — capture content script, injected into every https page
+// Kimtos Clipboard — capture content script, injected into every https page
 // (dist/clipboard.js). Listens for `copy`/`cut`, reads the copied text, and
 // forwards it to the background service worker (which persists it). Reading the
 // selection / clipboardData inside the copy handler needs NO `clipboardRead`
@@ -23,7 +23,7 @@ import { showToast } from './toast.js';
 initActiveCache();
 
 // The in-page history picker (Alt+Shift+V / right-click), so past clips can be
-// pasted without switching to the KimtOS tab.
+// pasted without switching to the Kimtos tab.
 initPicker();
 
 // Local cache of capture settings so each copy check is synchronous. Start from
@@ -72,7 +72,7 @@ function onCopy(e: ClipboardEvent): void {
               },
               (resp?: { stored?: boolean }) => {
                 if (chrome.runtime.lastError) return;
-                if (resp?.stored && s.notify) showToast('Saved to KimtOS Clipboard');
+                if (resp?.stored && s.notify) showToast('Saved to Kimtos Clipboard');
               },
             );
           };
@@ -91,7 +91,7 @@ function onCopy(e: ClipboardEvent): void {
       (resp?: { stored?: boolean }) => {
         // Swallow "receiving end does not exist" if the SW is momentarily down.
         if (chrome.runtime.lastError) return;
-        if (resp?.stored && state.notify) showToast('Saved to KimtOS Clipboard');
+        if (resp?.stored && state.notify) showToast('Saved to Kimtos Clipboard');
       },
     );
   } catch {

@@ -26,7 +26,7 @@ defineProps<{ title: string; intro?: string }>()
     <footer class="legal-foot">
       <p>
         Questions about this page? Open an issue on
-        <a :href="LEGAL.contactUrl" rel="noopener">GitHub</a>. KimtOS is free and open source ({{ LEGAL.license }}) —
+        <a :href="LEGAL.contactUrl" rel="noopener">GitHub</a>. Kimtos is free and open source ({{ LEGAL.license }}) —
         <a :href="LEGAL.repoUrl" rel="noopener">read the source</a>.
       </p>
       <p class="legal-entity">{{ LEGAL.entity }} · {{ LEGAL.address }}</p>

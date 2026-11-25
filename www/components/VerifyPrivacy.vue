@@ -5,7 +5,7 @@
         <h2>Don’t trust us. Check.</h2>
         <p>
           A privacy product that asks for your trust has it backwards. So don’t take our word for it — open your
-          browser’s own tools and watch KimtOS do nothing over the network.
+          browser’s own tools and watch Kimtos do nothing over the network.
         </p>
 
         <div class="verify-recipe">
@@ -20,14 +20,14 @@
       </div>
 
       <div v-reveal class="verify-exceptions">
-        <h3>The only times KimtOS uses the network</h3>
+        <h3>The only times Kimtos uses the network</h3>
         <p class="lede">
           We would rather list them than pretend there are none — an undisclosed call would damage the claim far more
           than an honest one.
         </p>
         <ul>
           <li>
-            <strong>Open source</strong> — there is no KimtOS server to call. The full source (MIT licensed) is on
+            <strong>Open source</strong> — there is no Kimtos server to call. The full source (MIT licensed) is on
             GitHub, so you can read exactly what runs.
           </li>
           <li>

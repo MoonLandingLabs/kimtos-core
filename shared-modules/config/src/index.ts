@@ -42,8 +42,8 @@ export function isNewApp(firstReleased: string | null | undefined, now: Date = n
 }
 
 /** Non-secret constants shared by every surface — the single source of truth for these
- *  values. There is one environment (development) and no per-build override. KimtOS runs no
- *  site or server of its own, so nothing here is a KimtOS-operated host. Never put secrets here. */
+ *  values. There is one environment (development) and no per-build override. Kimtos runs no
+ *  site or server of its own, so nothing here is a Kimtos-operated host. Never put secrets here. */
 export const DEFAULTS = {
   /** The documentation, as Markdown in the public repository. The extension's Settings
    *  "Documentation" link and the app changelog links read it. */

@@ -28,7 +28,7 @@ leaves the machine.
   export either to **PDF** through your browser's own print dialog.
 - **Floating window** — pop the app out into a small, always-on-top window so
   your notes stay visible while you browse other tabs.
-- **Home card** — an optional card on the KimtOS home screen listing your
+- **Home card** — an optional card on the Kimtos home screen listing your
   collections; click one to open it, or start a new collection. Turn it off in
   Settings ▸ Preferences.
 - **Batch delete with undo** — multi-select collections and pages, delete in one

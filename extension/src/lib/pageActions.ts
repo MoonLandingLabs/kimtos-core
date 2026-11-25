@@ -2,7 +2,7 @@
 // decides which of them are worth showing right now (#1110).
 //
 // Clicking the toolbar icon used to open a new tab and nothing else. That is the one moment the
-// user is looking at a PAGE and reaching for KimtOS, and the actions that belong to that moment
+// user is looking at a PAGE and reaching for Kimtos, and the actions that belong to that moment
 // already shipped — they were only reachable through keyboard shortcuts nobody finds. So this is
 // a discoverability surface, not a new engine: every entry names a `command` that the service
 // worker ALREADY dispatches (see background/pageCommands.ts), and the popup invokes it through

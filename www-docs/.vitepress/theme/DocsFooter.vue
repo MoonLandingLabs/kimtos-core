@@ -52,7 +52,7 @@ const MOON = svg('<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>');
       </nav>
     </div>
     <div class="kdf-base">
-      <span>&copy; {{ year }} KimtOS &middot; Free and open source, MIT licensed</span>
+      <span>&copy; {{ year }} Kimtos &middot; Free and open source, MIT licensed</span>
       <div class="kdf-theme">
         <span class="kdf-theme-label">Theme</span>
         <button

@@ -128,7 +128,7 @@ export function createDialog({
   if (popBtn) popBtn.hidden = true;
   const minBtn = control('window-min', 'Minimize', ICON.min, () => minimize());
   const maxBtn = control('window-max', 'Maximize', ICON.max, () => toggleMax());
-  // Full screen is NOT maximize. Maximize fills the KimtOS tab, with the browser's tab strip and
+  // Full screen is NOT maximize. Maximize fills the Kimtos tab, with the browser's tab strip and
   // address bar and our own desktop still on screen; this takes the whole display and hides them,
   // which is the point of a focus mode. Both controls stay (#1251).
   const fsBtn = control('window-fullscreen', 'Full screen', ICON.expand, () => toggleFullscreen());

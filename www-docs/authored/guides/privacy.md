@@ -4,7 +4,7 @@ title: Privacy
 
 # Privacy
 
-The short version: **everything you create in KimtOS stays on your device.** Notes, tasks,
+The short version: **everything you create in Kimtos stays on your device.** Notes, tasks,
 PDFs, clipboard, recordings, whiteboards and AI conversations live in your browser's own
 storage. We have no copy, and could not read them if we wanted to.
 
@@ -12,16 +12,16 @@ The AI runs on your machine too. Speech-to-text, OCR, denoising, grammar and cha
 execute inside the browser tab using WebAssembly and WebGPU. Your audio, images and text
 are never uploaded for processing — there is no server doing it.
 
-There are no accounts and no backend: KimtOS v1 collects nothing, because there is no server to
+There are no accounts and no backend: Kimtos v1 collects nothing, because there is no server to
 collect it. It is free and open source (MIT), so you can check this in the
 [source code]({{repoUrl}}).
 
 ## The full policy
 
-The complete, authoritative privacy policy is the Privacy page of the KimtOS marketing site; its
+The complete, authoritative privacy policy is the Privacy page of the Kimtos marketing site; its
 source is [`www/pages/privacy.vue`]({{repoUrl}}/blob/main/www/pages/privacy.vue) in the repository.
 
-It is deliberately specific rather than boilerplate: it lists every third party involved, and **every** case where KimtOS touches the network —
+It is deliberately specific rather than boilerplate: it lists every third party involved, and **every** case where Kimtos touches the network —
 including the ones you might not expect, such as the weather card and the
 trending-article feed.
 
@@ -39,5 +39,5 @@ Questions or problems: [open an issue]({{issuesUrl}}).
 
 ## Related
 
-- [Your data](./your-data) — how to export, import, inspect and erase everything KimtOS
+- [Your data](./your-data) — how to export, import, inspect and erase everything Kimtos
   has stored.

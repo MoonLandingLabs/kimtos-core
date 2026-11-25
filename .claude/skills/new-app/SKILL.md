@@ -116,8 +116,8 @@ from it in 12 places:
 | a magic `z-index`                          | `Z_INDEX` — the whole layering system          |
 | an ad-hoc kv key                           | `STORAGE_KEYS`                                 |
 
-and from `@kimtos/config` itself: `DEFAULTS` (`docsUrl`, `chromeWebStoreUrl`). **Never hardcode a URL** — one literal in `DEFAULTS` is the single place it may live. KimtOS v1 has no backend:
-an app never calls a KimtOS server.
+and from `@kimtos/config` itself: `DEFAULTS` (`docsUrl`, `chromeWebStoreUrl`). **Never hardcode a URL** — one literal in `DEFAULTS` is the single place it may live. Kimtos v1 has no backend:
+an app never calls a Kimtos server.
 
 **`@kimtos/icons` — ALL app iconography lives here. No image files, ever.** Inline
 SVG only (the extension is offline-first). Note there are two distinct icon

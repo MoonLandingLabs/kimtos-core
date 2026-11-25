@@ -28,7 +28,7 @@ never leaves the machine.
   theme.
 - **Full screen** — a distraction-free mode that fills the whole display.
 - **Export** — save any board as a PNG.
-- **Home card** — an optional card on the KimtOS home screen listing your recent
+- **Home card** — an optional card on the Kimtos home screen listing your recent
   boards; click one to open it, or start a new board. Turn it off in
   Settings ▸ Preferences.
 

@@ -14,7 +14,7 @@ const fmt = (iso: string) =>
   })
 
 useHead({
-  title: 'Blog · KimtOS',
+  title: 'Blog · Kimtos',
   meta: [
     {
       name: 'description',

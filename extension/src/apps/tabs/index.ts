@@ -199,7 +199,7 @@ const app = {
       root.append(
         infoPane(
           'Tabs needs the installed extension',
-          'This app manages your browser tabs, so it only works when KimtOS runs as a Chrome extension — not in the dev preview.',
+          'This app manages your browser tabs, so it only works when Kimtos runs as a Chrome extension — not in the dev preview.',
         ),
       );
       return () => {};
@@ -831,7 +831,7 @@ function permissionGate(onGrant: () => void): HTMLElement {
   box.append(el('div', 'tabs-info-title', 'Manage your tabs — privately'));
   const p = el('p', 'tabs-info-msg');
   p.innerHTML =
-    'To search, switch, hibernate, and save your tabs, KimtOS needs permission to read them. ' +
+    'To search, switch, hibernate, and save your tabs, Kimtos needs permission to read them. ' +
     'This runs <b>entirely on your device</b> — your tabs are never uploaded.';
   box.append(p);
   const btn = el('button', 'tabs-btn tabs-grant');

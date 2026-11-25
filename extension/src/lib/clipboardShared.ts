@@ -70,7 +70,7 @@ export interface CaptureState {
   monitorEnabled: boolean;
   excludedSites: string[];
   maxItems: number;
-  /** Show the little "Saved to KimtOS Clipboard" note on the page after a copy. */
+  /** Show the little "Saved to Kimtos Clipboard" note on the page after a copy. */
   notify: boolean;
   /** Also capture copied images (off by default — browsers rarely fire it). */
   captureImages: boolean;

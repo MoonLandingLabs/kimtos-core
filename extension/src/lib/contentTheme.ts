@@ -13,7 +13,7 @@
 // existed (local vars flipped for light mode) and its comment called itself "the sanctioned
 // different-document exception to the tokens-only rule"; this is that exception, once.
 //
-// Only BRAND colour stays inline: the KimtOS gradient and its blue are the mark, not the
+// Only BRAND colour stays inline: the Kimtos gradient and its blue are the mark, not the
 // palette, and `content/brand.ts` already says so.
 //
 // The API is deliberately LIVE-ONLY. There is no "what is the theme right now" export, because

@@ -1,7 +1,7 @@
 # @kimtos/www
 
-The KimtOS **marketing site** — Nuxt 4 (Vue 3, TypeScript), fully static. There is no backend,
-no accounts and no runtime server: `nuxt generate` prerenders every page. KimtOS v1 is free and
+The Kimtos **marketing site** — Nuxt 4 (Vue 3, TypeScript), fully static. There is no backend,
+no accounts and no runtime server: `nuxt generate` prerenders every page. Kimtos v1 is free and
 open source (MIT).
 
 ## Develop

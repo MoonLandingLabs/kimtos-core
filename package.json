@@ -2,7 +2,7 @@
   "name": "kimtos",
   "version": "0.0.0",
   "private": true,
-  "description": "KimtOS \u2014 free and open source (MIT). A Chrome new-tab extension that runs entirely in your browser, plus a static marketing site and docs. No accounts, no backend, no servers.",
+  "description": "Kimtos \u2014 free and open source (MIT). A Chrome new-tab extension that runs entirely in your browser, plus a static marketing site and docs. No accounts, no backend, no servers.",
   "license": "MIT",
   "workspaces": [
     "shared-modules/*",

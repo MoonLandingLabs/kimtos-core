@@ -1,4 +1,4 @@
-// Generate Chrome Web Store listing assets for the KimtOS extension, from the REAL brand
+// Generate Chrome Web Store listing assets for the Kimtos extension, from the REAL brand
 // system (brandMarkSvg + appTileSvg + BRAND_GRADIENT_STOPS in @kimtos/icons). Output is exact-
 // dimension, no-alpha PNG (sharp .flatten()), which is what the store requires.
 //
@@ -82,7 +82,7 @@ async function realShot(headline, sub, captureFile, { fit = 'bleed' } = {}) {
     .toBuffer();
 }
 
-// === Explainer slide — why KimtOS / how it works (1280x800) ===============
+// === Explainer slide — why Kimtos / how it works (1280x800) ===============
 // The one DESIGNED slide (not a capture): a "why + how" card on the brand gradient,
 // matching the band the real-capture slides are framed in. Every claim here is
 // literally true — the privacy line is the product, so it must not overstate.
@@ -156,7 +156,7 @@ function smallTile() {
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">
     ${brandBand(w, h)}
     ${brandMarkSvg(64).replace('<svg ', `<svg x="${w / 2 - 32}" y="40" `)}
-    ${text(w / 2, 148, 34, 800, '#fff', 'KimtOS', 'text-anchor="middle" letter-spacing="-0.5"')}
+    ${text(w / 2, 148, 34, 800, '#fff', 'Kimtos', 'text-anchor="middle" letter-spacing="-0.5"')}
     ${text(w / 2, 176, 15, 500, 'rgba(255,255,255,0.9)', 'Your private new-tab workspace', 'text-anchor="middle"')}
     ${tiles}
   </svg>`;

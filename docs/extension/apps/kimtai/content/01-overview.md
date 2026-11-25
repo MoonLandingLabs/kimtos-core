@@ -20,14 +20,14 @@ will tell you so rather than pretend.
 - **Fully on-device** — the conversation never leaves the browser. There is no
   backend, no account, and no network round-trip for chat.
 - **The model** — KimtAI runs a small chat model on your own machine, fetched on
-  demand and cached, so it downloads only once. The exact model KimtOS ships is
+  demand and cached, so it downloads only once. The exact model Kimtos ships is
   listed in [Getting started](./02-getting-started.md); more are planned.
 - **Streaming replies** — tokens stream into the message bubble as they are
   generated, rendered as Markdown.
 - **Per-chat tuning** — set a system prompt (persona), creativity (temperature),
   and response length per conversation.
 - **On the home screen** — an optional "Ask KimtAI" card gives one-click access,
-  and the KimtOS home search bar can send your typed question straight into a new
+  and the Kimtos home search bar can send your typed question straight into a new
   chat when the app opens. Turn the card off in Settings ▸ Preferences.
 - **Persistent history** — conversations are saved locally; pin, rename, search,
   export to Markdown, or batch-delete with undo.

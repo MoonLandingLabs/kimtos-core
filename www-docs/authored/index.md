@@ -1,15 +1,15 @@
 ---
 layout: home
-title: KimtOS
+title: Kimtos
 titleTemplate: ':title — Documentation'
 
 hero:
-  name: KimtOS
+  name: Kimtos
   text: Documentation
   tagline: A local-first, on-device app suite that lives in your new tab. Your data never leaves the machine. Free and open source (MIT).
   image:
     src: /favicon.svg
-    alt: KimtOS
+    alt: Kimtos
   actions:
     - theme: brand
       text: Browse the apps
@@ -21,7 +21,7 @@ hero:
 features:
   - icon: { src: /feature-icons/local.svg, width: 36, height: 36 }
     title: Local-first, private
-    details: Notes, todos, PDFs, recordings and AI chats live in your browser's own storage and never touch a server. There are no accounts and no backend. Every app is free, and KimtOS v1 is open source under the MIT licence.
+    details: Notes, todos, PDFs, recordings and AI chats live in your browser's own storage and never touch a server. There are no accounts and no backend. Every app is free, and Kimtos v1 is open source under the MIT licence.
   - icon: { src: /feature-icons/suite.svg, width: 36, height: 36 }
     title: An app suite, not a page
     details: Each app is a self-contained folder that's auto-discovered — a few declarative lines gets you a window, first-run tip, batch-delete, agent tools and a data console entry.

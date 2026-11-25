@@ -2,7 +2,7 @@
 name: deploy-release
 description: >-
   How kimtos ships — `make build`, the release/changelog flow, and Chrome Web
-  Store publishing. KimtOS v1 is free and open source (MIT) with NO backend, accounts or servers: the
+  Store publishing. Kimtos v1 is free and open source (MIT) with NO backend, accounts or servers: the
   extension is published to the Chrome Web Store and the sites are static. Use whenever releasing,
   touching the Makefile, or the release changelog. Trigger on:
   "releasing", "Chrome Web Store", "changelog", "static site build".
@@ -10,7 +10,7 @@ description: >-
 
 # deploy-release — shipping kimtos
 
-KimtOS v1 has no backend, no accounts and no servers of its own. The extension is loaded unpacked in
+Kimtos v1 has no backend, no accounts and no servers of its own. The extension is loaded unpacked in
 dev and published to the Chrome Web Store for release. `www/` and `www-docs/` are static sites
 (`nuxt generate` / `vitepress build`) that can be hosted on any static host.
 

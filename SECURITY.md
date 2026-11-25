@@ -1,6 +1,6 @@
 # Security policy
 
-KimtOS is a Chrome extension that runs entirely in your browser. It has no accounts and no
+Kimtos is a Chrome extension that runs entirely in your browser. It has no accounts and no
 servers, so there is no hosted service to attack. Security issues are still possible in the
 extension itself (for example a content script, a permission, or a bundled dependency).
 

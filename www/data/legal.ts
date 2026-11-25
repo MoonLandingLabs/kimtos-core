@@ -2,7 +2,7 @@
 // pages both read from here, so the operator and the contact route can never
 // drift apart across the two documents.
 //
-// KimtOS v1 is free and open source (MIT). It has no accounts, no backend and no servers:
+// Kimtos v1 is free and open source (MIT). It has no accounts, no backend and no servers:
 // the extension runs entirely in the user's browser and the sites are static pages. The
 // operator is a person, not a registered company, and nothing is sold — so there is no
 // incorporation record or governing-law clause here. The `published` flag below, NOT the
@@ -52,7 +52,7 @@ export const LEGAL: LegalIdentity = {
 export const LEGAL_DRAFT = !LEGAL.published
 
 /**
- * The third parties your browser may contact, and the only thing each one sees. KimtOS itself
+ * The third parties your browser may contact, and the only thing each one sees. Kimtos itself
  * runs no server and receives nothing: these are public hosts that the extension talks to
  * DIRECTLY from your browser, for the one feature that needs each. The list is checked against
  * the extension's declared hosts by scripts/check-network-hosts.mjs.

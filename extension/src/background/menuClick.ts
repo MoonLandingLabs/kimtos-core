@@ -11,7 +11,7 @@
 //       ...
 //       void chrome.sidePanel.open({ windowId }).catch(() => {});   // <-- rejected, silently
 //
-// So "Open KimtOS Clipboard panel" did nothing, and the empty catch made sure nobody found out
+// So "Open Kimtos Clipboard panel" did nothing, and the empty catch made sure nobody found out
 // (#257). The bug is not that the check is wrong; it is that it cannot be awaited BEFORE the
 // open, and nobody noticed because the failure was thrown away.
 //

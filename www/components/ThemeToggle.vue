@@ -21,7 +21,7 @@ const MOON = svg('<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>')
 </script>
 
 <template>
-  <!-- A light/dark switch in the KimtOS app's own control style (extension `.switch`):
+  <!-- A light/dark switch in the Kimtos app's own control style (extension `.switch`):
        a pill track, a sliding knob, sun and moon at the ends. role="switch" so a screen
        reader announces on/off; it is a <button>, so Space/Enter toggle for free. -->
   <button

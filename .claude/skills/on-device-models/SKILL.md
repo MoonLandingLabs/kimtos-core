@@ -17,7 +17,7 @@ Every AI feature runs **entirely on the user's device**, in a Web Worker, via
 `@huggingface/transformers` (Transformers.js) on `onnxruntime-web` (WASM on CPU, WebGPU when
 available). Nothing is uploaded. Engines live in `extension/src/lib/engines/` (`kimtai` chat,
 `denoise`, `transcribe`, `grammar`, `embed`). Model weights are fetched from Hugging Face at runtime
-(see `docs/extension/models.md` and `extension/src/lib/modelHosts.ts`); KimtOS runs no file host.
+(see `docs/extension/models.md` and `extension/src/lib/modelHosts.ts`); Kimtos runs no file host.
 
 ## The catalog is the single source of truth
 

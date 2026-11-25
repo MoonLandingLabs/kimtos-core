@@ -1,4 +1,4 @@
-// KimtOS v1 states, inside the extension, that it is free and open source (MIT) with the source on
+// Kimtos v1 states, inside the extension, that it is free and open source (MIT) with the source on
 // GitHub. This pins the Settings -> About panel to that statement: the licence line, the repository
 // link, and that the link is the same repository "Report an issue" files into.
 
@@ -17,7 +17,7 @@ describe('open source facts', () => {
 
   test('"Report an issue" files into the same repository the About panel links', () => {
     assert.equal(ISSUES_URL, `${REPO_URL}/issues`);
-    assert.ok(reportIssueUrl('kimtos', 'KimtOS').startsWith(`${REPO_URL}/issues/new?`));
+    assert.ok(reportIssueUrl('kimtos', 'Kimtos').startsWith(`${REPO_URL}/issues/new?`));
   });
 });
 

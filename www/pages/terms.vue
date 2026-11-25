@@ -2,26 +2,26 @@
 import { LEGAL } from '~/data/legal'
 
 useHead({
-  title: 'Terms · KimtOS',
+  title: 'Terms · Kimtos',
   meta: [
-    { name: 'description', content: 'KimtOS is free, open-source software under the MIT licence, provided as is.' },
+    { name: 'description', content: 'Kimtos is free, open-source software under the MIT licence, provided as is.' },
   ],
 })
 </script>
 
 <template>
   <LegalPage title="Terms of Use" intro="Short and in plain English, because terms nobody reads protect nobody.">
-    <h2>Who publishes KimtOS</h2>
+    <h2>Who publishes Kimtos</h2>
     <p>
-      KimtOS is published by <strong>{{ LEGAL.entity }}</strong>, of {{ LEGAL.address }}, as free and open-source
-      software. By installing or using KimtOS you agree to these terms. If you do not agree, please do not use it.
+      Kimtos is published by <strong>{{ LEGAL.entity }}</strong>, of {{ LEGAL.address }}, as free and open-source
+      software. By installing or using Kimtos you agree to these terms. If you do not agree, please do not use it.
     </p>
 
-    <h2>What KimtOS is</h2>
+    <h2>What Kimtos is</h2>
     <p>
-      KimtOS v1 is a browser extension that replaces your new-tab page with a set of apps, plus a static website and
+      Kimtos v1 is a browser extension that replaces your new-tab page with a set of apps, plus a static website and
       documentation. The apps run on your own device and store their data there. There are no accounts, no sign-in and
-      no KimtOS servers. KimtOS is <strong>free</strong>: every app is available at no charge, and there is nothing to
+      no Kimtos servers. Kimtos is <strong>free</strong>: every app is available at no charge, and there is nothing to
       buy.
     </p>
 
@@ -36,7 +36,7 @@ useHead({
 
     <h2>Your data and your content</h2>
     <p>
-      Whatever you create in KimtOS stays yours. It is stored on your own device, not on any server of ours — we claim
+      Whatever you create in Kimtos stays yours. It is stored on your own device, not on any server of ours — we claim
       no licence over it, and we could not use it if we wanted to. What is and is not collected is set out in our
       <NuxtLink to="/privacy">Privacy policy</NuxtLink>.
     </p>
@@ -55,17 +55,17 @@ useHead({
     </p>
 
     <h2>Fair use</h2>
-    <p>Do not use KimtOS to break the law, and do not pass modified builds off as the official one.</p>
+    <p>Do not use Kimtos to break the law, and do not pass modified builds off as the official one.</p>
 
     <h2>No warranty</h2>
     <p>
-      KimtOS is provided <strong>"as is"</strong>, without warranty of any kind, express or implied, including
+      Kimtos is provided <strong>"as is"</strong>, without warranty of any kind, express or implied, including
       merchantability, fitness for a particular purpose and non-infringement. The on-device AI models can be wrong — do
       not rely on them for anything consequential without checking.
     </p>
     <p>
       To the fullest extent the law allows, the author is not liable for any claim, damages or other liability arising
-      from the use of KimtOS, including loss of data you did not back up. That is the same limitation as the
+      from the use of Kimtos, including loss of data you did not back up. That is the same limitation as the
       {{ LEGAL.license }} licence.
       <strong>Nothing in these terms takes away rights you have by law as a consumer.</strong>
       Where local consumer law gives you a right that conflicts with something here, that law wins.
@@ -73,7 +73,7 @@ useHead({
 
     <h2>Ending it</h2>
     <p>
-      You can stop using KimtOS whenever you like by uninstalling the extension. Your content is on your device and
+      You can stop using Kimtos whenever you like by uninstalling the extension. Your content is on your device and
       remains yours.
     </p>
 

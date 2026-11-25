@@ -3,7 +3,7 @@
 # alphabetically. Build the whole app suite with `npm run docs` (from extension/).
 
 title    = "KimtManager"
-subtitle = "See everything KimtOS is doing in the background — and stop any of it"
+subtitle = "See everything Kimtos is doing in the background — and stop any of it"
 accent   = "#5b8def"
 order    = 21
 formats  = ["html"]

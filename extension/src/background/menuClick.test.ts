@@ -1,4 +1,4 @@
-// "Open KimtOS Clipboard panel" did nothing, and said nothing (#257).
+// "Open Kimtos Clipboard panel" did nothing, and said nothing (#257).
 //
 // `chrome.sidePanel.open()` may only be called in direct response to a user gesture. The handler
 // awaited an install-state re-check first — and an await, any await, spends the gesture — so Chrome

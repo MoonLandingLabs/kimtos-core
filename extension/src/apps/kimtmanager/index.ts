@@ -43,13 +43,13 @@ const app = {
   accent: appMeta.accent,
   order: appMeta.order,
   description: 'Everything running in the background — downloads, jobs and open apps — in one place.',
-  tip: 'Everything KimtOS is doing in the background shows up here — a model downloading, a recording being cleaned up, an app still open. Stop any of it from this window.',
+  tip: 'Everything Kimtos is doing in the background shows up here — a model downloading, a recording being cleaned up, an app still open. Stop any of it from this window.',
 
   tools: [
     {
       name: 'list_running_tasks',
       description:
-        'List everything KimtOS is currently doing: model downloads (with progress), background jobs, and open or minimized apps.',
+        'List everything Kimtos is currently doing: model downloads (with progress), background jobs, and open or minimized apps.',
       parameters: { type: 'object', properties: {}, required: [] },
       run: async () => {
         const tasks = await readTasks();

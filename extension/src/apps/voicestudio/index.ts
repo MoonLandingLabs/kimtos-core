@@ -63,7 +63,7 @@ const previewKey = (voiceId: string): string => `${PREVIEW_BLOB_PREFIX}${PREVIEW
 
 // Two sentences: one short line is not enough audio to judge a voice by.
 const previewLine = (v: Voice): string =>
-  `Hi, I'm ${v.name}, one of the voices in Voice Studio on Kimt OS. ` +
+  `Hi, I'm ${v.name}, one of the voices in Voice Studio on Kimtos. ` +
   `This is a short preview, so you can hear how I sound before you press Speak.`;
 
 const STOP_ICON =

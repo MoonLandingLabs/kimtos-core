@@ -122,7 +122,7 @@ export function renderReleaseNotes(host: HTMLElement): void {
       list.replaceChildren(
         note(
           installed
-            ? `You're on KimtOS ${installed}. Release notes will appear here with each update.`
+            ? `You're on Kimtos ${installed}. Release notes will appear here with each update.`
             : 'Release notes will appear here with each update.',
         ),
       );

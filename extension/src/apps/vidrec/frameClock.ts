@@ -2,7 +2,7 @@
 // look away.
 //
 // The mixer used to call `requestAnimationFrame` in a loop. Browsers SUSPEND rAF for a hidden tab,
-// and screen-sharing means the KimtOS tab IS hidden — you are looking at whatever you are sharing.
+// and screen-sharing means the Kimtos tab IS hidden — you are looking at whatever you are sharing.
 // So the draw loop stalled, the canvas stopped updating, and since the recording is captured FROM
 // that canvas, the recorded video froze for exactly as long as you were away. Both symptoms in
 // #276 — a frozen preview and a frozen recording — are that one fact.

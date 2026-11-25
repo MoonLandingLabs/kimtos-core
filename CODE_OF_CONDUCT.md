@@ -1,6 +1,6 @@
 # Code of conduct
 
-We want KimtOS to be a friendly place to contribute. Everyone taking part in issues, pull
+We want Kimtos to be a friendly place to contribute. Everyone taking part in issues, pull
 requests and discussions agrees to:
 
 - Be respectful. Disagree with ideas, not with people.

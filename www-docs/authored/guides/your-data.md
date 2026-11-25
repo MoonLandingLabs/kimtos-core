@@ -4,7 +4,7 @@ title: Your data
 
 # Your data
 
-Everything you create in KimtOS is stored in **your browser, on your machine**. Notes,
+Everything you create in Kimtos is stored in **your browser, on your machine**. Notes,
 tasks, PDFs and their annotations, clipboard history, whiteboards, recordings, AI
 conversations — none of it is uploaded, and we have no copy.
 
@@ -36,13 +36,13 @@ Two more things the backup does **not** contain:
 ## Moving to a new computer
 
 1. On the old machine: **Settings ▸ Data ▸ Export my data**.
-2. Install KimtOS on the new machine (there is no account; the workspace starts empty).
+2. Install Kimtos on the new machine (there is no account; the workspace starts empty).
 3. **Settings ▸ Data ▸ Import a backup** and choose the file.
 
 This is the **only** way to move your work. There is no account or sync, so nothing follows you
 to a new machine by itself.
 
-## AnubisDB: see everything KimtOS has stored
+## AnubisDB: see everything Kimtos has stored
 
 AnubisDB is a free app, installed by default. It is a window onto the database itself:
 every app, what it has stored, and how much space it takes.
@@ -82,8 +82,8 @@ If the app had downloaded an AI model, that model **is** freed to reclaim the sp
 
 ## The one thing that really does delete everything
 
-::: danger Removing KimtOS from Chrome deletes all of it
-If you uninstall the KimtOS extension itself, Chrome deletes its storage — every note,
+::: danger Removing Kimtos from Chrome deletes all of it
+If you uninstall the Kimtos extension itself, Chrome deletes its storage — every note,
 task, PDF, board and recording, gone. That is Chrome's behaviour and we cannot prevent it.
 
 **Export first.** Always.

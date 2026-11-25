@@ -12,7 +12,7 @@ export default defineMeta({
   required: true,
   marketing: {
     tech: 'On-device task manager',
-    desc: 'See everything KimtOS is doing in the background — downloads, transcriptions, open apps — and stop any of it.',
+    desc: 'See everything Kimtos is doing in the background — downloads, transcriptions, open apps — and stop any of it.',
     points: [
       'Watch model downloads finish, with live progress',
       'Find work that outlived the tab it started in',

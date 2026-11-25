@@ -66,7 +66,7 @@
 // invariant is now enforced by scripts/check-network-hosts.mjs rather than asserted in a comment.
 
 // Every on-device AI model — Whisper, Kokoro, the KimtAI chat models, FLAN-T5, MiniLM and
-// Denoise's weights — is downloaded from Hugging Face. There is no KimtOS file host: the project
+// Denoise's weights — is downloaded from Hugging Face. There is no Kimtos file host: the project
 // runs no infrastructure. Hugging Face answers a file URL with a redirect to its CDN
 // (`*.cdn.hf.co`), so that host is declared too. The non-English OCR language packs come from
 // jsDelivr (the official @tesseract.js-data npm packages). Which model comes from which repo, and
@@ -92,11 +92,11 @@ export const NETWORK_HOSTS = [
   // extension/src — the literal grep is blind to it, so the check resolves the DEFAULTS the
   // extension uses from the config source and requires each here (#733). It points at the docs
   // folder of the public GitHub repository (github.com, declared below). There is no sign-in,
-  // no backend and no exit survey: the extension has no account and talks to no KimtOS server.
-  // The "Rate KimtOS" button and the once-a-day review reminder open our OWN Chrome Web Store
+  // no backend and no exit survey: the extension has no account and talks to no Kimtos server.
+  // The "Rate Kimtos" button and the once-a-day review reminder open our OWN Chrome Web Store
   // listing (reviewNudge.ts, DEFAULTS.chromeWebStoreUrl). A user-initiated tab open — the browser
   // navigates, the extension fetches nothing — so no manifest grant. Google is a third party,
-  // but the listing is a public page and no KimtOS user data rides along, so it is not a
+  // but the listing is a public page and no Kimtos user data rides along, so it is not a
   // subprocessor and not a "request we make": off the privacy list, like the docs link above.
   {
     host: 'chromewebstore.google.com',

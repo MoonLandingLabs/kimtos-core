@@ -104,7 +104,7 @@ function bannerSvg(W: number, H: number): string {
 
     <!-- brand lockup -->
     ${brandTile(cx, 56, 58)}
-    <text x="${cx + 74}" y="${96}" font-family="${FONT}" font-size="32" font-weight="700" fill="#ffffff" letter-spacing="-0.5">KimtOS</text>
+    <text x="${cx + 74}" y="${96}" font-family="${FONT}" font-size="32" font-weight="700" fill="#ffffff" letter-spacing="-0.5">Kimtos</text>
 
     <!-- two-line headline keeps the left column clear of the dock -->
     <text x="${cx}" y="205" font-family="${FONT}" font-size="58" font-weight="800" letter-spacing="-1.6" fill="#ffffff">Your new tab,</text>
@@ -137,7 +137,7 @@ function coverSvg(W: number, H: number): string {
     <rect x="0" y="0" width="${W}" height="3" fill="url(#hl)"/>
     ${tiles}
     <g transform="translate(${cx} 34)"><rect width="34" height="34" rx="8" fill="url(#brandg)"/><g transform="scale(0.34)">${GLYPH}</g></g>
-    <text x="${cx + 44}" y="58" font-family="${FONT}" font-size="22" font-weight="700" fill="#ffffff" letter-spacing="-0.4">KimtOS</text>
+    <text x="${cx + 44}" y="58" font-family="${FONT}" font-size="22" font-weight="700" fill="#ffffff" letter-spacing="-0.4">Kimtos</text>
     <text x="${cx}" y="118" font-family="${FONT}" font-size="34" font-weight="800" letter-spacing="-1" fill="#ffffff">Your new tab, <tspan fill="url(#hl)">actually useful.</tspan></text>
     <text x="${cx}" y="150" font-family="${FONT}" font-size="18" font-weight="500" fill="#ffffff" opacity="0.64">Private, on-device browser tools · Free and open source</text>
   </svg>`;

@@ -27,7 +27,7 @@ Focused automatically on every new tab, so you can just start typing. Enter a se
 paste a URL to go straight there.
 
 Searches go to **your browser's own search engine** — whichever one you have set in Chrome.
-KimtOS does not choose one for you and has no engine setting of its own, so changing your
+Kimtos does not choose one for you and has no engine setting of its own, so changing your
 default in Chrome changes what this bar does. Paste a full URL (one starting `http://` or
 `https://`) and it goes straight there instead of searching; anything else is a search, so
 typing `package.json` looks it up rather than guessing at a website.
@@ -47,7 +47,7 @@ dark mode. It does **not** change on every new tab. Press **Shuffle** to change 
 
 **Settings ▸ Wallpaper** has the gallery. You can **Upload a wallpaper** of your own (up
 to {{wallpaperMaxSize}}; it is cropped to fit your screen and pinned automatically), delete any you have
-added, or **Restore default wallpapers** to bring back the ones that ship with KimtOS.
+added, or **Restore default wallpapers** to bring back the ones that ship with Kimtos.
 
 To soften the wallpaper behind your text, use **Settings ▸ Personalization ▸ Background
 blur**.
@@ -97,7 +97,7 @@ Personalization, which is where most people look first.
 
 ## Keyboard shortcuts
 
-KimtOS is mostly mouse-driven, with one global shortcut and a few inside apps.
+Kimtos is mostly mouse-driven, with one global shortcut and a few inside apps.
 
 | Shortcut                | What it does                                                                         |
 | ----------------------- | ------------------------------------------------------------------------------------ |

@@ -42,7 +42,7 @@ export const brandBand = (w, h, idSuffix = '') => {
 /** brand mark + wordmark at (x,y), mark size m. */
 export const lockup = (x, y, m, fs) =>
   `${brandMarkSvg(m).replace('<svg ', `<svg x="${x}" y="${y}" `)}` +
-  text(x + m + 16, y + m / 2 + fs * 0.35, fs, 800, '#fff', 'KimtOS', 'letter-spacing="-0.5"');
+  text(x + m + 16, y + m / 2 + fs * 0.35, fs, 800, '#fff', 'Kimtos', 'letter-spacing="-0.5"');
 
 /** Greedy word-wrap into lines no wider than `maxChars`. SVG <text> does not wrap, and
  *  splitting by word COUNT let a long word overflow the card (#1088 review); this measures

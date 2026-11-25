@@ -321,7 +321,7 @@ export async function importData(parsed: unknown): Promise<string> {
     await applySettingsFromDb();
     return `Imported ${dump.name || dump.app} data`;
   }
-  throw new Error('Not a KimtOS / AnubisDB data file.');
+  throw new Error('Not a Kimtos / AnubisDB data file.');
 }
 
 // ---- clear (with a portable backup for undo) ------------------------------

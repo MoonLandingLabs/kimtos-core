@@ -1,7 +1,7 @@
 {
   "name": "@kimtos/www",
   "private": true,
-  "description": "The KimtOS marketing site \u2014 fully static (nuxt generate). Free and open source (MIT); no accounts, no backend.",
+  "description": "The Kimtos marketing site \u2014 fully static (nuxt generate). Free and open source (MIT); no accounts, no backend.",
   "type": "module",
   "scripts": {
     "gen:apps": "node scripts/gen-apps.mjs",

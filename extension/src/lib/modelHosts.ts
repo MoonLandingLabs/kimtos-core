@@ -1,6 +1,6 @@
 // Where the extension downloads its on-device AI models and data files from.
 //
-// Everything comes from public, no-auth hosts that already serve it with CORS, so KimtOS runs no
+// Everything comes from public, no-auth hosts that already serve it with CORS, so Kimtos runs no
 // file server of its own:
 //
 //   - Hugging Face (`huggingface.co`) for every model: Whisper, Kokoro, the chat models, the

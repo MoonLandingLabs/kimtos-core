@@ -1,7 +1,7 @@
 # Site (www) docs
 
 The marketing site — Nuxt 4 (Vue 3, TypeScript), **fully static** (`nuxt generate`). It has no
-backend, no accounts and no runtime server: every page is prerendered. KimtOS v1 is free and
+backend, no accounts and no runtime server: every page is prerendered. Kimtos v1 is free and
 open source (MIT) and the site says so in the hero, the footer and the legal pages.
 
 See [`../../www/README.md`](../../www/README.md) for develop / build.

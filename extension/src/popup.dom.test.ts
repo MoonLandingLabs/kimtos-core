@@ -2,7 +2,7 @@
 //
 // `lib/pageActions.test.ts` pins the DECISION; this pins what the user actually gets: the rows
 // that decision produced, the app grouping, the bound shortcut beside each row, the primary
-// "Open KimtOS" that must never regress to a dead button, the quiet line on a chrome:// page,
+// "Open Kimtos" that must never regress to a dead button, the quiet line on a chrome:// page,
 // the permission row, and arrow-key navigation. Between them there is no untested gap between
 // "the rule says show three rows" and "three rows appear and do something".
 //
@@ -145,10 +145,10 @@ const labels = (root: HTMLElement): string[] =>
 const text = (root: HTMLElement): string => root.textContent ?? '';
 
 describe('the popup, rendered', () => {
-  test('with both apps installed, an ordinary page gets Open KimtOS plus every page action', async () => {
+  test('with both apps installed, an ordinary page gets Open Kimtos plus every page action', async () => {
     const { root } = await boot();
     assert.deepEqual(labels(root), [
-      'Open KimtOS',
+      'Open Kimtos',
       ...FAKEFORM_ACTIONS.map((a) => a.label),
       'Paste from clipboard history',
     ]);
@@ -170,7 +170,7 @@ describe('the popup, rendered', () => {
     assert.ok(!keys.includes(''));
   });
 
-  test('"Open KimtOS" still opens a tab in one click, and closes the popup', async () => {
+  test('"Open Kimtos" still opens a tab in one click, and closes the popup', async () => {
     const { root, chrome, closed } = await boot();
     rows(root)[0]?.click();
     await settle(5);
@@ -198,22 +198,22 @@ describe('the popup, rendered', () => {
     const { root } = await boot({
       store: { workspaceId: 'u1', installedAppsByUser: { u1: [] } },
     });
-    assert.deepEqual(labels(root), ['Open KimtOS']);
+    assert.deepEqual(labels(root), ['Open Kimtos']);
     assert.match(text(root), /No page actions/i);
   });
 
   test('a chrome:// page gets one quiet line, not dead rows', async () => {
     const { root } = await boot({ tab: { id: 4, url: 'chrome://extensions' } });
-    assert.deepEqual(labels(root), ['Open KimtOS']);
+    assert.deepEqual(labels(root), ['Open Kimtos']);
     assert.match(text(root), /cannot host page actions/i);
   });
 
   test('without site access the injectable actions remain, and one row offers to fix it', async () => {
     const { root } = await boot({ allSites: false });
     assert.deepEqual(labels(root), [
-      'Open KimtOS',
+      'Open Kimtos',
       ...FAKEFORM_ACTIONS.map((a) => a.label),
-      'Allow KimtOS on websites',
+      'Allow Kimtos on websites',
     ]);
     assert.match(text(root), /need access to the current site/i);
   });
@@ -221,7 +221,7 @@ describe('the popup, rendered', () => {
   test('granting the permission repaints, and the clipboard row appears', async () => {
     const { root, chrome } = await boot({ allSites: false, grantOnRequest: true });
     const grant = rows(root).at(-1);
-    assert.equal(grant?.querySelector('.popup-row-label')?.textContent, 'Allow KimtOS on websites');
+    assert.equal(grant?.querySelector('.popup-row-label')?.textContent, 'Allow Kimtos on websites');
     grant?.click();
     await settle(5);
     assert.equal(chrome.requested, 1);
@@ -233,7 +233,7 @@ describe('the popup, rendered', () => {
     assert.ok(labels(root).length > 1);
     chrome.change({ workspaceId: 'u1', installedAppsByUser: { u1: [] } });
     await settle(5);
-    assert.deepEqual(labels(root), ['Open KimtOS']);
+    assert.deepEqual(labels(root), ['Open Kimtos']);
   });
 
   test('it is a menu: the first row has focus, and the arrows walk it', async () => {

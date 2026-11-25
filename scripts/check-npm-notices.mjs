@@ -51,7 +51,7 @@ const NOTICES = 'THIRD-PARTY-NOTICES.md';
 export const REGENERATE = 'node scripts/gen-third-party-notices.mjs';
 
 /** Our own workspace packages. They are compiled from source in this repo, are covered by the
- *  KimtOS licence, and are correctly absent from a THIRD-PARTY notices file. */
+ *  Kimtos licence, and are correctly absent from a THIRD-PARTY notices file. */
 const WORKSPACE_SCOPE = '@kimtos/';
 
 /** What gen-third-party-notices.mjs writes when a package's `license` field is not a plain
@@ -387,7 +387,7 @@ function main() {
     console.error(`check-npm-notices: ${NOTICES} does not describe the packages we ship.\n`);
     console.error(errors.join('\n'));
     console.error(
-      `\nThis file is how KimtOS discharges the attribution duties of its dependencies. Going ` +
+      `\nThis file is how Kimtos discharges the attribution duties of its dependencies. Going ` +
         `being open source does not remove them: MIT, Apache-2.0 and BSD all require the copyright and ` +
         `licence notice to be preserved in distributed copies. Regenerate it with \`${REGENERATE}\` ` +
         `and commit the result.`,

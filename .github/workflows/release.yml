@@ -122,7 +122,7 @@ jobs:
           echo "::notice::Dry run for ${TAG}: built and packaged. Nothing was submitted to the store."
 
       # The store is the ONLY place the package goes — it is the only path by which a
-      # user can install KimtOS. This step SKIPS (it does not fail) until the four CWS
+      # user can install Kimtos. This step SKIPS (it does not fail) until the four CWS
       # secrets exist, so tagging keeps working before the store listing is set up.
       # Setup: docs/extension/chrome-web-store.md
       - name: Publish to the Chrome Web Store

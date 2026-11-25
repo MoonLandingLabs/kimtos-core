@@ -19,7 +19,7 @@ Each card does two separate things, on purpose:
 
 - **The card itself** selects that voice and closes the picker.
 - **The play button** speaks a short sample line in that voice
-  ("Hi, I'm Kore, one of the voices in Voice Studio on Kimt OS. This is a short
+  ("Hi, I'm Kore, one of the voices in Voice Studio on Kimtos. This is a short
   preview, so you can hear how I sound before you press Speak."). Listening is
   **not** choosing: you can audition as many voices as you like without touching
   your selection, and press the button again to stop.

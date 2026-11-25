@@ -14,7 +14,7 @@ const NEW_ISSUE_URL = `${ISSUES_URL}/new`;
  *  so the URL can be checked without opening a tab. */
 export function reportIssueUrl(appId: string, appName: string): string {
   const version = appVersion(appId) || 'unknown';
-  const body = `What happened?\n\n\nSteps to reproduce\n1.\n2.\n\n---\n${appName} v${version} / KimtOS v${VERSION}`;
+  const body = `What happened?\n\n\nSteps to reproduce\n1.\n2.\n\n---\n${appName} v${version} / Kimtos v${VERSION}`;
   const url = new URL(NEW_ISSUE_URL);
   url.searchParams.set('title', `[${appName}] `);
   url.searchParams.set('body', body);

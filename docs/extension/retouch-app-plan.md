@@ -1,6 +1,6 @@
 # Retouch — on-device image editor (plan + status)
 
-A KimtOS app (`retouch`) for editing images **entirely in the browser tab** —
+A Kimtos app (`retouch`) for editing images **entirely in the browser tab** —
 crop, rotate, flip, resize, and adjust (brightness/contrast/saturation/blur/
 grayscale/sepia/invert), then export or copy. Nothing is uploaded; no model or
 WASM download. Free, like every app, and added from the App Store.
@@ -21,7 +21,7 @@ saturate() blur() grayscale() sepia() invert()`) — GPU-accelerated by the
   for heavy/custom filters on very large images; the editor is structured so a
   filter can be swapped to a WASM/WebGPU path without touching the UI.
 
-This matches the KimtOS ethos: fast, offline, on-device, nothing leaves the tab.
+This matches the Kimtos ethos: fast, offline, on-device, nothing leaves the tab.
 
 ## MVP (shipped)
 

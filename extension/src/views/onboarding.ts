@@ -51,7 +51,7 @@ export function renderOnboarding(host: HTMLElement, { onDone }: { onDone?: () =>
   const card = el('div', 'onboarding-card');
   const head = el('div', 'onboarding-head');
   head.append(
-    el('h1', 'onboarding-title', 'Welcome to KimtOS'),
+    el('h1', 'onboarding-title', 'Welcome to Kimtos'),
     el(
       'p',
       'onboarding-lead',

@@ -4,12 +4,12 @@ import { CLIENT_STORAGE, LEGAL, SUBPROCESSORS } from '~/data/legal'
 // Indexable on purpose (no `noindex`): the Chrome Web Store requires a public, crawlable
 // privacy-policy URL for any extension that handles user data.
 useHead({
-  title: 'Privacy · KimtOS',
+  title: 'Privacy · Kimtos',
   meta: [
     {
       name: 'description',
       content:
-        'KimtOS has no accounts, no backend and no servers. Everything runs and stays in your browser, and the source is open (MIT).',
+        'Kimtos has no accounts, no backend and no servers. Everything runs and stays in your browser, and the source is open (MIT).',
     },
   ],
 })
@@ -19,13 +19,13 @@ useHead({
   <LegalPage
     title="Privacy"
     intro="Most privacy policies are written to protect the company. This one is written to
-           tell you exactly where your data is, because for KimtOS the honest answer is short."
+           tell you exactly where your data is, because for Kimtos the honest answer is short."
   >
     <div class="legal-callout">
       <p>
-        <strong>The short version.</strong> KimtOS v1 has no accounts, no backend and no servers. Everything you create
+        <strong>The short version.</strong> Kimtos v1 has no accounts, no backend and no servers. Everything you create
         — your notes, tasks, PDFs, clipboard, recordings, whiteboards and AI chats — is stored in your own browser and
-        never leaves it. We collect no data about you at all, because there is nowhere for it to go. KimtOS is free and
+        never leaves it. We collect no data about you at all, because there is nowhere for it to go. Kimtos is free and
         open source ({{ LEGAL.license }}), so you can check every claim on this page in the
         <a :href="LEGAL.repoUrl" rel="noopener">source code</a>.
       </p>
@@ -46,7 +46,7 @@ useHead({
     </ul>
     <p>
       The AI models run <strong>inside your browser tab</strong> using WebAssembly and WebGPU. Your audio, images and
-      text are processed on your own hardware. There is no KimtOS server to send them to, so there is nothing for us to
+      text are processed on your own hardware. There is no Kimtos server to send them to, so there is nothing for us to
       leak, sell, or be compelled to hand over.
     </p>
     <p>
@@ -56,17 +56,17 @@ useHead({
 
     <h2>What we collect</h2>
     <p>
-      <strong>Nothing.</strong> KimtOS has no accounts, so there is no name, email address, password or sign-in record
+      <strong>Nothing.</strong> Kimtos has no accounts, so there is no name, email address, password or sign-in record
       to hold. It has no backend, so there is no database, no server log of your use, and no support inbox. We run no
       product analytics: no tracking pixel, no session recording, no crash reporter, no advertising network and no usage
-      counter anywhere in the extension or on these sites. We do not know who uses KimtOS or how many people do.
+      counter anywhere in the extension or on these sites. We do not know who uses Kimtos or how many people do.
     </p>
 
     <h2>When your browser talks to the network</h2>
     <p>
       A local-first app is not an offline app, and we would rather list every exception than imply there are none.
-      KimtOS makes a network request in these cases, and only these. Every one is made directly from your browser to a
-      public host; none of them goes through a KimtOS server, because there isn't one:
+      Kimtos makes a network request in these cases, and only these. Every one is made directly from your browser to a
+      public host; none of them goes through a Kimtos server, because there isn't one:
     </p>
     <ul>
       <li>
@@ -100,7 +100,7 @@ useHead({
       </li>
     </ul>
     <p>
-      None of these is switched on behind your back to collect anything, and KimtOS does not contact any other host.
+      None of these is switched on behind your back to collect anything, and Kimtos does not contact any other host.
       Because the source is open, you can confirm this list against the code and the extension's declared permissions.
     </p>
 
@@ -140,7 +140,7 @@ useHead({
 
     <h2>Who else sees anything</h2>
     <p>
-      KimtOS operates no servers and has no processors of your data. These public third-party hosts are the only ones
+      Kimtos operates no servers and has no processors of your data. These public third-party hosts are the only ones
       your browser may contact, each for the one feature that needs it, and each sees only what is listed:
     </p>
     <table>
@@ -179,7 +179,7 @@ useHead({
     </p>
 
     <h2>Children</h2>
-    <p>KimtOS is not directed at children under 13. It collects no data from anyone, children included.</p>
+    <p>Kimtos is not directed at children under 13. It collects no data from anyone, children included.</p>
 
     <h2>Changes</h2>
     <p>

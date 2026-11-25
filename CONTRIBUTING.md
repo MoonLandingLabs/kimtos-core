@@ -1,10 +1,10 @@
 # Contributing
 
-**KimtOS v1 is a free, open-source project (MIT).** Contributions are welcome under the terms in
+**Kimtos v1 is a free, open-source project (MIT).** Contributions are welcome under the terms in
 [LICENSE](LICENSE). There is no payment, plan or account gate anywhere in it, and there is no
 backend or server to run: it is a Chrome extension plus static sites.
 
-KimtOS is a Chrome MV3 new-tab extension in an npm-workspaces monorepo written in
+Kimtos is a Chrome MV3 new-tab extension in an npm-workspaces monorepo written in
 TypeScript — the extension, the static marketing site, the static docs site, and
 shared packages, built with Vite.
 

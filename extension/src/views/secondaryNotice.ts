@@ -96,7 +96,7 @@ export function renderSecondaryNotice(
 
   const card = el('div', 'secondary-card');
   card.append(
-    el('h1', 'secondary-title', 'KimtOS is already open in another tab'),
+    el('h1', 'secondary-title', 'Kimtos is already open in another tab'),
     el(
       'p',
       'secondary-lead',

@@ -179,7 +179,7 @@ export const MODELS = [
       'covers the weights AND the ~50 speaker style vectors (voices/*.bin) the app downloads, ' +
       'which are published in the same repo under the same licence.\n\n' +
       'The model is trained on eSpeak-NG IPA, but eSpeak-NG itself is GPL-3.0 and is NOT part ' +
-      'of KimtOS: the phonemes come from the CMU Pronouncing Dictionary instead (below, and ' +
+      'of Kimtos: the phonemes come from the CMU Pronouncing Dictionary instead (below, and ' +
       '#1092). Kokoro consumes IPA; nothing about its licence obliges us to use a copyleft ' +
       'frontend to produce it.',
   },
@@ -202,7 +202,7 @@ export const MODELS = [
       'Emscripten build of eSpeak-NG and its espeak-ng-data, which are GPL-3.0-or-later. ' +
       'Conveying that inside an MIT-licensed extension is a copyleft conflict, so it was ' +
       'removed and replaced with this dictionary plus letter-to-sound rules we wrote (#1092). ' +
-      'No eSpeak-NG code or data ships in KimtOS.\n\n' +
+      'No eSpeak-NG code or data ships in Kimtos.\n\n' +
       'The BSD-2-Clause notice, reproduced as that licence requires:\n\n' +
       'Copyright (C) 1993-2015 Carnegie Mellon University. All rights reserved.\n\n' +
       'Redistribution and use in source and binary forms, with or without modification, are ' +

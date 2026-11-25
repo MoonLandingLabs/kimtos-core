@@ -98,7 +98,7 @@ describe('the once-a-day review nudge', () => {
     assert.equal(opened.length, 0, 'declining never opens the store');
   });
 
-  test('"Rate KimtOS" opens the review page and retires the ask', async () => {
+  test('"Rate Kimtos" opens the review page and retires the ask', async () => {
     await store.set({ reviewNudge: { lastAt: Date.now() - 2 * DAY, off: false } } as never);
     nudge.maybeShowReviewNudge();
     (dialog()!.querySelector('.button-primary') as HTMLButtonElement).click();

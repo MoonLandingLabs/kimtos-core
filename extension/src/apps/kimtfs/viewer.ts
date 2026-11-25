@@ -64,7 +64,7 @@ const EXT_KIND: Record<string, ViewKind> = {
   avi: 'video',
   pdf: 'pdf',
   // Archives. `zip`, `tar`, `gz` (incl. `.tar.gz`), `tgz` open natively; the rest are recognised
-  // only so the viewer can say "KimtOS can't open this format yet" instead of a hex dump — none
+  // only so the viewer can say "Kimtos can't open this format yet" instead of a hex dump — none
   // has a browser decompressor, so bundling one is its own decision (see archive.ts).
   zip: 'archive',
   tar: 'archive',

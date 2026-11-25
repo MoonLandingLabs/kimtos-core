@@ -1,7 +1,7 @@
-// KimtOS Clipboard — the in-page history picker + the on-field paste button.
-// Opened by a hotkey (Alt+Shift+V), the right-click menu, OR the little KimtOS
+// Kimtos Clipboard — the in-page history picker + the on-field paste button.
+// Opened by a hotkey (Alt+Shift+V), the right-click menu, OR the little Kimtos
 // button that appears on any focused text field. Lets you grab a past clip and
-// paste it without switching to the KimtOS tab. Everything lives in shadow roots
+// paste it without switching to the Kimtos tab. Everything lives in shadow roots
 // (the page's CSS can't touch it). The history comes from the background SW (a
 // content script can't read the extension DB). On pick it inserts into the field
 // you were in — or copies to the clipboard if none is focused.
@@ -339,7 +339,7 @@ function ensureChip(): FieldChip {
     name: 'clipboard',
     order: 0,
     icon: brandMark(15),
-    title: 'Paste from KimtOS Clipboard (Alt+Shift+V)',
+    title: 'Paste from Kimtos Clipboard (Alt+Shift+V)',
     onClick: () => void openPicker(),
   });
   return chip;

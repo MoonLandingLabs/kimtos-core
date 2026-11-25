@@ -109,7 +109,7 @@ async function pickJsonFile(): Promise<unknown | null> {
 const app = {
   id: appMeta.id,
   name: appMeta.name,
-  description: 'Browse and manage everything KimtOS has stored on this device',
+  description: 'Browse and manage everything Kimtos has stored on this device',
   tip: 'AnubisDB is your on-device data vault. Browse what each app has saved, export a per-app backup, or clear it. Deleting here is permanent — but you get a brief Undo.',
   accent: ACCENT,
   order: appMeta.order,
@@ -119,7 +119,7 @@ const app = {
   tools: [
     {
       name: 'db_summary',
-      description: 'Summarise everything KimtOS has stored on this device: total size and per-app item counts.',
+      description: 'Summarise everything Kimtos has stored on this device: total size and per-app item counts.',
       parameters: { type: 'object', properties: {}, required: [] },
       run: async () => {
         const s = await scan();
@@ -269,7 +269,7 @@ const app = {
       const actions = el('div', 'anubis-bar-actions');
       actions.append(
         textButton('Refresh', REGEN, { onClick: () => reload(), title: 'Re-scan the database' }),
-        textButton('Import', UPLOAD, { onClick: onImport, title: 'Restore a KimtOS or AnubisDB JSON file' }),
+        textButton('Import', UPLOAD, { onClick: onImport, title: 'Restore a Kimtos or AnubisDB JSON file' }),
         textButton('Export all', DOWNLOAD, { onClick: onExportAll, title: 'Download a full backup' }),
         textButton('Clear all', TRASH, { danger: true, onClick: onClearAll, title: 'Erase all stored data' }),
       );
@@ -557,7 +557,7 @@ const app = {
     async function onClearAll() {
       if (!snap) return;
       const ok = await confirmDialog(
-        `Erase everything KimtOS has stored for ${wsLabel(dataStore.getWorkspace())}? That's ` +
+        `Erase everything Kimtos has stored for ${wsLabel(dataStore.getWorkspace())}? That's ` +
           `${plural(snap.totalCount, 'item')} (${fmtBytes(snap.totalBytes)}) across every app. Other workspaces on ` +
           `this device are not affected. Export a backup first if you're unsure.`,
         { confirmLabel: 'Erase all', danger: true },
@@ -570,7 +570,7 @@ const app = {
       // mirror — Undo would say the erase was undone while every app's settings stayed gone
       // (#249). And if the restore throws, the Undo is offered again rather than lost (#288):
       // after erasing EVERYTHING, a silently-failed restore is the worst outcome in the product.
-      offerUndo('All KimtOS data erased.', backup);
+      offerUndo('All Kimtos data erased.', backup);
     }
 
     // ---- model storage (Cache Storage, not the DB) ---------------------

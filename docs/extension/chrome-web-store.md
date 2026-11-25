@@ -2,7 +2,7 @@
 
 Loading the built zip unpacked is **not** a public install path — this repo is
 private, so only people with repo access can build or download it. For anyone else to
-install KimtOS, it has to be listed on the **Chrome Web Store**.
+install Kimtos, it has to be listed on the **Chrome Web Store**.
 
 The workflow is already wired (`.github/workflows/release.yml`). It **skips** the
 publish step until the four secrets below exist, so releases keep working in the
@@ -68,7 +68,7 @@ after it passes. Nothing in this repo can shorten that.
 
 ## The listing
 
-- **Name:** KimtOS
+- **Name:** Kimtos
 - **Summary (132 max):** the `description` in `extension/manifest.json` — the store
   shows the manifest's description, so they cannot drift. The 132-character cap is a
   hard limit at upload time and is enforced in CI
@@ -86,9 +86,9 @@ after it passes. Nothing in this repo can shorten that.
   640x400) images, but the repo carries **eight** so the strongest set can be picked per
   campaign (#1065). Seven are REAL light-theme captures — the new tab, Notes, the App
   Store, NotaBoard, KimtFS, two tools tiled, and three tools at once — plus one designed
-  "why KimtOS" explainer, all framed gallery-style. Every app is free, so
+  "why Kimtos" explainer, all framed gallery-style. Every app is free, so
   no slide shows a locked tile or an upgrade button. Recommended live five: **hero,
-  three-app multitasking, App Store, why-KimtOS, and Notes (or the two-tools slide)**.
+  three-app multitasking, App Store, why-Kimtos, and Notes (or the two-tools slide)**.
   Regenerate after a UI change — the two-command recipe and the full slide list are in
   `extension/store-assets/README.md`, which also states what a slide may show.
 
@@ -99,7 +99,7 @@ first, then paste it into the dashboard, so the listing is reviewable like code.
 Plain text only; the store renders no markup.
 
 ```text
-KimtOS turns every new tab into a private workspace. Notes, tasks, PDFs, files and
+Kimtos turns every new tab into a private workspace. Notes, tasks, PDFs, files and
 on-device AI — it all runs in your browser and stays there. Nothing you create is
 uploaded. No analytics, no tracking, no ads.
 
@@ -132,7 +132,7 @@ never sent to a server — the AI works offline.
 
 PRIVATE BY DESIGN
 Everything you create lives in your browser's own storage and is never transmitted.
-There is no account and no KimtOS server: we hold no data about you. Privacy policy: see the
+There is no account and no Kimtos server: we hold no data about you. Privacy policy: see the
 Privacy policy link on this listing.
 ```
 
@@ -158,7 +158,7 @@ Where we stand on Featured:
   local-only data, and the privacy story is the product claim itself.
 - The listing side is met too: the screenshots show the actual user experience — real
   captures of the new tab, individual apps, and multiple app windows open at once, plus a
-  "why KimtOS" explainer (#1065) — and the summary, promo tiles and detailed description
+  "why Kimtos" explainer (#1065) — and the summary, promo tiles and detailed description
   follow the published specs.
   Refresh the captures if the UI has changed since (`extension/store-assets/README.md`)
   before nominating.
@@ -222,7 +222,7 @@ answer is unusually good here, and it is the whole product claim:
 - **Not collected:** everything the user creates — notes, tasks, PDFs, clipboard,
   recordings, images, AI chats. It stays in the browser (IndexedDB) and is never
   transmitted.
-- **Collected:** nothing. There is no account, no sign-in and no KimtOS backend; the extension
+- **Collected:** nothing. There is no account, no sign-in and no Kimtos backend; the extension
   sends no identifier, and the only requests are the optional weather and article feeds and the
   model-file downloads, which carry no user content.
 - **No analytics, no tracking, no ads.**

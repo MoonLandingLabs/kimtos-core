@@ -360,7 +360,7 @@ for (const [name, svg] of Object.entries(FEATURE_ICONS)) write(join('public', 'f
 // They are copied, then their `{{token}}` facts are filled in from the single source. The
 // generated pages already read the config directly; the hand-written ones could not, so every
 // fact they stated by hand was a second copy waiting to go stale — and the install guide
-// went on telling readers KimtOS was not on the Chrome Web Store long after the listing
+// went on telling readers Kimtos was not on the Chrome Web Store long after the listing
 // went live (#1009). An unknown token fails the build (see interpolate.mjs).
 //
 // The pass runs over the app HANDBOOKS too (step 4), not just the authored pages: those are
@@ -375,7 +375,7 @@ for (const [name, svg] of Object.entries(FEATURE_ICONS)) write(join('public', 'f
 // this pass exists to remove, only one file further away (#878).
 const DOC_TOKENS = {
   chromeWebStoreUrl: DEFAULTS.chromeWebStoreUrl,
-  // KimtOS v1 is open source (MIT); the repository is the canonical source and the issue
+  // Kimtos v1 is open source (MIT); the repository is the canonical source and the issue
   // tracker is the only support channel (no mailbox, chat or desk).
   repoUrl: 'https://github.com/MoonLandingLabs/kimtos-core',
   issuesUrl: 'https://github.com/MoonLandingLabs/kimtos-core/issues',

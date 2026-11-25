@@ -1,6 +1,6 @@
 # Overview
 
-KimtManager is the task manager for KimtOS. It answers one question that used to be
+KimtManager is the task manager for Kimtos. It answers one question that used to be
 surprisingly hard to answer: **is anything still running?**
 
 Plenty happens that you never see. An AI model downloads for several minutes, and closing the
@@ -36,7 +36,7 @@ anything.
 
 ## Why it cannot be uninstalled
 
-KimtManager ships with KimtOS and cannot be removed, for the same reason AnubisDB cannot.
+KimtManager ships with Kimtos and cannot be removed, for the same reason AnubisDB cannot.
 Uninstalling it would not stop a single background job — it would only take away the one place you
 can watch them and stop them. That is the opposite of what removing it should do.
 

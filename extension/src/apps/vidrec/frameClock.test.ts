@@ -2,7 +2,7 @@
 // while screen-sharing (#276).
 //
 // One cause: the compositor's draw loop was `requestAnimationFrame`, and a browser suspends rAF in
-// a hidden tab. Sharing your screen means you are looking at something else, so the KimtOS tab is
+// a hidden tab. Sharing your screen means you are looking at something else, so the Kimtos tab is
 // hidden. The canvas stopped updating, and the recording is captured FROM that canvas.
 //
 // So the clock must not be rAF. These tests pin the thing that matters: the tick source is the

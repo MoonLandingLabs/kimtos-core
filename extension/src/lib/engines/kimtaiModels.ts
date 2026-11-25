@@ -17,7 +17,7 @@
 // to be reliable, which is too slow in-browser on modest hardware — so agent tools
 // are OFF for now (see AGENT_TOOLS_ENABLED in apps/kimtai/index.js) and we ship the
 // lightest model that gives usable chat. More models / tools come in a later pass.
-// EVERY model here must be PERMISSIVELY licensed. KimtOS is MIT-licensed and
+// EVERY model here must be PERMISSIVELY licensed. Kimtos is MIT-licensed and
 // hands these weights to end users, so a model whose licence restricts how they
 // may use it — or obliges us to pass terms on to them — does not belong in this list.
 // Gemma 3 was dropped for exactly that: Google's Gemma Terms are a custom licence,

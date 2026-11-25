@@ -2,7 +2,7 @@
 //
 // The Video Recorder composites camera + screen onto a canvas and records that canvas. The draw
 // loop used to be a `requestAnimationFrame` loop — and a browser SUSPENDS rAF in a hidden tab.
-// While you share your screen you are, by definition, looking at something else, so the KimtOS tab
+// While you share your screen you are, by definition, looking at something else, so the Kimtos tab
 // is hidden: the loop stalls, the canvas stops updating, and the recording captured from that
 // canvas freezes for exactly as long as you were away (#276).
 //

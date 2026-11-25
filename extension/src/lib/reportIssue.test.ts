@@ -10,5 +10,5 @@ test('the report is a pre-filled new issue on the public repo, carrying the app 
   assert.equal(url.searchParams.get('title'), '[Notes] ');
   const body = url.searchParams.get('body') ?? '';
   assert.match(body, /Notes v/);
-  assert.match(body, /KimtOS v/);
+  assert.match(body, /Kimtos v/);
 });

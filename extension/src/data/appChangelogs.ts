@@ -149,7 +149,7 @@ export const APP_CHANGELOGS: Record<string, AppRelease[]> = {
       version: '1.1.5',
       date: '2026-07-26',
       lines: [
-        "The suggestions panel and the field badge follow your Appearance setting, not just your operating system's - pinning KimtOS to Light or Dark now reaches them on every site.",
+        "The suggestions panel and the field badge follow your Appearance setting, not just your operating system's - pinning Kimtos to Light or Dark now reaches them on every site.",
       ],
     },
     {
@@ -304,7 +304,7 @@ export const APP_CHANGELOGS: Record<string, AppRelease[]> = {
       version: '1.0.0',
       date: '2026-07-26',
       lines: [
-        'Initial release. See every job KimtOS is running in the background — model downloads with live progress, work that outlived the tab that started it, and every open or minimized app — and stop any of it.',
+        'Initial release. See every job Kimtos is running in the background — model downloads with live progress, work that outlived the tab that started it, and every open or minimized app — and stop any of it.',
       ],
     },
   ],

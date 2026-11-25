@@ -146,7 +146,7 @@ export function openAppDetail(app: DetailApp, onOpen?: (id: string) => void): vo
     infoRow('Download', model ? model.size : 'None — installs instantly'),
     ...(released ? [infoRow('Released', released)] : []),
     infoRow('Privacy', 'Runs on your device — nothing uploaded'),
-    infoRow('Developer', 'KimtOS'),
+    infoRow('Developer', 'Kimtos'),
   );
   const infoWrap = el('div', 'detail-section');
   infoWrap.append(el('h3', 'detail-section-title', 'Information'), info);

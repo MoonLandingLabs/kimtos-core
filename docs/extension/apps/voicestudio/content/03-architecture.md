@@ -123,9 +123,9 @@ the npm wrapper around it says. Voice Studio carries its own permissive path ins
 | Layer                     | Where it comes from                                                             | Licence      |
 | ------------------------- | ------------------------------------------------------------------------------- | ------------ |
 | Pronunciation dictionary  | The CMU Pronouncing Dictionary — 126,037 words, a 767 KB gzipped packaged asset | BSD-2-Clause |
-| Phoneme alphabet mapping  | Written for KimtOS (`lib/g2p/arpabet.ts`)                                       | Ours         |
-| Out-of-vocabulary words   | Letter-to-sound rules written for KimtOS (`lib/g2p/lts.ts`)                     | Ours         |
-| Numbers, symbols, letters | Written for KimtOS (`lib/g2p/english.ts`)                                       | Ours         |
+| Phoneme alphabet mapping  | Written for Kimtos (`lib/g2p/arpabet.ts`)                                       | Ours         |
+| Out-of-vocabulary words   | Letter-to-sound rules written for Kimtos (`lib/g2p/lts.ts`)                     | Ours         |
+| Numbers, symbols, letters | Written for Kimtos (`lib/g2p/english.ts`)                                       | Ours         |
 
 Both attributions are in `THIRD-PARTY-NOTICES.md`, as their licences require.
 

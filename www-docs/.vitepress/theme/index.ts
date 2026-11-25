@@ -3,7 +3,7 @@
 // off brand tokens so light/dark track automatically.
 //
 // The docs site is fully static: no backend, no accounts, no support widget, no
-// cookie banner. KimtOS v1 is free and open source (MIT) and runs in the browser.
+// cookie banner. Kimtos v1 is free and open source (MIT) and runs in the browser.
 import DefaultTheme from 'vitepress/theme';
 import { useRoute, type Theme } from 'vitepress';
 import { defineComponent, h, onMounted, nextTick, watch } from 'vue';

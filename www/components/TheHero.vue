@@ -62,13 +62,13 @@ const storeUrl = DEFAULTS.chromeWebStoreUrl
         <img
           class="shot-img shot-dark"
           src="/assets/screenshot-newtab.png"
-          alt="A KimtOS new tab: a large clock, a search bar, and a dock of app icons over a dark wallpaper."
+          alt="A Kimtos new tab: a large clock, a search bar, and a dock of app icons over a dark wallpaper."
           loading="lazy"
         />
         <img
           class="shot-img shot-light"
           src="/assets/screenshot-newtab-light.png"
-          alt="A KimtOS new tab: a large clock, a search bar, and a dock of app icons over a light wallpaper."
+          alt="A Kimtos new tab: a large clock, a search bar, and a dock of app icons over a light wallpaper."
           loading="lazy"
         />
       </div>

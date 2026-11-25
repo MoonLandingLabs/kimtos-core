@@ -5,21 +5,21 @@ import { FAQ } from '~/data/faq'
 // Structured data (schema.org) so Google can render rich results — the org, the
 // app (free, with a feature list), and the FAQ as expandable Q&As.
 const DESC =
-  'KimtOS turns every new browser tab into a private workspace — notes, PDFs, a whiteboard, ' +
+  'Kimtos turns every new browser tab into a private workspace — notes, PDFs, a whiteboard, ' +
   'voice-to-text, on-device AI and more. Everything runs in your browser; nothing is uploaded.'
 
 const jsonLd = [
   {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    name: 'KimtOS',
+    name: 'Kimtos',
     logo: '/assets/icon128.png',
     description: DESC,
   },
   {
     '@context': 'https://schema.org',
     '@type': 'SoftwareApplication',
-    name: 'KimtOS',
+    name: 'Kimtos',
     applicationCategory: 'BrowserApplication',
     operatingSystem: 'Chrome',
     description: DESC,

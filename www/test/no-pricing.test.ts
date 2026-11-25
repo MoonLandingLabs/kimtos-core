@@ -73,7 +73,7 @@ describe('v1 is free: no Pro / pricing copy on the home page', () => {
     assert.match(acct.a, /no account/i)
   })
 
-  test('the FAQ says KimtOS is open source under the MIT licence', () => {
+  test('the FAQ says Kimtos is open source under the MIT licence', () => {
     assert.ok(FAQ.some((f) => /open source/i.test(f.q) && /MIT/.test(f.a)))
   })
 

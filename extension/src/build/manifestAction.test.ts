@@ -28,7 +28,7 @@ const manifest = JSON.parse(read('../../manifest.json')) as {
 describe('manifest action — the toolbar icon must render in colour', () => {
   test('an action is declared with a title', () => {
     assert.ok(manifest.action, 'manifest must declare an `action` (#1000)');
-    assert.equal(manifest.action.default_title, 'KimtOS');
+    assert.equal(manifest.action.default_title, 'Kimtos');
   });
 
   test('the action icon map mirrors the top-level icons', () => {

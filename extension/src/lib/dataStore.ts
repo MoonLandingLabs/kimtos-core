@@ -285,7 +285,7 @@ export const dataStore = {
   // Restore into the ACTIVE workspace: records are re-stamped and blob/kv keys are
   // re-scoped to the current workspace, so a backup is portable across workspaces.
   async importAll(data: Partial<DataExport> | undefined): Promise<void> {
-    if (data?.format !== 'kimtos-data') throw new Error('Not a KimtOS data file.');
+    if (data?.format !== 'kimtos-data') throw new Error('Not a Kimtos data file.');
     for (const record of data.records || []) {
       const collection = String(record.collection);
       const id = String(record.id);

@@ -137,7 +137,7 @@ clipboard-manager behavior).
   enforce `maxItems` (delete oldest non-favorite) → bump `chrome.storage.local`
   `clipboard:changed = Date.now()` so an open app refreshes.
 - `chrome.contextMenus`: "Save selection to Clipboard History", "Paste from
-  KimtOS Clipboard…" (opens the in-page picker) and "Open KimtOS Clipboard panel".
+  Kimtos Clipboard…" (opens the in-page picker) and "Open Kimtos Clipboard panel".
 - `chrome.commands.onCommand`: `open-clipboard-picker` (opens the in-page picker
   in the active tab). See §5.
 - **As-built:** there is **no offscreen document.** Pastes are inserted by the
@@ -208,7 +208,7 @@ Clipboard History IO JSON shape for painless migration.
 
 **As-built:** all surfaces above shipped (the "Phase" column is historical). The
 in-page **picker** (`content/clipboardPicker.ts`) is the primary paste UI — opened
-by the `Alt+Shift+V` command, the right-click menu, or a small KimtOS button that
+by the `Alt+Shift+V` command, the right-click menu, or a small Kimtos button that
 appears on focused text fields. The **`Alt+Shift+1/2/3` quick-paste** is NOT a
 manifest `command`; the content script listens for those chords itself and asks
 the SW (`clip:nth`) for the Nth clip's text.
@@ -246,7 +246,7 @@ picker command — the quick-paste chords live in the content script):
     // NEW
     "open-clipboard-picker": {
       "suggested_key": { "default": "Alt+Shift+V" },
-      "description": "Open KimtOS Clipboard history to paste a past item",
+      "description": "Open Kimtos Clipboard history to paste a past item",
     },
   },
   "side_panel": { "default_path": "sidepanel.html" }, // NEW
@@ -351,7 +351,7 @@ Surfaces:
 
 - **App window** + **floating window** (`popout`) + **Chrome side panel**.
 - **Paste anywhere** without leaving the tab — an in-page picker via the
-  `Alt+Shift+V` hotkey, the right-click menu, or a KimtOS button on focused
+  `Alt+Shift+V` hotkey, the right-click menu, or a Kimtos button on focused
   fields (pastes into the field); plus **`Alt+Shift+1/2/3`** to paste the Nth
   item directly.
 - Context-menu _save_ and _open picker_ / _open panel_.

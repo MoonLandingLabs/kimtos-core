@@ -238,7 +238,7 @@ function wallpaperPanel(_state: Settings, _onChange: ChangeFn, ctx: SettingsCtx)
     const n = backgrounds.length;
     restoreRow.append(
       btn,
-      el('p', 'field-hint', `Brings back the ${n} wallpaper${n === 1 ? '' : 's'} that ship with KimtOS.`),
+      el('p', 'field-hint', `Brings back the ${n} wallpaper${n === 1 ? '' : 's'} that ship with Kimtos.`),
     );
   }
 
@@ -476,7 +476,7 @@ export function about(): HTMLElement {
   const panel = document.createElement('div');
   panel.className = 'about';
   panel.innerHTML = `
-    <p class="about-name">KimtOS</p>
+    <p class="about-name">Kimtos</p>
     <p class="about-version">Version ${VERSION}</p>
     <p class="about-text">Every new tab is a private workspace — notes, tasks, PDFs and on-device AI. Your data stays in this browser.</p>
     <p class="about-text about-open-source">${OPEN_SOURCE_NOTICE} No account, no servers.</p>
@@ -487,8 +487,8 @@ export function about(): HTMLElement {
   // the once-a-day reminder.
   const links = el('div', 'about-links');
   links.append(
-    actionButton(BUG_SVG, 'Report an issue', () => openReportIssue('kimtos', 'KimtOS')),
-    actionButton(RATE_SVG, 'Rate KimtOS', openReviewPage),
+    actionButton(BUG_SVG, 'Report an issue', () => openReportIssue('kimtos', 'Kimtos')),
+    actionButton(RATE_SVG, 'Rate Kimtos', openReviewPage),
     linkButton(REPO_URL, CODE_SVG, 'Source on GitHub'),
     linkButton(DEFAULTS.docsUrl, DOCS_SVG, 'Documentation'),
   );
@@ -649,7 +649,7 @@ export function renderSettings(
 
       // Section hit: the panel's own name, or anything it renders, matches — and no field
       // inside it already answered the query. This is what makes the four action-based
-      // panels findable at all: "export" and "backup" are button text in Data, "KimtOS"
+      // panels findable at all: "export" and "backup" are button text in Data, "Kimtos"
       // and "version" are prose in About. Matching the rendered text keeps search DERIVED
       // — there is no hand-written list of button names to fall out of step.
       if (matchedAField) continue;

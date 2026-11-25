@@ -1,5 +1,5 @@
 // Facts about the project itself, in ONE place so the nav, hero, footer and legal pages cannot
-// drift apart. KimtOS v1 is free and open source (MIT): it has no accounts, no backend and no
+// drift apart. Kimtos v1 is free and open source (MIT): it has no accounts, no backend and no
 // servers, and the source lives on GitHub.
 
 /** The public source repository. */

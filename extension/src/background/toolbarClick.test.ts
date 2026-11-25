@@ -1,8 +1,8 @@
-// Whether the toolbar click opens the popup or goes straight to KimtOS (#1186).
+// Whether the toolbar click opens the popup or goes straight to Kimtos (#1186).
 //
 // The popup is right when the page HAS actions and wrong when it does not — on a restricted
 // page, or for any user with none of the apps that register page actions installed, it is a menu
-// whose only item is "Open KimtOS". `shouldShowPopup` is the whole decision, and it is pure, so
+// whose only item is "Open Kimtos". `shouldShowPopup` is the whole decision, and it is pure, so
 // the table it implements is the test.
 //
 // The case worth guarding hardest is `grant-host`: ZERO actions, but the popup still carries the
@@ -29,7 +29,7 @@ describe('shouldShowPopup: the four states, directly', () => {
     assert.equal(shouldShowPopup(model({ notice: 'grant-host' })), true);
   });
 
-  test('a restricted page -> no popup, the click opens KimtOS', () => {
+  test('a restricted page -> no popup, the click opens Kimtos', () => {
     assert.equal(shouldShowPopup(model({ notice: 'restricted' })), false);
   });
 

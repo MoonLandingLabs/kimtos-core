@@ -1,10 +1,10 @@
-// What the toolbar click does on a given tab — the popup, or straight to KimtOS (#1186).
+// What the toolbar click does on a given tab — the popup, or straight to Kimtos (#1186).
 //
 // #1110 made the click open a page-actions popup, which is right when the page HAS actions:
 // FakeForm's fills and Clipboard's paste are otherwise reachable only through shortcuts nobody
 // finds. It is wrong when it does not. On a `chrome://` page there is never anything to show,
 // and — the bigger case — the two apps that register page actions are both optional, so a user who has
-// installed neither gets a menu whose only item is "Open KimtOS", on every page, forever. That is one extra click to do
+// installed neither gets a menu whose only item is "Open Kimtos", on every page, forever. That is one extra click to do
 // what one click used to do.
 //
 // Chrome resolves the click PER TAB: clearing a tab's popup with `setPopup({ tabId, popup: '' })`

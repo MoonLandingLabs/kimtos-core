@@ -98,7 +98,7 @@ export function driftErrors({ shipped, evidence, ledger }) {
       errors.push(
         `  ${name}\n` +
           `    embeds ${entry.embeds}, which is ${entry.license} — copyleft.\n` +
-          `    KimtOS is MIT-licensed, so a copyleft component cannot ship in it.\n` +
+          `    Kimtos is MIT-licensed, so a copyleft component cannot ship in it.\n` +
           `    Replace it with a permissively licensed component (see #1092 for the last one).`,
       );
     }

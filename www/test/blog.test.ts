@@ -21,7 +21,7 @@ const post = (over = '') => `---
 title: A title
 dek: A standfirst.
 date: 2026-04-01
-author: The KimtOS team
+author: The Kimtos team
 ${over}---
 
 Body text.

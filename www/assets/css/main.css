@@ -308,7 +308,7 @@ em {
 }
 /* Theme toggle — Light / Dark segmented control. The selected segment gets a
    soft accent tint (not a loud solid fill) so it reads as a quiet control. */
-/* Light/dark switch in the KimtOS app's own control style (the extension `.switch`): a
+/* Light/dark switch in the Kimtos app's own control style (the extension `.switch`): a
    pill track, a sliding knob, sun and moon at the ends. All tokens, so it tracks the
    theme it sets. See ThemeToggle.vue. The knob travel is (track 54 − knob 22 − 2×left 3)
    = 26px; keep those three numbers in step if you retune it. */
@@ -993,7 +993,7 @@ button.avail-item:hover {
   border-color: var(--line-2);
   background: var(--surface-2);
 }
-/* Every other row carries a full-colour browser logo; KimtOS Browser now has its own —
+/* Every other row carries a full-colour browser logo; Kimtos Browser now has its own —
    the roundel from @kimtos/icons (browserMarkSvg), rendered inline so it needs no image
    file. It is full colour and full opacity like the live Chrome logo, NOT dimmed like the
    'soon' third-party marks, because this is our brand, not a target we are waiting on. */
@@ -1007,7 +1007,7 @@ button.avail-item:hover {
   width: 22px;
   height: 22px;
 }
-/* KimtOS Browser is the destination, not a 'soon' third-party target: it reads in the
+/* Kimtos Browser is the destination, not a 'soon' third-party target: it reads in the
    accent rather than the amber 'soon' colour, and links to the Vision page. */
 .avail-item.is-vision {
   color: var(--text);

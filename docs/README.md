@@ -1,6 +1,6 @@
 # kimtos docs
 
-**KimtOS v1 is free and open source ([MIT](../LICENSE)), with the source on
+**Kimtos v1 is free and open source ([MIT](../LICENSE)), with the source on
 [GitHub](https://github.com/MoonLandingLabs/kimtos-core).** It has no accounts, no backend and no
 servers: a Chrome extension that runs entirely in your browser, plus a static website and docs.
 
