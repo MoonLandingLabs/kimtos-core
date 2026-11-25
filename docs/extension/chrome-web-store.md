@@ -74,10 +74,9 @@ after it passes. Nothing in this repo can shorten that.
   hard limit at upload time and is enforced in CI
   (`scripts/check-manifest-summary.mjs`).
 - **Category:** Productivity.
-- **Privacy policy URL:** the `/privacy` page of wherever the static `www` site is hosted (any
-  static host, for example GitHub Pages) — **required**, because the extension handles user
-  data. The page exists (`www/pages/privacy.vue`); it is not a placeholder. Where `www` is
-  hosted is the owner's call and is not recorded in this repository.
+- **Privacy policy URL:** `https://github.com/MoonLandingLabs/kimtos-core/blob/main/PRIVACY.md`
+  (the repository's `PRIVACY.md`) — **required** by the store. It is the same policy as the site's
+  `/privacy` page (`www/pages/privacy.vue`); keep the two in step.
 - **Website and support URLs:** set the website to the public repository
   (`https://github.com/MoonLandingLabs/kimtos-core`) and the support URL to its issue tracker
   (`https://github.com/MoonLandingLabs/kimtos-core/issues`). GitHub issues are the only contact
@@ -100,40 +99,42 @@ Plain text only; the store renders no markup.
 
 ```text
 Kimtos turns every new tab into a private workspace. Notes, tasks, PDFs, files and
-on-device AI — it all runs in your browser and stays there. Nothing you create is
-uploaded. No analytics, no tracking, no ads.
+on-device AI run in your browser and stay there. Nothing you create is uploaded. There
+is no account, no analytics, no tracking and no ads.
 
-100% FREE AND OPEN SOURCE (MIT) — NO ACCOUNT, NO SERVERS
-Every app is free. There is no account and no sign-in: nothing leaves your browser.
-The full source code is public on GitHub: https://github.com/MoonLandingLabs/kimtos-core
+FREE AND OPEN SOURCE (MIT)
+Every app is free. There is no sign-in, no plan and no payment, and no Kimtos server
+exists. The full source code is public: https://github.com/MoonLandingLabs/kimtos-core
 
-- Notes: Notion-style notes in collections, with live preview, export and internal links
+INCLUDED APPS
+- Notes: notes in collections, with live Markdown preview, export and internal links
 - Tasks: a fresh to-do list every day, with overdue roll-over
-- PDF Library: read and annotate PDFs — highlights, notes, last-page memory
+- PDF Library: read and annotate PDFs, with highlights, notes and last-page memory
 - Tabs: fuzzy-find any open tab, hibernate idle ones to free memory, save sessions
-- KimtFS: a private home file system — folders, files, uploads, all stored locally
-- DevTools: JSON, Base64, JWT, hashing, regex — a toolbox that never phones home
+- KimtFS: a private file system with folders, files and uploads, stored locally
+- DevTools: JSON, Base64, JWT, hashing and regex, entirely offline
 - Calculator: quick and keyboard-driven
-- AnubisDB: one console over everything the apps store on your device — browse, back up, clear
+- AnubisDB: one console over everything the apps store on your device: browse, back up, clear
 
-MORE APPS, ADDED FROM THE APP STORE
+MORE APPS, ADDED FROM THE BUILT-IN APP STORE
 - KimtAI: a private AI chat that runs entirely in your tab
-- Voice to Text: transcribe voice notes; the audio never leaves your device
-- Image to Text: pull the text out of any screenshot or photo, entirely on-device
-- Grammit: grammar and spelling underlined as you type — no cloud grammar service
-- Clipboard: everything you copy, saved privately on your device, searchable
+- Voice to Text: transcribe voice notes on your device
+- Image to Text: extract the text from a screenshot or photo, entirely offline
+- Grammit: grammar and spelling checks as you type, with no cloud grammar service
+- Clipboard: everything you copy, saved on your device and searchable
 - NotaBoard: a whiteboard for sketches and diagrams
-- Thoth: a private knowledge base over your notes, PDFs and boards — cited answers, offline
-- Plus Denoise, Rewordit, Retouch and Video Recorder
+- Thoth: a private knowledge base over your notes, PDFs and boards, with cited answers
+- Video Recorder, Voice Studio, Denoise, Rewordit, Retouch and FakeForm
 
-THE AI IS ON-DEVICE
-Models download once and run on your machine (WebAssembly). Your text and audio are
-never sent to a server — the AI works offline.
+ON-DEVICE AI
+AI models are downloaded once, when you choose to install one, from Hugging Face, and then run
+on your machine with WebAssembly. Your text and audio are never sent to a server, and the AI
+works offline after the download.
 
 PRIVATE BY DESIGN
-Everything you create lives in your browser's own storage and is never transmitted.
-There is no account and no Kimtos server: we hold no data about you. Privacy policy: see the
-Privacy policy link on this listing.
+Everything you create lives in your browser's own storage and is never transmitted. Kimtos makes
+no network request except the model downloads you start, and its permissions allow Hugging Face
+and no other host. Privacy policy: see the link on this listing.
 ```
 
 Keep the app names in step with the catalog (`extension/src/apps/*/meta.ts`)
